@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-background: #35495e;
+  --color-text: #42b883;
+}
+
 html {
   font-size: 18px;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,10 +22,37 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #35495e;
-  color: #42b883;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
-#app[v-cloak] {
+/* #app[v-cloak] {
   background-color: yellow !important;
+} */
+
+hr {
+  width: 80%;
+  margin: 2.5rem 0;
+  border-color: var(--color-text);
+}
+
+.form-control {
+  margin: 1rem 0;
+}
+
+label {
+  margin-right: 1rem;
+}
+
+input {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+}
+
+input:focus {
+  outline-style: dashed;
+  outline-width: 2px;
+  outline-offset: 2px;
+  outline-color: var(--color-text);
 }

@@ -11,6 +11,18 @@
 
   <div id="app" v-cloak>
     <h2>{{ fullName() }}</h2>
+    <hr>
+
+    <div class="form-control">
+      <label for="first-name">First Name</label>
+      <input type="text" id="first-name" v-model="firstName">
+    </div>
+
+    <div class="form-control">
+      <label for="last-name">Last Name</label>
+      <input type="text" id="last-name" v-model="lastName">
+    </div>
+
   </div>
 
   <script src="https://unpkg.com/vue@next"></script>
