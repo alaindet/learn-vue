@@ -3,8 +3,10 @@
 }
 
 :root {
+  --color-background-light: rgb(105, 137, 168);
   --color-background: #35495e;
   --color-text: #42b883;
+  --color-text-light: #66e0a9;
 }
 
 html {
@@ -14,21 +16,20 @@ html {
 
 body {
   margin: 0;
-}
-
-#app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: var(--color-background);
   color: var(--color-text);
 }
 
-/* #app[v-cloak] {
-  background-color: yellow !important;
-} */
+#app {
+  overflow-y: auto;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 2rem;
+}
+
+#app[v-cloak] {
+  display: none;
+}
 
 hr {
   width: 80%;
@@ -48,11 +49,60 @@ input {
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   font-size: 1.1rem;
+  color: var(--color-text);
+  background: transparent;
+  border: 2px solid black;
+  border-color: currentColor;
 }
 
 input:focus {
   outline-style: dashed;
   outline-width: 2px;
   outline-offset: 2px;
-  outline-color: var(--color-text);
+  outline-color: var(--color-background-light);
+  color: var(--color-text-light);
+}
+
+a, a:visited {
+  color: var(--color-text);
+}
+
+a:hover {
+  color: var(--color-text-light);
+}
+
+.header {
+  margin-bottom: 2rem;
+  margin-top: 4rem;
+  border-bottom: 2px solid var(--color-background-light);
+}
+
+button {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  background: transparent;
+  border: 2px solid black;
+  border-color: currentColor;
+  cursor: pointer;
+}
+
+button:hover {
+  color: var(--color-text-light);
+}
+
+button:focus {
+  outline-style: dashed;
+  outline-width: 2px;
+  outline-offset: 2px;
+  outline-color: var(--color-background-light);
+}
+
+.button-group {
+  margin: 0 -0.5rem;
+}
+
+.button-group * {
+  margin: 0 0.5rem;
 }

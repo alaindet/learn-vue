@@ -8,10 +8,15 @@
   <link rel="stylesheet" href="./app.css">
 </head>
 <body>
-
   <div id="app" v-cloak>
-    <h2>{{ fullName() }}</h2>
-    <hr>
+
+    <h1>Vue fundamentals</h1>
+
+    <div class="header">
+      <h2>Input models</h2>
+    </div>
+
+    <h3>{{ fullName() }}</h3>
 
     <div class="form-control">
       <label for="first-name">First Name</label>
@@ -23,8 +28,38 @@
       <input type="text" id="last-name" v-model="lastName">
     </div>
 
-  </div>
+    <div class="header">
+      <h2>Binding (v-bind)</h2>
+    </div>
 
+    <p>
+      Basic v-bind:href
+      <a v-bind:href="googleUrl" target="_blank">&rarr; Google</a>
+    </p>
+
+    <p>
+      Shorthand :href
+      <a :href="googleUrl" target="_blank">&rarr; Google</a>
+    </p>
+
+    <p v-html="rawGoogleUrl"></p>
+
+    <div class="header">
+      <h2>Events (v-on)</h2>
+    </div>
+
+    <p>Counter: {{ counter }}</p>
+    <div class="button-group">
+      <button v-on:click="incrementCounter()">+1</button>
+      <!-- With no args, you can omit parentheses -->
+      <button v-on:click="incrementCounter">+1</button>
+      <!-- Shorthand -->
+      <button @click="incrementCounter">+1</button>
+      <!-- Via expression -->
+      <button @click="counter++">+1</button>
+    </div>
+
+  </div>
   <script src="https://unpkg.com/vue@next"></script>
   <script src="./app.js"></script>
 </body>
