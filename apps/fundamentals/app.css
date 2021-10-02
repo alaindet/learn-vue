@@ -9,6 +9,9 @@ html {
 
 body {
   margin: 0;
+}
+
+#app {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -18,6 +21,6 @@ body {
   color: #42b883;
 }
 
-body > * {
-  margin: 2rem 0;
+#app[v-cloak] {
+  background-color: yellow !important;
 }

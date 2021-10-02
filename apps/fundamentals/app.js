@@ -6,8 +6,7 @@ const vm = Vue.createApp({
     };
   },
   methods: {
-    // Cannot use arrow function
-    // Here, getters are used
+    // Cannot use arrow function since this and getters are used
     fullName() {
       return `${this.firstName} ${this.lastName}`;
     }

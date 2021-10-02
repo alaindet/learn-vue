@@ -1,0 +1,1 @@
+- `v-cloak` is an attribute that you can add to an element you want to hide, while Vue is mounting. As soon as Vue is ready, the attribute is removed. Use it to style application loading
