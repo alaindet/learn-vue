@@ -15,6 +15,10 @@ const vm = Vue.createApp({
     },
     incrementCounter() {
       this.counter += 1;
-    }
+    },
+    updateFirstName(event) {
+      event.preventDefault();
+      this.firstName = event.target.value;
+    },
   },
 }).mount('#app');
