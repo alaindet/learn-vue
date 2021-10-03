@@ -1,0 +1,54 @@
+<!DOCTYPE>
+<html>
+
+<head>
+  <title>VueJS Course</title>
+  <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- With direct elements -->
+    <!--
+    <div class="output">
+      <p v-if="mode === 1">Mode 1</p>
+      <p v-else-if="mode === 2">Mode 2</p>
+      <p v-else>Mode is different from 1 and 2 (it's {{ mode }} actually)</p>
+    </div>
+    -->
+
+    <!-- With proxy elements -->
+    <div class="output">
+      <template v-if="mode === 1">
+        <p>Mode 1</p>
+      </template>
+
+      <template v-else-if="mode === 2">
+        <p>Mode 2</p>
+      </template>
+
+      <template v-else>
+        <p>
+          Mode is different from 1 and 2
+          (it's actually <strong>{{ mode }}</strong>)
+        </p>
+      </template>
+    </div>
+
+    <div class="form-control">
+      <label>Mode: </label>
+      <select v-model.number="mode">
+        <option value="1">Mode 1</option>
+        <option value="2">Mode 2</option>
+        <option value="3">Mode 3</option>
+      </select>
+    </div>
+
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
