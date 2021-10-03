@@ -26,7 +26,11 @@
       </select>
     </div>
 
-    <div class="circle" :class="circleClasses">
+    <div class="form-control">
+      <input type="number" v-model="size">
+    </div>
+
+    <div class="circle" :class="circleCssClasses" :style="circleCssStyle">
       Hi!
     </div>
   </div>
