@@ -21,7 +21,7 @@
     <div class="form-control">
       <label>First Name</label>
       <!-- These four below are the same -->
-      <input type="text" :value="firstName" @input="updateFirstName($event)">
+      <input type="text" :value="firstName" @input.prevent="updateFirstName($event)">
       <!--
       <input type="text" v-model="firstName">
       <input type="text" v-bind:value="firstName" v-on:input="updateFirstName">

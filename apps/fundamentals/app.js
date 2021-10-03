@@ -17,7 +17,7 @@ const vm = Vue.createApp({
       this.counter += 1;
     },
     updateFirstName(event) {
-      event.preventDefault();
+      // event.preventDefault();
       this.firstName = event.target.value;
     },
   },
