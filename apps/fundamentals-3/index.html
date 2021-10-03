@@ -34,6 +34,10 @@
           (it's actually <strong>{{ mode }}</strong>)
         </p>
       </template>
+
+      <!-- Directive v-show works like v-if but the element is still into the DOM -->
+      <!-- It's only hidden by toggling "display: block;" style -->
+      <p v-show="mode === 1">v-show</p>
     </div>
 
     <div class="form-control">
