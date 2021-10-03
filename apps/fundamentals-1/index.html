@@ -16,7 +16,7 @@
       <h2>Input models</h2>
     </div>
 
-    <h3>{{ fullName() }}</h3>
+    <h3>{{ fullName }}</h3>
 
     <div class="form-control">
       <label>First Name</label>
@@ -63,8 +63,6 @@
       <label>Counter</label>
       <input type="number" v-model.number="counter">
     </div>
-
-    {{ typeof counter }}
 
     <div class="button-group">
       <button v-on:click="incrementCounter()">+1</button>

@@ -1,4 +1,5 @@
 const vm = Vue.createApp({
+
   data() {
     return {
       firstName: 'Alain',
@@ -9,11 +10,24 @@ const vm = Vue.createApp({
       counter: 0,
     };
   },
-  methods: {
-    // Cannot use arrow function since this and getters are used
+
+  // Memoized derived information, these are synchronous
+  computed: {
     fullName() {
+      console.log('fullName');
       return `${this.firstName} ${this.middleName} ${this.lastName}`;
     },
+  },
+
+  // Perform side effects when some data changes, these can be asynchronous
+  watch: {
+    counter(newValue, oldValue) {
+      console.log('Performing side effect on counter change...');
+    }
+  },
+
+  // Cannot use arrow functions here since this and getters are used
+  methods: {
     incrementCounter() {
       this.counter += 1;
     },
@@ -24,4 +38,5 @@ const vm = Vue.createApp({
       this.middleName = event.target.value;
     },
   },
+
 }).mount('#app');
