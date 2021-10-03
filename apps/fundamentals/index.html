@@ -31,8 +31,13 @@
     </div>
 
     <div class="form-control">
-      <label for="last-name">Last Name</label>
-      <input type="text" id="last-name" v-model="lastName">
+      <label>Middle Name</label>
+      <input type="text" :value="middleName" @keyup.enter="updateMiddleName($event)">
+    </div>
+
+    <div class="form-control">
+      <label>Last Name</label>
+      <input type="text" v-model="lastName">
     </div>
 
     <div class="header">

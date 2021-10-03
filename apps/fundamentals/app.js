@@ -2,6 +2,7 @@ const vm = Vue.createApp({
   data() {
     return {
       firstName: 'Alain',
+      middleName: '',
       lastName: 'D\'Ettorre',
       googleUrl: 'https://google.com',
       rawGoogleUrl: 'Raw HTML <a href="https://google.com" target="_blank">&rarr; Google</a>',
@@ -11,14 +12,16 @@ const vm = Vue.createApp({
   methods: {
     // Cannot use arrow function since this and getters are used
     fullName() {
-      return `${this.firstName} ${this.lastName}`;
+      return `${this.firstName} ${this.middleName} ${this.lastName}`;
     },
     incrementCounter() {
       this.counter += 1;
     },
     updateFirstName(event) {
-      // event.preventDefault();
       this.firstName = event.target.value;
+    },
+    updateMiddleName(event) {
+      this.middleName = event.target.value;
     },
   },
 }).mount('#app');
