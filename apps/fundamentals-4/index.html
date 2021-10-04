@@ -1,0 +1,53 @@
+<!DOCTYPE>
+<html>
+
+<head>
+  <title>VueJS Course</title>
+  <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+<body>
+
+  <div id="app">
+
+    <!-- Loop with value on array -->
+    <ul>
+      <li v-for="bird in birds" :key="bird">
+        {{ bird }}
+      </li>
+    </ul>
+
+    <!-- Loop with value and index on array -->
+    <ul>
+      <li v-for="(bird, index) in birds" :key="bird">
+        #{{ index }} {{ bird }}
+      </li>
+    </ul>
+
+    <hr>
+
+    <!-- Loop on object with value -->
+    <ul>
+      <li v-for="person in people" :key="person.name">
+        {{ person.name }}, age {{ person.age }}
+      </li>
+    </ul>
+
+    <!-- Loop on object with value and index -->
+    <ul>
+      <li v-for="person in people" :key="person">
+        <span v-for="(value, key, index) in person" :key="person.name">
+          #{{ index }} {{ key }}: {{ value }}
+          <!-- Is there a better way? -->
+          <template v-if="index !== Object.keys(person).length - 1">,</template>
+        </span>
+      </li>
+    </ul>
+
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
