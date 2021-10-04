@@ -1,20 +1,33 @@
-let vm = Vue.createApp({
+const INITIAL_PEOPLE = [
+  {
+    name: 'John',
+    message: 'Hello world!'
+  },
+  {
+    name: 'Rick',
+    message: 'I like pie.'
+  },
+  {
+    name: 'Amy',
+    message: 'Skydiving is fun!'
+  }
+];
+
+const App = {
+
   data() {
     return {
-      people: [
-        {
-          name: 'John',
-          message: 'Hello world!'
-        },
-        {
-          name: 'Rick',
-          message: 'I like pie.'
-        },
-        {
-          name: 'Amy',
-          message: 'Skydiving is fun!'
-        }
-      ]
+      people: INITIAL_PEOPLE,
     }
-  }
-}).mount('#app')
+  },
+
+  methods: {
+    moveToBottom() {
+      const firstPerson = this.people.shift();
+      this.people.push(firstPerson);
+    }
+  },
+
+};
+
+const vm = Vue.createApp(App).mount('#app');
