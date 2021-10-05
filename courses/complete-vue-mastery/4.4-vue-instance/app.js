@@ -1,33 +1,19 @@
 // With compiler (full build)
 const vm = Vue.createApp({
+  template: `
+    <ztm-hello />
+    <ztm-hello />
+    <ztm-hello />
+  `,
+});
 
+vm.component('ztm-hello', {
+  template: `<p>{{ message }}</p>`,
   data() {
     return {
-      message: 'The time is: ' + (new Date()).toISOString(),
-    }
-  },
+      message: 'Hello World',
+    };
+  }
+});
 
-  template: `
-    {{ message }}
-  `,
-
-}).mount('#app');
-
-// Without the compiler (runtime build)
-// const app2 = Vue.createApp({
-
-//   data() {
-//     return {
-//       message: 'The time is: ' + (new Date()).toISOString(),
-//     }
-//   },
-
-//   render() {
-//     // h = hyperscript
-//     return Vue.h(
-//       'h1',
-//       this.message,
-//     );
-//   },
-
-// }).mount('#app2');
+vm.mount('#app');
