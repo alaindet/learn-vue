@@ -1,5 +1,6 @@
-// To run webpack, run ./node_modules/.bin/webpack or npm start
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+// To run webpack, run ./node_modules/.bin/webpack or npm start
 module.exports = {
 
   // By default, Webpack looks for a /src/index.js file
@@ -25,7 +26,25 @@ module.exports = {
         use: 'babel-loader',
       },
 
+      // Process SCSS files
+      {
+        test: /\.scss$/,
+        // Loaders run in reverse order
+        use: [
+          MiniCssExtractPlugin.loader, // This runs last (extract .css file)
+          // 'style-loader', // This runs last (inlines <style> in <head>)
+          'css-loader', // This runs second
+          'sass-loader', // This runs first
+        ],
+      },
+
     ],
   },
+
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'main.css',
+    }),
+  ],
 
 };
