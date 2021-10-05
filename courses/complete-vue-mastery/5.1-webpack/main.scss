@@ -3,3 +3,8 @@
 body {
   color: $color-text;
 }
+
+// This requires a vendor prefix
+.prefix-demo {
+  transform: rotate(54.7356deg);
+}

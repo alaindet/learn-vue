@@ -33,7 +33,8 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader, // This runs last (extract .css file)
           // 'style-loader', // This runs last (inlines <style> in <head>)
-          'css-loader', // This runs second
+          'css-loader',
+          'postcss-loader',
           'sass-loader', // This runs first
         ],
       },
