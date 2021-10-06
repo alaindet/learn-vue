@@ -12,3 +12,9 @@
     }
   }
 </script>
+
+<style scoped>
+  p {
+    color: blue;
+  }
+</style>
