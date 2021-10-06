@@ -1,26 +1,37 @@
 <template>
-  <Greeting />
+  <div class="app">
+    <todo-form />
+    <todos :todos="todos" />
+  </div>
 </template>
 
 <script>
-  import Greeting from './components/Greeting.vue';
+  import TodoForm from './components/TodoForm.vue';
+  import Todos from './components/Todos.vue';
 
   export default {
     name: 'App',
-    // Locally imported components
     components: {
-      Greeting,
+      TodoForm,
+      Todos,
     },
+    data() {
+      return {
+        todos: ['Learn Vue'],
+      };
+    }
   }
 </script>
 
 <style>
   #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  #app > * {
+    margin: 1rem 0;
   }
 </style>
