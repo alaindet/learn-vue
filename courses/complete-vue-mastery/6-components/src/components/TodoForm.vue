@@ -1,9 +1,9 @@
 <template>
-  <div class="todo-form">
+  <form class="todo-form" @submit.prevent="onAddTodo">
     <input type="text" v-model="todo">
     &nbsp;
-    <button @click="addTodo">Add</button>
-  </div>
+    <button type="submit">Add</button>
+  </form>
 </template>
 
 <script>
@@ -15,8 +15,14 @@ export default {
     };
   },
   methods: {
-    addTodo() {
-      // ...
+    onAddTodo() {
+      if (!this.todo) return;
+      this.$emit('submitted-todo', this.todo);
+      this._clearInput();
+    },
+    _clearInput() {
+      this.todo = '';
+      // TODO: Focus the input
     }
   },
 }

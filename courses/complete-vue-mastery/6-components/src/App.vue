@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <todo-form />
+    <todo-form @submitted-todo="onSubmittedTodo" />
     <todos :todos="todos" />
   </div>
 </template>
@@ -17,9 +17,14 @@
     },
     data() {
       return {
-        todos: ['Learn Vue'],
+        todos: [],
       };
-    }
+    },
+    methods: {
+      onSubmittedTodo(todo) {
+        this.todos = [...this.todos, todo];
+      }
+    },
   }
 </script>
 
