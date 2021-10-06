@@ -7,6 +7,11 @@
 </template>
 
 <script>
+
+const EVENT = {
+  SUBMITTED_TODO: 'submitted-todo',
+};
+
 export default {
   name: 'TodoForm',
   data() {
@@ -14,10 +19,13 @@ export default {
       todo: '',
     };
   },
+  emits: [
+    EVENT.SUBMITTED_TODO,
+  ],
   methods: {
     onAddTodo() {
       if (!this.todo) return;
-      this.$emit('submitted-todo', this.todo);
+      this.$emit(EVENT.SUBMITTED_TODO, this.todo);
       this._clearInput();
     },
     _clearInput() {
