@@ -1,4 +1,4 @@
-# 6.2-slots
+# 6.3-dynamic-components
 
 ## Project setup
 ```

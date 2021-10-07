@@ -1,4 +1,4 @@
-# 6-components
+# 6.1-components
 
 ## Project setup
 ```
