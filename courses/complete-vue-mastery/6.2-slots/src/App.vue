@@ -1,6 +1,20 @@
 <template>
   <div>
-    <app-form />
+    <app-form>
+      <div class="help">
+        <p>This is some help text.</p>
+      </div>
+
+      <div class="fields">
+        <input type="text" placeholder="Email...">
+        <input type="text" placeholder="Username...">
+        <input type="text" placeholder="Password...">
+      </div>
+
+      <div class="buttons">
+        <button type="submit">Submit</button>
+      </div>
+    </app-form>
   </div>
 </template>
 
@@ -9,9 +23,9 @@ import AppForm from './components/AppForm.vue';
 
 export default {
   name: 'App',
-  components: [
+  components: {
     AppForm,
-  ],
+  },
 }
 </script>
 
