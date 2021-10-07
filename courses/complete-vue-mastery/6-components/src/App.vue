@@ -1,5 +1,7 @@
 <template>
   <div class="app">
+    <!-- Using callbacks instead of events is discouraged -->
+    <!-- <todo-form :onSubmit="onSubmittedTodo" /> -->
     <todo-form @submitted-todo="onSubmittedTodo" />
     <todos :todos="todos" />
   </div>
@@ -23,7 +25,7 @@
     methods: {
       onSubmittedTodo(todo) {
         this.todos = [...this.todos, todo];
-      }
+      },
     },
   }
 </script>

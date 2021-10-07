@@ -1,13 +1,12 @@
 <template>
   <form class="todo-form" @submit.prevent="onAddTodo">
-    <input type="text" v-model="todo">
+    <input type="text" v-model="todo" ref="todo">
     &nbsp;
     <button type="submit">Add</button>
   </form>
 </template>
 
 <script>
-
 const Events = {
   SubmittedTodo: 'submitted-todo',
 };
@@ -19,19 +18,20 @@ export default {
       todo: '',
     };
   },
+  props: {
+    onSubmit: Function,
+  },
   emits: [
     Events.SubmittedTodo,
   ],
   methods: {
     onAddTodo() {
       if (!this.todo) return;
-      this.$emit(Events.SubmittedTodo, this.todo);
-      this._clearInput();
-    },
-    _clearInput() {
+      this.$emit(Events.SubmittedTodo, this.todo); // Emit event
+      // this.onSubmit(this.todo); // Calling callback (equivalent)
       this.todo = '';
-      // TODO: Focus the input
-    }
+      this.$refs.todo.focus();
+    },
   },
 }
 </script>
