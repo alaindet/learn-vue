@@ -10,8 +10,30 @@
 <script>
 export default {
   name: 'Todos',
-  props: [
-    'todos',
-  ],
+  props: {
+    todos: {
+      // https://v3.vuejs.org/guide/component-props.html#type-checks
+      // - String
+      // - Number
+      // - Boolean
+      // - Array
+      // - Object
+      // - Date
+      // - Function
+      // - Symbol
+      type: Array,
+      // type: [Number, String], // Example with multiple types
+      required: true,
+      default() {
+        return ['Enter new todos...'];
+      },
+      // Note: Validators run before the component instance is created
+      // So it cannot access to data, computed data or methods
+      // Which implies an arrow function will work better
+      validator: value => !!value,
+    },
+  },
+  // Without types
+  // props: ['todos'],
 }
 </script>

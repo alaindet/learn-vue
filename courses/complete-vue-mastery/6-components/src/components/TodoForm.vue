@@ -8,8 +8,8 @@
 
 <script>
 
-const EVENT = {
-  SUBMITTED_TODO: 'submitted-todo',
+const Events = {
+  SubmittedTodo: 'submitted-todo',
 };
 
 export default {
@@ -20,12 +20,12 @@ export default {
     };
   },
   emits: [
-    EVENT.SUBMITTED_TODO,
+    Events.SubmittedTodo,
   ],
   methods: {
     onAddTodo() {
       if (!this.todo) return;
-      this.$emit(EVENT.SUBMITTED_TODO, this.todo);
+      this.$emit(Events.SubmittedTodo, this.todo);
       this._clearInput();
     },
     _clearInput() {
