@@ -1,19 +1,25 @@
 <template>
   <div>
     <app-form>
-      <div class="help">
-        <p>This is some help text.</p>
-      </div>
 
-      <div class="fields">
+      <!-- v-slot only works on template -->
+      <template v-slot:help>
+        <p>{{ helpText }}</p>
+      </template>
+
+      <template v-slot:fields>
         <input type="text" placeholder="Email...">
         <input type="text" placeholder="Username...">
         <input type="text" placeholder="Password...">
-      </div>
+      </template>
 
-      <div class="buttons">
+      <template v-slot:buttons>
         <button type="submit">Submit</button>
-      </div>
+      </template>
+
+      <!-- Occupy the default slot location -->
+      <p>Something</p>
+
     </app-form>
   </div>
 </template>
@@ -25,6 +31,11 @@ export default {
   name: 'App',
   components: {
     AppForm,
+  },
+  data() {
+    return {
+      helpText: 'This is some help text.',
+    };
   },
 }
 </script>
