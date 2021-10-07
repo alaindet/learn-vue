@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div>
     <!-- Using callbacks instead of events is discouraged -->
     <!-- <todo-form :onSubmit="onSubmittedTodo" /> -->
     <todo-form @submitted-todo="onSubmittedTodo" />
