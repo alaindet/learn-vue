@@ -5,8 +5,9 @@
       {{ show ? 'Leave' : 'Enter' }}
     </button>
 
-    <transition name="hello">
-      <h1 v-if="show" class="hello">Hello World</h1>
+    <transition name="hello" mode="out-in">
+      <h1 v-if="show" key="the-content" class="hello">Hello World</h1>
+      <h1 v-else key="the-fallback" class="hello --fallback">The Fallback</h1>
     </transition>
 
   </div>
@@ -17,7 +18,7 @@ export default {
   name: 'App',
   data() {
     return {
-      show: false,
+      show: true,
     };
   },
   methods: {
@@ -30,7 +31,9 @@ export default {
 
 <style scoped>
   #app-container {
-    --color-text: #820b8a;
+    --color-primary: #b5179e;
+    --color-primary-light: #f72585;
+    --color-accent: #4361ee;
 
     display: flex;
     justify-content: center;
@@ -46,7 +49,7 @@ export default {
   button {
     padding: 1rem 2rem;
     background-color: transparent;
-    color: var(--color-text);
+    color: var(--color-primary);
     font-size: 1.3rem;
     border-radius: 100px;
     border: 2px solid currentColor;
@@ -55,13 +58,17 @@ export default {
   }
 
   button:hover {
-    background-color: rgba(130,11,138,0.1);
+    color: var(--color-primary-light);
   }
 
   .hello {
-    color: var(--color-text);
+    color: var(--color-primary);
     font-family: sans-serif;
     font-size: 3rem;
+  }
+
+  .hello.--fallback {
+    color: var(--color-accent);
   }
 
   /* Transitions here ------------------------------------------------------ */
@@ -74,11 +81,11 @@ export default {
   }
 
   .hello-enter-to {
-
+    /* Not used */
   }
 
   .hello-leave-from {
-
+    /* Not used */
   }
 
   .hello-leave-active {

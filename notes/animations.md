@@ -18,3 +18,8 @@
 - `v-leave-from`
 - `v-leave-active`
 - `v-leave-to`
+
+## Modes
+
+- `mode="in-out"`: (Default) Entering animations happen first, then leave ones
+- `mode="out-in"`: Leaving animations happen first, then entering ones
