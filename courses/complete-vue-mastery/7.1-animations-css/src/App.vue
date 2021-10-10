@@ -61,6 +61,13 @@ export default {
     color: var(--color-primary-light);
   }
 
+  button:focus {
+    outline-color: #aaa;
+    outline-offset: 4px;
+    outline-style: dashed;
+    outline-width: 1px;
+  }
+
   .hello {
     color: var(--color-primary);
     font-family: sans-serif;
