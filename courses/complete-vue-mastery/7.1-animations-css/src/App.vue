@@ -5,9 +5,16 @@
       {{ show ? 'Leave' : 'Enter' }}
     </button>
 
+    <!-- First try -->
+    <!--
     <transition name="hello" mode="out-in">
       <h1 v-if="show" key="the-content" class="hello">Hello World</h1>
       <h1 v-else key="the-fallback" class="hello --fallback">The Fallback</h1>
+    </transition>
+    -->
+
+    <transition name="zoom" type="animation" appear="true">
+      <h1 v-if="show">Zoom!</h1>
     </transition>
 
   </div>
@@ -101,5 +108,41 @@ export default {
 
   .hello-leave-to {
     opacity: 0;
+  }
+
+  .zoom-enter-from {
+    opacity: 0;
+  }
+
+  .zoom-enter-active {
+    animation: zoom-in 1s linear forwards;
+    transition: all 2s linear;
+  }
+
+  .zoom-leave-active {
+    animation: zoom-out 1s linear forwards;
+    transition: all 2s linear;
+  }
+
+  .zoom-leave-to {
+    opacity: 0;
+  }
+
+  @keyframes zoom-in {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes zoom-out {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(0);
+    }
   }
 </style>
