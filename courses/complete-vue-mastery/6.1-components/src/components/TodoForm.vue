@@ -18,9 +18,9 @@ export default {
       todo: '',
     };
   },
-  props: {
-    onSubmit: Function,
-  },
+  // props: {
+  //   onSubmit: Function,
+  // },
   emits: [
     Events.SubmittedTodo,
   ],
