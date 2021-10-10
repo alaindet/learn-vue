@@ -5,7 +5,7 @@
       {{ show ? 'Leave' : 'Enter' }}
     </button>
 
-    <!-- First try -->
+    <!-- CSS Transition -->
     <!--
     <transition name="hello" mode="out-in">
       <h1 v-if="show" key="the-content" class="hello">Hello World</h1>
@@ -13,14 +13,34 @@
     </transition>
     -->
 
+    <!-- CSS Animation -->
+    <!--
     <transition name="zoom" type="animation" appear="true">
       <h1 v-if="show">Zoom!</h1>
+    </transition>
+    -->
+
+    <!-- JavaScript Animation -->
+    <transition
+      @before-enter="onBeforeEnter"
+      @enter="onEnter"
+      @after-enter="onAfterEnter"
+      @before-leave="onBeforeLeave"
+      @leave="onLeave"
+      @after-leave="onAfterLeave"
+      @enter-cancelled="onEnterCancelled"
+      @leave-cancelled="onLeaveCancelled"
+      :css="false"
+    >
+      <h1 v-if="show" class="hello">Zoom!</h1>
     </transition>
 
   </div>
 </template>
 
 <script>
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API
 export default {
   name: 'App',
   data() {
@@ -31,7 +51,79 @@ export default {
   methods: {
     onToggle() {
       this.show = !this.show;
-    }
+    },
+
+    onBeforeEnter(el) {
+      console.log('onBeforeEnter', el);
+    },
+
+    onEnter(el, done) {
+      console.log('onEnter', el);
+
+      const animation = el.animate(
+        [
+          // Start
+          {
+            transform: 'scale3d(0,0,0)',
+          },
+          // Finish
+          {
+            transform: 'scale3d(1,1,1)',
+          },
+        ],
+        {
+          duration: 1000,
+        },
+      );
+
+      animation.onfinish = () => {
+        done();
+      };
+    },
+
+    onAfterEnter(el) {
+      console.log('onAfterEnter', el);
+    },
+
+    onBeforeLeave(el) {
+      console.log('onBeforeLeave', el);
+    },
+
+    onLeave(el, done) {
+      console.log('onLeave', el);
+
+      const animation = el.animate(
+        [
+          // Start
+          {
+            transform: 'scale3d(1,1,1)',
+          },
+          // Finish
+          {
+            transform: 'scale3d(0,0,0)',
+          },
+        ],
+        {
+          duration: 1000,
+        },
+      );
+
+      animation.onfinish = () => {
+        done();
+      };
+    },
+
+    onAfterLeave(el) {
+      console.log('onAfterLeave', el);
+    },
+
+    onEnterCancelled(el) {
+      console.log('onEnterCancelled', el);
+    },
+
+    onLeaveCancelled(el) {
+      console.log('onLeaveCancelled', el);
+    },
   },
 }
 </script>
@@ -85,7 +177,6 @@ export default {
     color: var(--color-accent);
   }
 
-  /* Transitions here ------------------------------------------------------ */
   .hello-enter-from {
     opacity: 0;
   }
