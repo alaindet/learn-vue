@@ -1,5 +1,9 @@
 <template>
-  <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="modal">
+  <div
+    id="modal"
+    class="fixed z-10 inset-0 overflow-y-auto"
+    :class="{ hidden: !showAuthModal }"
+  >
     <div
       class="
         flex
@@ -46,7 +50,7 @@
           <div class="flex justify-between items-center pb-4">
             <p class="text-2xl font-bold">Your Account</p>
             <!-- Modal Close Button -->
-            <div class="modal-close cursor-pointer z-50">
+            <div class="modal-close cursor-pointer z-50" @click.prevent="toggleAuthModal">
               <i class="fas fa-times"></i>
             </div>
           </div>
@@ -55,29 +59,35 @@
           <ul class="flex flex-wrap mb-4">
             <li class="flex-auto text-center">
               <a
-                class="
-                  block
-                  rounded
-                  py-3
-                  px-4
-                  transition
-                  hover:text-white
-                  text-white
-                  bg-blue-600
-                "
                 href="#"
-                >Login</a
+                class="block rounded py-3 px-4 transition"
+                :class="{
+                  'hover:text-white text-white bg-blue-600': tab === 'login',
+                  'hover:text-blue-600': tab !== 'login'
+                }"
+                @click.prevent="tab = 'login'"
+              >
+                Login
+                </a
               >
             </li>
             <li class="flex-auto text-center">
-              <a class="block rounded py-3 px-4 transition" href="#"
-                >Register</a
+              <a
+                href="#"
+                class="block rounded py-3 px-4 transition"
+                :class="{
+                  'hover:text-white text-white bg-blue-600': tab === 'register',
+                  'hover:text-blue-600': tab !== 'register'
+                }"
+                @click.prevent="tab = 'register'"
               >
+                Register
+              </a>
             </li>
           </ul>
 
           <!-- Login Form -->
-          <form>
+          <form v-show="tab === 'login'">
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
@@ -99,6 +109,7 @@
                 placeholder="Enter Email"
               />
             </div>
+
             <!-- Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
@@ -120,6 +131,7 @@
                 placeholder="Password"
               />
             </div>
+
             <button
               type="submit"
               class="
@@ -137,8 +149,9 @@
               Submit
             </button>
           </form>
+
           <!-- Registration Form -->
-          <form>
+          <form v-show="tab === 'register'">
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
@@ -160,6 +173,7 @@
                 placeholder="Enter Name"
               />
             </div>
+
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
@@ -181,6 +195,7 @@
                 placeholder="Enter Email"
               />
             </div>
+
             <!-- Age -->
             <div class="mb-3">
               <label class="inline-block mb-2">Age</label>
@@ -201,6 +216,7 @@
                 "
               />
             </div>
+
             <!-- Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
@@ -222,6 +238,7 @@
                 placeholder="Password"
               />
             </div>
+
             <!-- Confirm Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Confirm Password</label>
@@ -243,6 +260,7 @@
                 placeholder="Confirm Password"
               />
             </div>
+
             <!-- Country -->
             <div class="mb-3">
               <label class="inline-block mb-2">Country</label>
@@ -261,11 +279,13 @@
                   rounded
                 "
               >
+                <option value="Italy">Italy</option>
                 <option value="USA">USA</option>
                 <option value="Mexico">Mexico</option>
                 <option value="Germany">Germany</option>
               </select>
             </div>
+
             <!-- TOS -->
             <div class="mb-3 pl-6">
               <input
@@ -274,6 +294,7 @@
               />
               <label class="inline-block">Accept terms of service</label>
             </div>
+
             <button
               type="submit"
               class="
@@ -291,8 +312,37 @@
               Submit
             </button>
           </form>
+
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import { mapMutations, mapState } from 'vuex';
+
+/**
+ * If you don't need to perform calculations, getters extracted with mapGetters
+ * can be swapped with just mapState, which only extract direct store data
+ * without manipulation
+ */
+export default {
+  name: 'AuthModal',
+  data() {
+    return {
+      tab: 'login',
+    };
+  },
+  computed: {
+    ...mapState(['showAuthModal']),
+    // Alias
+    // ...mapState({ isModal: 'showAuthModal' }),
+  },
+  methods: {
+    ...mapMutations(['toggleAuthModal']),
+    // Alias
+    // ...mapMutations({ toggleModal: 'toggleAuthModal' }),
+  },
+};
+</script>

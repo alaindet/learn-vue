@@ -12,7 +12,7 @@
         <!-- Primary Navigation -->
         <ul class="flex flex-row mt-1">
           <li>
-            <a class="px-2 text-white" href="#" @click.prevent="onToggleAuthModal">
+            <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal">
               Login / Register
             </a>
           </li>
@@ -29,14 +29,12 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'Header',
   methods: {
-    onToggleAuthModal() {
-      // WARNING: NEVER EVER SET THE STORE STATE MANUALLY!
-      this.$store.state.showAuthModal = !this.$store.state.showAuthModal;
-      console.log(this.$store.state.showAuthModal);
-    },
+    ...mapMutations(['toggleAuthModal']),
   },
 };
 </script>
