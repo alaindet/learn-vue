@@ -151,11 +151,14 @@
           </form>
 
           <!-- Registration Form -->
-          <form v-show="tab === 'register'">
+          <vee-validate-form v-show="tab === 'register'">
+
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
-              <input
+              <vee-validate-field
+                as="input"
+                name="name"
                 type="text"
                 class="
                   block
@@ -311,7 +314,7 @@
             >
               Submit
             </button>
-          </form>
+          </vee-validate-form>
 
         </div>
       </div>
