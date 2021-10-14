@@ -151,7 +151,10 @@
           </form>
 
           <!-- Registration Form -->
-          <vee-validate-form v-show="tab === 'register'">
+          <vee-validate-form
+            v-show="tab === 'register'"
+            :validation-schema="validationSchema"
+          >
 
             <!-- Name -->
             <div class="mb-3">
@@ -160,6 +163,7 @@
                 as="input"
                 name="name"
                 type="text"
+                placeholder="Enter Name"
                 class="
                   block
                   w-full
@@ -173,15 +177,21 @@
                   focus:border-black
                   rounded
                 "
-                placeholder="Enter Name"
+              />
+              <vee-validate-error-message
+                class="text-red-600"
+                name="name"
               />
             </div>
 
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
-              <input
+              <vee-validate-field
+                as="input"
                 type="email"
+                name="email"
+                placeholder="Enter Email"
                 class="
                   block
                   w-full
@@ -195,15 +205,20 @@
                   focus:border-black
                   rounded
                 "
-                placeholder="Enter Email"
+              />
+              <vee-validate-error-message
+                class="text-red-600"
+                name="email"
               />
             </div>
 
             <!-- Age -->
             <div class="mb-3">
               <label class="inline-block mb-2">Age</label>
-              <input
+              <vee-validate-field
+                as="input"
                 type="number"
+                name="age"
                 class="
                   block
                   w-full
@@ -217,14 +232,21 @@
                   focus:border-black
                   rounded
                 "
+              />
+              <vee-validate-error-message
+                class="text-red-600"
+                name="age"
               />
             </div>
 
             <!-- Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
-              <input
+              <vee-validate-field
+                as="input"
                 type="password"
+                name="password"
+                placeholder="Password"
                 class="
                   block
                   w-full
@@ -238,15 +260,21 @@
                   focus:border-black
                   rounded
                 "
-                placeholder="Password"
+              />
+              <vee-validate-error-message
+                class="text-red-600"
+                name="password"
               />
             </div>
 
             <!-- Confirm Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Confirm Password</label>
-              <input
+              <vee-validate-field
+                as="input"
                 type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
                 class="
                   block
                   w-full
@@ -260,14 +288,19 @@
                   focus:border-black
                   rounded
                 "
-                placeholder="Confirm Password"
+              />
+              <vee-validate-error-message
+                class="text-red-600"
+                name="confirmPassword"
               />
             </div>
 
             <!-- Country -->
             <div class="mb-3">
               <label class="inline-block mb-2">Country</label>
-              <select
+              <vee-validate-field
+                as="select"
+                name="country"
                 class="
                   block
                   w-full
@@ -286,18 +319,30 @@
                 <option value="USA">USA</option>
                 <option value="Mexico">Mexico</option>
                 <option value="Germany">Germany</option>
-              </select>
+                <option value="Antarctica">Antarctica</option>
+              </vee-validate-field>
+              <vee-validate-error-message
+                class="text-red-600"
+                name="country"
+              />
             </div>
 
-            <!-- TOS -->
+            <!-- Terms of Service -->
             <div class="mb-3 pl-6">
-              <input
+              <vee-validate-field
+                value="1"
                 type="checkbox"
+                name="tos"
                 class="w-4 h-4 float-left -ml-6 mt-1 rounded"
               />
               <label class="inline-block">Accept terms of service</label>
+              <vee-validate-error-message
+                class="text-red-600 block"
+                name="tos"
+              />
             </div>
 
+            <!-- Submit -->
             <button
               type="submit"
               class="
@@ -327,14 +372,23 @@ import { mapMutations, mapState } from 'vuex';
 
 /**
  * If you don't need to perform calculations, getters extracted with mapGetters
- * can be swapped with just mapState, which only extract direct store data
- * without manipulation
+ * can be swapped with just mapState, which returns functions only for
+ * extracting direct store data without manipulation
  */
 export default {
   name: 'AuthModal',
   data() {
     return {
       tab: 'login',
+      validationSchema: {
+        name: 'required|min:3|max:100|alpha_spaces',
+        email: 'required|min:3|max:100|email',
+        age: 'required|min_value:18|max_value:100',
+        password: 'required|min:3|max:180',
+        confirmPassword: 'required|confirmed:@password',
+        country: 'required|excluded:Antarctica',
+        tos: 'required',
+      },
     };
   },
   computed: {
