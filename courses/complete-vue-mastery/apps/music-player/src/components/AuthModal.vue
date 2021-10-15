@@ -154,6 +154,7 @@
           <vee-validate-form
             v-show="tab === 'register'"
             :validation-schema="validationSchema"
+            @submit="onSubmitRegistrationForm"
           >
 
             <!-- Name -->
@@ -330,12 +331,16 @@
             <!-- Terms of Service -->
             <div class="mb-3 pl-6">
               <vee-validate-field
-                value="1"
+                as="input"
+                id="tos"
                 type="checkbox"
+                value="1"
                 name="tos"
                 class="w-4 h-4 float-left -ml-6 mt-1 rounded"
               />
-              <label class="inline-block">Accept terms of service</label>
+              <label class="inline-block" for="tos">
+                Accept terms of service
+              </label>
               <vee-validate-error-message
                 class="text-red-600 block"
                 name="tos"
@@ -400,6 +405,11 @@ export default {
     ...mapMutations(['toggleAuthModal']),
     // Alias
     // ...mapMutations({ toggleModal: 'toggleAuthModal' }),
+
+    // @submit does not emit if form is invalid
+    onSubmitRegistrationForm(formValue) {
+      console.log('onSubmitRegistrationForm', formValue);
+    },
   },
 };
 </script>
