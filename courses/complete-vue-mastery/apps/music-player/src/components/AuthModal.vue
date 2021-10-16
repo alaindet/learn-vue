@@ -153,7 +153,8 @@
           <!-- Registration Form -->
           <vee-validate-form
             v-show="tab === 'register'"
-            :validation-schema="validationSchema"
+            :validation-schema="registrationForm.schema"
+            :initial-values="registrationForm.initial"
             @submit="onSubmitRegistrationForm"
           >
 
@@ -244,28 +245,32 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
               <vee-validate-field
-                as="input"
-                type="password"
                 name="password"
-                placeholder="Password"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none
-                  focus:border-black
-                  rounded
-                "
-              />
-              <vee-validate-error-message
-                class="text-red-600"
-                name="password"
-              />
+                :bails="false"
+                v-slot="{ field, errors }"
+              >
+                <input
+                  type="password"
+                  placeholder="Password"
+                  v-bind="field"
+                  class="
+                    block
+                    w-full
+                    py-1.5
+                    px-3
+                    text-gray-800
+                    border border-gray-300
+                    transition
+                    duration-500
+                    focus:outline-none
+                    focus:border-black
+                    rounded
+                  "
+                >
+                <div v-for="error in errors" :key="error" class="text-red-600">
+                  {{ error }}
+                </div>
+              </vee-validate-field>
             </div>
 
             <!-- Confirm Password -->
@@ -385,14 +390,19 @@ export default {
   data() {
     return {
       tab: 'login',
-      validationSchema: {
-        name: 'required|min:3|max:100|alpha_spaces',
-        email: 'required|min:3|max:100|email',
-        age: 'required|min_value:18|max_value:100',
-        password: 'required|min:3|max:180',
-        confirmPassword: 'required|confirmed:@password',
-        country: 'required|excluded:Antarctica',
-        tos: 'required',
+      registrationForm: {
+        schema: {
+          name: 'required|min:3|max:100|alpha_spaces',
+          email: 'required|min:3|max:100|email',
+          age: 'required|min_value:18|max_value:100',
+          password: 'required|min:3|max:180',
+          confirmPassword: 'required|confirmed:@password',
+          country: 'required|excluded:Antarctica',
+          tos: 'required',
+        },
+        initial: {
+          country: 'Italy',
+        },
       },
     };
   },
