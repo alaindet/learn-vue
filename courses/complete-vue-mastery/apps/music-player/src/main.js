@@ -15,4 +15,3 @@ app.use(router);
 app.use(VeeValidatePlugin);
 
 app.mount('#app');
-\

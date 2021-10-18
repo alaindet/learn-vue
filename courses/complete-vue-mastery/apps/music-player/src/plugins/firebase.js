@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
 
 // TODO: Move to .env?
 const firebaseConfig = {
@@ -11,3 +12,14 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+
+const db = firebase.firestore();
+const usersCollection = db.collection('users');
+
+export {
+  auth,
+  db,
+  usersCollection,
+};
