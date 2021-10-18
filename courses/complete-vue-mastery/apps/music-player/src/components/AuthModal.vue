@@ -150,6 +150,15 @@
             </button>
           </form>
 
+          <!-- Registration Alert -->
+          <div
+            v-if="registrationAlert.show"
+            class="text-white text-center font-bold p-5 mb-4"
+            :class="registrationAlert.style"
+          >
+            {{ registrationAlert.message }}
+          </div>
+
           <!-- Registration Form -->
           <vee-validate-form
             v-show="tab === 'register'"
@@ -355,6 +364,7 @@
             <!-- Submit -->
             <button
               type="submit"
+              :disabled="registrationForm.isSubmitting"
               class="
                 block
                 w-full
@@ -403,9 +413,12 @@ export default {
         initial: {
           country: 'Italy',
         },
-        submitting: false,
-        showAlert: false,
-        alertStyle: 'bg-blue-500',
+        isSubmitting: false,
+      },
+      registrationAlert: {
+        show: false,
+        style: 'bg-blue-500',
+        message: 'Please wait! Your account is being created.',
       },
     };
   },
@@ -421,7 +434,18 @@ export default {
 
     // @submit does not emit if form is invalid
     onSubmitRegistrationForm(formValue) {
-      console.log('onSubmitRegistrationForm', formValue);
+      this.registrationAlert.show = true;
+      this.registrationForm.isSubmitting = true;
+      this.registrationAlert.style = 'bg-blue-500';
+      this.registrationAlert.message = 'Please wait! Your account is being created.';
+
+      // TODO: Register...
+
+      this.registrationAlert.style = 'bg-green-500';
+      this.registrationAlert.message = 'Success! Your account has been created.';
+
+      // TODO: Remove
+      console.log(formValue);
     },
   },
 };
