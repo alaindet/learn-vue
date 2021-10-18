@@ -46,7 +46,8 @@
       >
         <!-- Add margin if you want to see some of the overlay behind the modal-->
         <div class="py-4 text-left px-6">
-          <!--Title-->
+
+          <!-- Title -->
           <div class="flex justify-between items-center pb-4">
             <p class="text-2xl font-bold">Your Account</p>
             <!-- Modal Close Button -->
@@ -87,11 +88,17 @@
           </ul>
 
           <!-- Login Form -->
-          <form v-show="tab === 'login'">
+          <vee-validate-form
+            v-show="tab === 'login'"
+            :validation-schema="login.form.schema"
+            @submit="onSubmitLogin"
+          >
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
-              <input
+              <vee-validate-field
+                as="input"
+                name="email"
                 type="email"
                 class="
                   block
@@ -108,12 +115,18 @@
                 "
                 placeholder="Enter Email"
               />
+              <vee-validate-error-message
+                class="text-red-600"
+                name="email"
+              />
             </div>
 
             <!-- Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
-              <input
+              <vee-validate-field
+                as="input"
+                name="password"
                 type="password"
                 class="
                   block
@@ -130,10 +143,16 @@
                 "
                 placeholder="Password"
               />
+              <vee-validate-error-message
+                class="text-red-600"
+                name="password"
+              />
             </div>
 
+            <!-- Submit -->
             <button
               type="submit"
+              :disabled="login.form.isSubmitting"
               class="
                 block
                 w-full
@@ -148,23 +167,23 @@
             >
               Submit
             </button>
-          </form>
+          </vee-validate-form>
 
           <!-- Registration Alert -->
           <div
-            v-if="registrationAlert.show"
+            v-if="registration.alert.show"
             class="text-white text-center font-bold p-5 mb-4"
-            :class="registrationAlert.style"
+            :class="registration.alert.style"
           >
-            {{ registrationAlert.message }}
+            {{ registration.alert.message }}
           </div>
 
           <!-- Registration Form -->
           <vee-validate-form
             v-show="tab === 'register'"
-            :validation-schema="registrationForm.schema"
-            :initial-values="registrationForm.initial"
-            @submit="onSubmitRegistrationForm"
+            :validation-schema="registration.form.schema"
+            :initial-values="registration.form.initial"
+            @submit="onSubmitRegistration"
           >
 
             <!-- Name -->
@@ -364,7 +383,7 @@
             <!-- Submit -->
             <button
               type="submit"
-              :disabled="registrationForm.isSubmitting"
+              :disabled="registration.form.isSubmitting"
               class="
                 block
                 w-full
@@ -400,25 +419,41 @@ export default {
   data() {
     return {
       tab: 'login',
-      registrationForm: {
-        schema: {
-          name: 'required|min:3|max:100|alpha_spaces',
-          email: 'required|min:3|max:100|email',
-          age: 'required|min_value:18|max_value:100',
-          password: 'required|min:3|max:180',
-          confirmPassword: 'required|passwords_mismatch:@password',
-          country: 'required|country_excluded:Antarctica',
-          tos: 'terms_of_service',
+      login: {
+        form: {
+          schema: {
+            email: 'required|min:3|max:100|email',
+            password: 'required|min:3|max:180',
+          },
+          isSubmitting: false,
         },
-        initial: {
-          country: 'Italy',
+        alert: {
+          show: false,
+          style: 'bg-blue-500',
+          message: 'Please wait!',
         },
-        isSubmitting: false,
       },
-      registrationAlert: {
-        show: false,
-        style: 'bg-blue-500',
-        message: 'Please wait! Your account is being created.',
+      registration: {
+        form: {
+          schema: {
+            name: 'required|min:3|max:100|alpha_spaces',
+            email: 'required|min:3|max:100|email',
+            age: 'required|min_value:18|max_value:100',
+            password: 'required|min:3|max:180',
+            confirmPassword: 'required|passwords_mismatch:@password',
+            country: 'required|country_excluded:Antarctica',
+            tos: 'terms_of_service',
+          },
+          initial: {
+            country: 'Italy',
+          },
+          isSubmitting: false,
+        },
+        alert: {
+          show: false,
+          style: 'bg-blue-500',
+          message: 'Please wait! Your account is being created.',
+        },
       },
     };
   },
@@ -433,19 +468,26 @@ export default {
     // ...mapMutations({ toggleModal: 'toggleAuthModal' }),
 
     // @submit does not emit if form is invalid
-    onSubmitRegistrationForm(formValue) {
-      this.registrationAlert.show = true;
-      this.registrationForm.isSubmitting = true;
-      this.registrationAlert.style = 'bg-blue-500';
-      this.registrationAlert.message = 'Please wait! Your account is being created.';
+    onSubmitRegistration(formValue) {
+      this.registration.alert.show = true;
+      this.registration.form.isSubmitting = true;
+      this.registration.alert.style = 'bg-blue-500';
+      this.registration.alert.message = 'Please wait! Your account is being created.';
 
       // TODO: Register...
 
-      this.registrationAlert.style = 'bg-green-500';
-      this.registrationAlert.message = 'Success! Your account has been created.';
+      this.registration.alert.style = 'bg-green-500';
+      this.registration.alert.message = 'Success! Your account has been created.';
 
       // TODO: Remove
       console.log(formValue);
+    },
+
+    onSubmitLogin(formValue) {
+      // TODO: Remove
+      console.log(formValue);
+
+
     },
   },
 };
