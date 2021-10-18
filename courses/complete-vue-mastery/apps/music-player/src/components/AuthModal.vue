@@ -87,318 +87,15 @@
             </li>
           </ul>
 
-          <!-- Login Form -->
-          <vee-validate-form
-            v-show="tab === 'login'"
-            :validation-schema="login.form.schema"
-            @submit="onSubmitLogin"
-          >
-            <!-- Email -->
-            <div class="mb-3">
-              <label class="inline-block mb-2">Email</label>
-              <vee-validate-field
-                as="input"
-                name="email"
-                type="email"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none
-                  focus:border-black
-                  rounded
-                "
-                placeholder="Enter Email"
-              />
-              <vee-validate-error-message
-                class="text-red-600"
-                name="email"
-              />
-            </div>
+          <!-- Login -->
+          <app-login-form
+            v-if="tab === 'login'"
+          />
 
-            <!-- Password -->
-            <div class="mb-3">
-              <label class="inline-block mb-2">Password</label>
-              <vee-validate-field
-                as="input"
-                name="password"
-                type="password"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none
-                  focus:border-black
-                  rounded
-                "
-                placeholder="Password"
-              />
-              <vee-validate-error-message
-                class="text-red-600"
-                name="password"
-              />
-            </div>
-
-            <!-- Submit -->
-            <button
-              type="submit"
-              :disabled="login.form.isSubmitting"
-              class="
-                block
-                w-full
-                bg-purple-600
-                text-white
-                py-1.5
-                px-3
-                rounded
-                transition
-                hover:bg-purple-700
-              "
-            >
-              Submit
-            </button>
-          </vee-validate-form>
-
-          <!-- Registration Alert -->
-          <div
-            v-if="registration.alert.show"
-            class="text-white text-center font-bold p-5 mb-4"
-            :class="registration.alert.style"
-          >
-            {{ registration.alert.message }}
-          </div>
-
-          <!-- Registration Form -->
-          <vee-validate-form
-            v-show="tab === 'register'"
-            :validation-schema="registration.form.schema"
-            :initial-values="registration.form.initial"
-            @submit="onSubmitRegistration"
-          >
-
-            <!-- Name -->
-            <div class="mb-3">
-              <label class="inline-block mb-2">Name</label>
-              <vee-validate-field
-                as="input"
-                name="name"
-                type="text"
-                placeholder="Enter Name"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none
-                  focus:border-black
-                  rounded
-                "
-              />
-              <vee-validate-error-message
-                class="text-red-600"
-                name="name"
-              />
-            </div>
-
-            <!-- Email -->
-            <div class="mb-3">
-              <label class="inline-block mb-2">Email</label>
-              <vee-validate-field
-                as="input"
-                type="email"
-                name="email"
-                placeholder="Enter Email"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none
-                  focus:border-black
-                  rounded
-                "
-              />
-              <vee-validate-error-message
-                class="text-red-600"
-                name="email"
-              />
-            </div>
-
-            <!-- Age -->
-            <div class="mb-3">
-              <label class="inline-block mb-2">Age</label>
-              <vee-validate-field
-                as="input"
-                type="number"
-                name="age"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none
-                  focus:border-black
-                  rounded
-                "
-              />
-              <vee-validate-error-message
-                class="text-red-600"
-                name="age"
-              />
-            </div>
-
-            <!-- Password -->
-            <div class="mb-3">
-              <label class="inline-block mb-2">Password</label>
-              <vee-validate-field
-                name="password"
-                :bails="false"
-                v-slot="{ field, errors }"
-              >
-                <input
-                  type="password"
-                  placeholder="Password"
-                  v-bind="field"
-                  class="
-                    block
-                    w-full
-                    py-1.5
-                    px-3
-                    text-gray-800
-                    border border-gray-300
-                    transition
-                    duration-500
-                    focus:outline-none
-                    focus:border-black
-                    rounded
-                  "
-                >
-                <div v-for="error in errors" :key="error" class="text-red-600">
-                  {{ error }}
-                </div>
-              </vee-validate-field>
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mb-3">
-              <label class="inline-block mb-2">Confirm Password</label>
-              <vee-validate-field
-                as="input"
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none
-                  focus:border-black
-                  rounded
-                "
-              />
-              <vee-validate-error-message
-                class="text-red-600"
-                name="confirmPassword"
-              />
-            </div>
-
-            <!-- Country -->
-            <div class="mb-3">
-              <label class="inline-block mb-2">Country</label>
-              <vee-validate-field
-                as="select"
-                name="country"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none
-                  focus:border-black
-                  rounded
-                "
-              >
-                <option value="Italy">Italy</option>
-                <option value="USA">USA</option>
-                <option value="Mexico">Mexico</option>
-                <option value="Germany">Germany</option>
-                <option value="Antarctica">Antarctica</option>
-              </vee-validate-field>
-              <vee-validate-error-message
-                class="text-red-600"
-                name="country"
-              />
-            </div>
-
-            <!-- Terms of Service -->
-            <div class="mb-3 pl-6">
-              <vee-validate-field
-                as="input"
-                id="tos"
-                type="checkbox"
-                value="1"
-                name="tos"
-                class="w-4 h-4 float-left -ml-6 mt-1 rounded"
-              />
-              <label class="inline-block" for="tos">
-                Accept terms of service
-              </label>
-              <vee-validate-error-message
-                class="text-red-600 block"
-                name="tos"
-              />
-            </div>
-
-            <!-- Submit -->
-            <button
-              type="submit"
-              :disabled="registration.form.isSubmitting"
-              class="
-                block
-                w-full
-                bg-purple-600
-                text-white
-                py-1.5
-                px-3
-                rounded
-                transition
-                hover:bg-purple-700
-              "
-            >
-              Submit
-            </button>
-          </vee-validate-form>
+          <!-- Registration -->
+          <app-register-form
+            v-if="tab === 'register'"
+          />
 
         </div>
       </div>
@@ -409,6 +106,9 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 
+import AppLoginForm from './LoginForm.vue';
+import AppRegisterForm from './RegisterForm.vue';
+
 /**
  * If you don't need to perform calculations, getters extracted with mapGetters
  * can be swapped with just mapState, which returns functions only for
@@ -416,45 +116,13 @@ import { mapMutations, mapState } from 'vuex';
  */
 export default {
   name: 'AuthModal',
+  components: {
+    AppLoginForm,
+    AppRegisterForm,
+  },
   data() {
     return {
       tab: 'login',
-      login: {
-        form: {
-          schema: {
-            email: 'required|min:3|max:100|email',
-            password: 'required|min:3|max:180',
-          },
-          isSubmitting: false,
-        },
-        alert: {
-          show: false,
-          style: 'bg-blue-500',
-          message: 'Please wait!',
-        },
-      },
-      registration: {
-        form: {
-          schema: {
-            name: 'required|min:3|max:100|alpha_spaces',
-            email: 'required|min:3|max:100|email',
-            age: 'required|min_value:18|max_value:100',
-            password: 'required|min:3|max:180',
-            confirmPassword: 'required|passwords_mismatch:@password',
-            country: 'required|country_excluded:Antarctica',
-            tos: 'terms_of_service',
-          },
-          initial: {
-            country: 'Italy',
-          },
-          isSubmitting: false,
-        },
-        alert: {
-          show: false,
-          style: 'bg-blue-500',
-          message: 'Please wait! Your account is being created.',
-        },
-      },
     };
   },
   computed: {
@@ -466,29 +134,6 @@ export default {
     ...mapMutations(['toggleAuthModal']),
     // Alias
     // ...mapMutations({ toggleModal: 'toggleAuthModal' }),
-
-    // @submit does not emit if form is invalid
-    onSubmitRegistration(formValue) {
-      this.registration.alert.show = true;
-      this.registration.form.isSubmitting = true;
-      this.registration.alert.style = 'bg-blue-500';
-      this.registration.alert.message = 'Please wait! Your account is being created.';
-
-      // TODO: Register...
-
-      this.registration.alert.style = 'bg-green-500';
-      this.registration.alert.message = 'Success! Your account has been created.';
-
-      // TODO: Remove
-      console.log(formValue);
-    },
-
-    onSubmitLogin(formValue) {
-      // TODO: Remove
-      console.log(formValue);
-
-
-    },
   },
 };
 </script>
