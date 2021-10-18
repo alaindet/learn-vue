@@ -4,6 +4,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import VeeValidatePlugin from './plugins/vee-validate';
+import './plugins/firebase';
 import './assets/tailwind.css';
 import './assets/main.css';
 
@@ -14,3 +15,4 @@ app.use(router);
 app.use(VeeValidatePlugin);
 
 app.mount('#app');
+\
