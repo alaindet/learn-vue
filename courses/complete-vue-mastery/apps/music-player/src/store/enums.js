@@ -13,6 +13,7 @@ export const Action = {
   Register: 'register',
   InitializeLogin: 'initializeLogin',
   LogIn: 'logIn',
+  LogOut: 'logOut',
 };
 
 export default {

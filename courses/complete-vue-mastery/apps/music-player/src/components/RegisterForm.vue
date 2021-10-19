@@ -210,6 +210,8 @@
 </template>
 
 <script>
+import { Action, Mutation } from '@/store/enums';
+
 export default {
   name: 'RegisterForm',
   data() {
@@ -244,10 +246,11 @@ export default {
       this.alert.message = 'Please wait! Your account is being created.';
 
       try {
-        await this.$store.dispatch('register', formValue);
+        await this.$store.dispatch(Action.Register, formValue);
         this.alert.style = 'bg-green-500';
         this.alert.message = 'Success! Your account has been created.';
         this.form.isSubmitting = false;
+        this.$store.commit(Mutation.ToggleAuthModal);
       } catch (error) {
         console.error(error);
         this.form.isSubmitting = false;

@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { Action } from '@/store/enums';
+import { Action, Mutation } from '@/store/enums';
 
 export default {
   name: 'LoginForm',
@@ -117,6 +117,7 @@ export default {
         this.alert.style = 'bg-green-500';
         this.alert.message = 'Success! You are now logged in.';
         this.form.isSubmitting = false;
+        this.$store.commit(Mutation.ToggleAuthModal);
       } catch (error) {
         console.error(error);
         this.form.isSubmitting = false;

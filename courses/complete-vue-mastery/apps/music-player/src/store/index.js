@@ -55,6 +55,11 @@ export default createStore({
       await auth.signInWithEmailAndPassword(payload.email, payload.password);
       commit(Mutation.LogIn);
     },
+
+    [Action.LogOut]: async ({ commit }) => {
+      await auth.signOut();
+      commit(Mutation.LogOut);
+    },
   },
 
   // modules: {
