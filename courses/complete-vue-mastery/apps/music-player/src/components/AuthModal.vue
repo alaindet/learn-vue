@@ -106,6 +106,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 
+import { State, Mutation } from '@/store/enums';
 import AppLoginForm from './LoginForm.vue';
 import AppRegisterForm from './RegisterForm.vue';
 
@@ -126,12 +127,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(['showAuthModal']),
+    ...mapState([State.ShowAuthModal]),
     // Alias
     // ...mapState({ isModal: 'showAuthModal' }),
   },
   methods: {
-    ...mapMutations(['toggleAuthModal']),
+    ...mapMutations([Mutation.ToggleAuthModal]),
     // Alias
     // ...mapMutations({ toggleModal: 'toggleAuthModal' }),
   },

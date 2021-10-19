@@ -85,6 +85,8 @@
 </template>
 
 <script>
+import { Action } from '@/store/enums';
+
 export default {
   name: 'LoginForm',
   data() {
@@ -104,20 +106,24 @@ export default {
     };
   },
   methods: {
-    onSubmit(formValue) {
+    async onSubmit(formValue) {
       this.form.isSubmitting = true;
       this.alert.show = true;
       this.alert.style = 'bg-blue-500';
       this.alert.message = 'Please wait! We are logging you in.';
 
-      // TODO: Login...
-
-      this.alert.style = 'bg-green-500';
-      this.alert.message = 'Success! You are now logged in.';
-      this.form.isSubmitting = false;
-
-      // TODO: Remove
-      console.log(formValue);
+      try {
+        await this.$store.dispatch(Action.LogIn, formValue);
+        this.alert.style = 'bg-green-500';
+        this.alert.message = 'Success! You are now logged in.';
+        this.form.isSubmitting = false;
+      } catch (error) {
+        console.error(error);
+        this.form.isSubmitting = false;
+        this.alert.show = true;
+        this.alert.style = 'bg-red-500';
+        this.alert.message = 'Invalid login details';
+      }
     },
   },
 };

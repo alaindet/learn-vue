@@ -484,6 +484,7 @@
 </template>
 
 <script>
+import { Action } from '@/store/enums';
 import AppHeader from './components/Header.vue';
 import AppAuthModal from './components/AuthModal.vue';
 
@@ -492,6 +493,9 @@ export default {
   components: {
     AppHeader,
     AppAuthModal,
+  },
+  created() {
+    this.$store.dispatch(Action.InitializeLogin);
   },
 };
 </script>
