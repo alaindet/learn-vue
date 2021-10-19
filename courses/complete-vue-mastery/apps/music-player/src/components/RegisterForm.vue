@@ -210,8 +210,6 @@
 </template>
 
 <script>
-import { auth, usersCollection } from '@/plugins/firebase';
-
 export default {
   name: 'RegisterForm',
   data() {
@@ -244,16 +242,10 @@ export default {
       this.alert.show = true;
       this.alert.style = 'bg-blue-500';
       this.alert.message = 'Please wait! Your account is being created.';
-      let userCredentials = null;
 
       try {
-        const { name, email, password, age, country } = formValue;
-        userCredentials = await auth.createUserWithEmailAndPassword(email, password);
-        const userDocument = { name, email, age, country };
-        await usersCollection.add(userDocument);
-      }
-
-      catch (error) {
+        await this.$store.dispatch('register', formValue);
+      } catch (error) {
         console.error(error);
         this.form.isSubmitting = false;
         this.alert.style = 'bg-red-500';
