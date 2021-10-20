@@ -2,15 +2,35 @@
   <header id="header" class="bg-gray-700">
     <nav class="container mx-auto flex justify-start items-center py-5 px-4">
 
-      <!-- App Name -->
-      <a class="text-white font-bold uppercase text-2xl mr-4" href="#">
+      <!--
+        Link to named path example
+        <router-link :to="{ name: 'home' }">Home</router-link>
+      -->
+
+      <!--
+        # App Name
+        ==========
+        You can override the exact-active class locally.
+        In this case, a dummy ".no-active" class is set without any CSS rules
+        declared, so that styling doesn't change when the link is active
+      -->
+      <router-link
+        to="/"
+        exact-active-class="no-active"
+        class="text-white font-bold uppercase text-2xl mr-4"
+      >
         Music
-      </a>
+      </router-link>
 
       <div class="flex flex-grow items-center">
 
         <!-- Primary Navigation -->
         <ul class="flex flex-row mt-1">
+          <li>
+            <router-link to="/about" class="px-2 text-white">
+              About
+            </router-link>
+          </li>
           <li v-if="!isUserLoggedIn">
             <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal">
               Login / Register
@@ -18,9 +38,9 @@
           </li>
           <template v-else>
             <li>
-              <a class="px-2 text-white" href="#">
+              <router-link class="px-2 text-white" to="/manage">
                 Manage
-              </a>
+              </router-link>
             </li>
             <li>
               <a class="px-2 text-white" href="#" @click.prevent="logOut">
