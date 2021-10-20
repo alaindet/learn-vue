@@ -306,5 +306,10 @@
 <script>
 export default {
   name: 'Manage',
+  // Example component guard
+  // beforeRouteEnter(to, from, next) {
+  //   console.log('component guard: /manage', to, from, next);
+  //   next();
+  // },
 };
 </script>

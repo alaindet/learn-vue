@@ -25,6 +25,11 @@ const routes = [
     name: 'manage',
     component: Manage,
     // component: () => import('../views/Manage.vue'), // Lazy-loading
+    // // Example route guard
+    // beforeEnter: (to, from, next) => {
+    //   console.log('route guard: /manage', from, to);
+    //   next();
+    // },
   },
   {
     path: '/redirect-me-please',
@@ -47,5 +52,12 @@ const router = createRouter({
   // Exact match CSS custom class (default: .router-link-exact-active)
   linkExactActiveClass: 'text-yellow-500',
 });
+
+// // Example global guard
+// router.beforeEach((to, from, next) => {
+//   console.log('global guard');
+//   console.log(from, to);
+//   next();
+// });
 
 export default router;
