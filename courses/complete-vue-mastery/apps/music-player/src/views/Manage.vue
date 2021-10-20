@@ -304,11 +304,19 @@
 </template>
 
 <script>
+// import store from '@/store';
+// import { State } from '@/store/enums';
+
 export default {
   name: 'Manage',
   // Example component guard
   // beforeRouteEnter(to, from, next) {
-  //   console.log('component guard: /manage', to, from, next);
+  //   if (!store.state[State.IsUserLoggedIn]) {
+  //     // next({ name: 'home' });
+  //     next('/');
+  //     return;
+  //   }
+
   //   next();
   // },
 };

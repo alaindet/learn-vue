@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import store from '@/store';
+import { State } from '@/store/enums';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Manage from '@/views/Manage.vue';
@@ -30,6 +32,9 @@ const routes = [
     //   console.log('route guard: /manage', from, to);
     //   next();
     // },
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/redirect-me-please',
@@ -59,5 +64,22 @@ const router = createRouter({
 //   console.log(from, to);
 //   next();
 // });
+
+router.beforeEach((to, from, next) => {
+  // Public routes
+  if (!to.matched.some((route) => route.meta.requiresAuth)) {
+    next();
+    return;
+  }
+
+  // User is authorized
+  if (store.state[State.IsUserLoggedIn]) {
+    next();
+    return;
+  }
+
+  console.log('You are not allowed');
+  next('/');
+});
 
 export default router;

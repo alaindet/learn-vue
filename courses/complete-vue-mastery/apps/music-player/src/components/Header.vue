@@ -43,7 +43,7 @@
               </router-link>
             </li>
             <li>
-              <a class="px-2 text-white" href="#" @click.prevent="logOut">
+              <a class="px-2 text-white" href="#" @click.prevent="onSignOut">
                 Logout
               </a>
             </li>
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapActions } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 import { State, Mutation, Action } from '@/store/enums';
 
@@ -68,7 +68,14 @@ export default {
   },
   methods: {
     ...mapMutations([Mutation.ToggleAuthModal]),
-    ...mapActions([Action.LogOut]),
+    onSignOut() {
+      this.$store.dispatch(Action.LogOut);
+
+      if (this.$route?.meta?.requiresAuth) {
+        this.$router.push('/');
+        // this.$router.push({ name: 'home' });
+      }
+    },
   },
 };
 </script>
