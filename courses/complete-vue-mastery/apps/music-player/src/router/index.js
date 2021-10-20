@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Manage from '@/views/Manage.vue';
+// import NotFound from '@/views/NotFound.vue';
 
 const routes = [
   {
@@ -18,9 +19,23 @@ const routes = [
   },
   {
     path: '/manage',
+    // This is an alias path that regularly matches
+    // But the main path is still the reference (ex.: named links point to that)
+    // alias: '/also-manage',
     name: 'manage',
     component: Manage,
     // component: () => import('../views/Manage.vue'), // Lazy-loading
+  },
+  {
+    path: '/redirect-me-please',
+    redirect: '/',
+    // Alternative
+    // redirect: { name: 'home' },
+  },
+  {
+    path: '/:catchAll(.*)*',
+    redirect: '/',
+    // component: NotFound,
   },
 ];
 
