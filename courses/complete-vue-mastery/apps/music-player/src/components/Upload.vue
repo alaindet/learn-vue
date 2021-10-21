@@ -40,12 +40,14 @@
       <!-- Progess Bars -->
       <div v-for="upload in uploads" :key="upload.name" class="mb-4">
         <!-- File Name -->
-        <div class="font-bold text-sm">{{ upload.name }}</div>
+        <div class="font-bold text-sm" :class="upload.cssText">
+          <i :class="upload.cssIcon"></i> {{ upload.name }}
+        </div>
         <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
           <!-- Inner Progress Bar -->
           <div
             class="transition-all progress-bar"
-            :class="'bg-blue-400'"
+            :class="upload.cssVariant"
             :style="{ width: upload.currentProgress }"
           ></div>
         </div>
@@ -107,20 +109,40 @@ export default {
         // APPNAME-HASH.appspot.com/songs/FILENAME.mp3
         const songsRef = storageRef.child(`songs/${file.name}`);
         const task = songsRef.put(file);
+
         const upload = {
           task,
           currentProgress: 0,
           name: file.name,
+          cssVariant: 'bg-blue-400',
+          cssIcon: 'fas fa-spinner fa-spin',
+          cssText: '',
         };
+
         const uploadsLength = this.uploads.push(upload);
         const uploadIndex = uploadsLength - 1;
 
-        // Triggers upon progress, error or when finished
-        task.on('state_changed', (snapshot) => {
+        const onProgress = (snapshot) => {
           const { bytesTransferred, totalBytes } = snapshot;
           const fraction = (100 * (bytesTransferred / totalBytes)).toFixed(1);
           this.uploads[uploadIndex].currentProgress = `${fraction}%`;
-        });
+        };
+
+        const onError = (error) => {
+          this.uploads[uploadIndex].cssVariant = 'bg-red-400';
+          this.uploads[uploadIndex].cssIcon = 'fas fa-exclamation-triangle';
+          this.uploads[uploadIndex].cssText = 'text-red-400';
+          console.error(error);
+        };
+
+        const onComplete = () => {
+          this.uploads[uploadIndex].cssVariant = 'bg-green-400';
+          this.uploads[uploadIndex].cssIcon = 'fas fa-check';
+          this.uploads[uploadIndex].cssText = 'text-green-400';
+        };
+
+        // Triggers upon progress, error or when finished
+        task.on('state_changed', onProgress, onError, onComplete);
 
         // TODO: add feedback
         console.log('finished uploading');
