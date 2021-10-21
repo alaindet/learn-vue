@@ -5,6 +5,7 @@
       <i class="fas fa-upload float-right text-green-400 text-2xl"></i>
     </div>
     <div class="p-6">
+
       <!-- Upload Dropbox -->
       <div
         class="
@@ -23,10 +24,19 @@
           hover:border-green-400
           hover:border-solid
         "
+        :class="{ 'bg-green-400 border-green-400 border-solid': isDragOver }"
+        @dragenter.prevent.stop="onDragEnter"
+        @dragstart.prevent.stop="onDragStart"
+        @drag.prevent.stop="onDrag"
+        @dragover.prevent.stop="onDragOver"
+        @dragend.prevent.stop="onDragEnd"
+        @dragleave.prevent.stop="onDragLeave"
+        @drop.prevent.stop="onDrop($event)"
       >
         <h5>Drop your files here</h5>
       </div>
       <hr class="my-6" />
+
       <!-- Progess Bars -->
       <div class="mb-4">
         <!-- File Name -->
@@ -39,6 +49,7 @@
           ></div>
         </div>
       </div>
+
       <div class="mb-4">
         <div class="font-bold text-sm">Just another song.mp3</div>
         <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
@@ -48,6 +59,7 @@
           ></div>
         </div>
       </div>
+
       <div class="mb-4">
         <div class="font-bold text-sm">Just another song.mp3</div>
         <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
@@ -57,6 +69,7 @@
           ></div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -64,5 +77,42 @@
 <script>
 export default {
   name: 'Upload',
+  data() {
+    return {
+      isDragOver: false,
+      allowedMimeType: 'audio/mpeg',
+    };
+  },
+  methods: {
+    onDragEnter() {
+      this.isDragOver = true;
+    },
+    onDragStart() {
+      // ...
+    },
+    onDrag() {
+      // ...
+    },
+    onDragOver() {
+      this.isDragOver = true;
+    },
+    onDragEnd() {
+      this.isDragOver = false;
+    },
+    onDragLeave() {
+      this.isDragOver = false;
+    },
+    onDrop($event) {
+      this.isDragOver = false;
+      const file = [...$event.dataTransfer.files][0];
+
+      if (file.type !== this.allowedMimeType) {
+        return;
+      }
+
+      // TODO
+      console.log('About to upload MP3 file');
+    },
+  },
 };
 </script>
