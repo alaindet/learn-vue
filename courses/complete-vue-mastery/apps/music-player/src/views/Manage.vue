@@ -2,9 +2,7 @@
   <section class="container mx-auto mt-6">
     <div class="md:grid md:grid-cols-3 md:gap-4">
       <div class="col-span-1">
-        <app-upload
-
-        />
+        <app-upload />
       </div>
       <div class="col-span-2">
         <div

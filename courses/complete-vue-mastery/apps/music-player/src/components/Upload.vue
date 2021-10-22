@@ -35,6 +35,8 @@
       >
         <h5>Drop your files here</h5>
       </div>
+      <!-- Fallback -->
+      <input type="file" multiple @change="onDrop">
       <hr class="my-6" />
 
       <!-- Progess Bars -->
@@ -69,6 +71,10 @@ export default {
       uploads: [],
     };
   },
+  beforeUnmount() {
+    console.log('Canceling all uploads');
+    this.uploads.forEach((upload) => upload.task.cancel());
+  },
   methods: {
     onDragEnter() {
       this.isDragOver = true;
@@ -90,7 +96,10 @@ export default {
     },
     onDrop($event) {
       this.isDragOver = false;
-      const files = [...$event.dataTransfer.files];
+
+      const files = $event?.dataTransfer
+        ? [...$event.dataTransfer.files]
+        : [...$event.target.files];
 
       // Check if all files have alloed MIME types
       files.forEach((file) => {
