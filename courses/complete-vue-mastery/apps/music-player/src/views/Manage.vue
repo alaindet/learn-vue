@@ -45,7 +45,6 @@ export default {
     };
   },
   async created() {
-    console.log('Manage created');
     const query = songsCollection.where('userId', '==', auth.currentUser.uid);
     const snapshot = await query.get();
     snapshot.forEach((doc) => {
