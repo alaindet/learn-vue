@@ -3,6 +3,16 @@
 
     <!-- Edit data -->
     <div v-if="isEditing">
+
+      <!-- Alert -->
+      <div
+        v-if="alert.show"
+        class="text-white text-center font-bold p-5 mb-4"
+        :class="alert.style"
+      >
+        {{ alert.message }}
+      </div>
+
       <vee-validate-form
         :validation-schema="form.schema"
         :initial-values="form.initial"
@@ -61,12 +71,14 @@
           <button
             type="submit"
             class="py-1.5 px-3 rounded text-white bg-green-600"
+            :disabled="form.isSubmitting"
           >
             Save
           </button>
           <button
             type="button"
             class="ml-2 py-1.5 px-3 rounded text-white bg-gray-600"
+            :disabled="form.isSubmitting"
             @click.prevent="onToggleEditing(false)"
           >
             Cancel
@@ -106,7 +118,8 @@
 </template>
 
 <script>
-import { mapFields } from 'vee-validate';
+// import { songsCollection } from '@/plugins/firebase';
+import utils from '@/utils';
 
 export default {
   name: 'CompositionItem',
@@ -126,8 +139,14 @@ export default {
         },
         initial: {
           title: this.$props.song.modifiedName,
-          genre: '',
+          genre: this.$props.song.genre,
         },
+        isSubmitting: false,
+      },
+      alert: {
+        show: false,
+        style: 'bg-blue-500',
+        message: 'Please wait! Updating song info.',
       },
     };
   },
@@ -136,8 +155,18 @@ export default {
       this.isEditing = (show !== null) ? show : !this.isEditing;
     },
     onSave(formValues) {
-      // TODO
-      console.log('formValues', formValues);
+      this.form.isSubmitting = true;
+      this.alert.show = true;
+      this.alert.style = 'bg-blue-500';
+      this.alert.message = 'Please wait! Updating song info.';
+      const { title, genre } = formValues;
+      const patchValue = utils.omitEmpty({ modifiedName: title, genre });
+      console.log('patchValue', patchValue);
+
+      // songsCollection.doc(this.song.docId).update(patchValue);
+
+      // // TODO
+      // console.log('formValues', formValues);
     },
   },
 };
