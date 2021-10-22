@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { storage } from '@/plugins/firebase';
+import { storage, auth, songsCollection } from '@/plugins/firebase';
 
 export default {
   name: 'Upload',
@@ -100,9 +100,6 @@ export default {
           return;
         }
 
-        // TODO: add feedback
-        console.log('about to start uploading the file', file);
-
         // APPNAME-HASH.appspot.com
         const storageRef = storage.ref();
 
@@ -135,7 +132,19 @@ export default {
           console.error(error);
         };
 
-        const onComplete = () => {
+        const onComplete = async () => {
+          const url = await task.snapshot.ref.getDownloadURL();
+          const song = {
+            userId: auth.currentUser.uid,
+            userDisplayName: auth.currentUser.displayName,
+            originalName: task.snapshot.ref.name,
+            modifiedName: task.snapshot.ref.name,
+            genre: '',
+            commentsCount: 0,
+            url,
+          };
+          await songsCollection.add(song);
+
           this.uploads[uploadIndex].cssVariant = 'bg-green-400';
           this.uploads[uploadIndex].cssIcon = 'fas fa-check';
           this.uploads[uploadIndex].cssText = 'text-green-400';
@@ -143,9 +152,6 @@ export default {
 
         // Triggers upon progress, error or when finished
         task.on('state_changed', onProgress, onError, onComplete);
-
-        // TODO: add feedback
-        console.log('finished uploading');
       });
     },
   },
