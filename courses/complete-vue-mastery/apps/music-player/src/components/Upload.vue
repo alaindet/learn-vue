@@ -95,15 +95,12 @@ export default {
       // Check if all files have alloed MIME types
       files.forEach((file) => {
         if (file.type !== this.allowedMimeType) {
-          // TODO: add feedback
+          // TODO: add error feedback
           console.log('mime type not allowed');
           return;
         }
 
-        // APPNAME-HASH.appspot.com
         const storageRef = storage.ref();
-
-        // APPNAME-HASH.appspot.com/songs/FILENAME.mp3
         const songsRef = storageRef.child(`songs/${file.name}`);
         const task = songsRef.put(file);
 
@@ -119,40 +116,42 @@ export default {
         const uploadsLength = this.uploads.push(upload);
         const uploadIndex = uploadsLength - 1;
 
-        const onProgress = (snapshot) => {
-          const { bytesTransferred, totalBytes } = snapshot;
-          const fraction = (100 * (bytesTransferred / totalBytes)).toFixed(1);
-          this.uploads[uploadIndex].currentProgress = `${fraction}%`;
-        };
-
-        const onError = (error) => {
-          this.uploads[uploadIndex].cssVariant = 'bg-red-400';
-          this.uploads[uploadIndex].cssIcon = 'fas fa-exclamation-triangle';
-          this.uploads[uploadIndex].cssText = 'text-red-400';
-          console.error(error);
-        };
-
-        const onComplete = async () => {
-          const url = await task.snapshot.ref.getDownloadURL();
-          const song = {
-            userId: auth.currentUser.uid,
-            userDisplayName: auth.currentUser.displayName,
-            originalName: task.snapshot.ref.name,
-            modifiedName: task.snapshot.ref.name,
-            genre: '',
-            commentsCount: 0,
-            url,
-          };
-          await songsCollection.add(song);
-
-          this.uploads[uploadIndex].cssVariant = 'bg-green-400';
-          this.uploads[uploadIndex].cssIcon = 'fas fa-check';
-          this.uploads[uploadIndex].cssText = 'text-green-400';
-        };
-
-        // Triggers upon progress, error or when finished
-        task.on('state_changed', onProgress, onError, onComplete);
+        task.on(
+          'state_changed',
+          () => this.onUploadProgress(uploadIndex, task),
+          (error) => this.onUploadError(uploadIndex, error),
+          () => this.onUploadComplete(uploadIndex, task),
+        );
       });
+    },
+    onUploadProgress(uploadIndex, task) {
+      const { bytesTransferred, totalBytes } = task.snapshot;
+      const fraction = (100 * (bytesTransferred / totalBytes)).toFixed(1);
+      this.uploads[uploadIndex].currentProgress = `${fraction}%`;
+    },
+    onUploadError(uploadIndex, error) {
+      this.uploads[uploadIndex].cssVariant = 'bg-red-400';
+      this.uploads[uploadIndex].cssIcon = 'fas fa-exclamation-triangle';
+      this.uploads[uploadIndex].cssText = 'text-red-400';
+      console.error(error);
+    },
+    async onUploadComplete(uploadIndex, task) {
+      const url = await task.snapshot.ref.getDownloadURL();
+      const song = {
+        userId: auth.currentUser.uid,
+        userDisplayName: auth.currentUser.displayName,
+        originalName: task.snapshot.ref.name,
+        modifiedName: task.snapshot.ref.name,
+        genre: '',
+        commentsCount: 0,
+        url,
+      };
+
+      await songsCollection.add(song);
+
+      this.uploads[uploadIndex].cssVariant = 'bg-green-400';
+      this.uploads[uploadIndex].cssIcon = 'fas fa-check';
+      this.uploads[uploadIndex].cssText = 'text-green-400';
     },
   },
 };
