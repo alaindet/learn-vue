@@ -71,17 +71,19 @@
           <button
             type="submit"
             class="py-1.5 px-3 rounded text-white bg-green-600"
-            :disabled="form.isSubmitting"
+            :class="{ 'opacity-50': form.isSubmitting || !form.valid }"
+            :disabled="form.isSubmitting || !form.valid"
           >
             Save
           </button>
           <button
             type="button"
             class="ml-2 py-1.5 px-3 rounded text-white bg-gray-600"
-            :disabled="form.isSubmitting"
+            :class="{ 'opacity-50': form.isSubmitting || !form.valid }"
+            :disabled="form.isSubmitting || !form.valid"
             @click.prevent="onToggleEditing(false)"
           >
-            Cancel
+            Close
           </button>
         </div>
       </vee-validate-form>
@@ -92,7 +94,10 @@
       <h4 class="inline-block text-2xl font-bold">{{ song.modifiedName }}</h4>
 
       <!-- Remove -->
-      <button class="ml-1 py-1 px-2 text-sm rounded text-white bg-red-600 float-right">
+      <button
+        class="ml-1 py-1 px-2 text-sm rounded text-white bg-red-600 float-right"
+        @click.prevent="onDeleteSong"
+      >
         <i class="fa fa-times"></i>
       </button>
 
@@ -118,9 +123,16 @@
 </template>
 
 <script>
-// import { songsCollection } from '@/plugins/firebase';
+import { songsCollection, storage } from '@/plugins/firebase';
 import utils from '@/utils';
 
+export const Events = {
+  Updated: 'updated',
+  Deleted: 'deleted',
+};
+
+// TODO
+// - Move Firebase operations up, then in Vuex
 export default {
   name: 'CompositionItem',
   props: {
@@ -142,6 +154,7 @@ export default {
           genre: this.$props.song.genre,
         },
         isSubmitting: false,
+        valid: true, // TODO
       },
       alert: {
         show: false,
@@ -154,19 +167,37 @@ export default {
     onToggleEditing(show = null) {
       this.isEditing = (show !== null) ? show : !this.isEditing;
     },
-    onSave(formValues) {
+    async onSave(formValues) {
       this.form.isSubmitting = true;
       this.alert.show = true;
       this.alert.style = 'bg-blue-500';
       this.alert.message = 'Please wait! Updating song info.';
-      const { title, genre } = formValues;
-      const patchValue = utils.omitEmpty({ modifiedName: title, genre });
-      console.log('patchValue', patchValue);
 
-      // songsCollection.doc(this.song.docId).update(patchValue);
-
-      // // TODO
-      // console.log('formValues', formValues);
+      try {
+        const { title, genre } = formValues;
+        const patchValue = utils.omitEmpty({ modifiedName: title, genre });
+        await songsCollection.doc(this.song.docId).update(patchValue);
+        this.form.initial.title = patchValue.modifiedName ?? this.$props.song.modifiedName;
+        this.form.initial.genre = patchValue.genre ?? this.$props.song.genre;
+        this.$emit(Events.Updated, patchValue);
+        this.alert.style = 'bg-green-500';
+        this.alert.message = 'Success';
+        setTimeout(() => { this.alert.show = false; }, 3000);
+        this.form.isSubmitting = false;
+      } catch (error) {
+        this.form.isSubmitting = false;
+        this.alert.style = 'bg-red-500';
+        this.alert.message = 'An error occurred';
+        setTimeout(() => { this.alert.show = false; }, 3000);
+      }
+    },
+    async onDeleteSong() {
+      const storageRef = storage.ref();
+      const songRef = storageRef.child(`songs/${this.song.originalName}`);
+      await songRef.delete();
+      await songsCollection.doc(this.song.docId).delete();
+      this.$emit(Events.Deleted);
+      // TODO: Feedback?
     },
   },
 };

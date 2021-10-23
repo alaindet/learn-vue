@@ -26,8 +26,6 @@
         "
         :class="{ 'bg-green-400 border-green-400 border-solid': isDragOver }"
         @dragenter.prevent.stop="onDragEnter"
-        @dragstart.prevent.stop="onDragStart"
-        @drag.prevent.stop="onDrag"
         @dragover.prevent.stop="onDragOver"
         @dragend.prevent.stop="onDragEnd"
         @dragleave.prevent.stop="onDragLeave"
@@ -72,19 +70,20 @@ export default {
     };
   },
   beforeUnmount() {
-    console.log('Canceling all uploads');
-    this.uploads.forEach((upload) => upload.task.cancel());
+    if (this.uploads.length) {
+      this.uploads.forEach((upload) => upload.task.cancel());
+    }
   },
   methods: {
     onDragEnter() {
       this.isDragOver = true;
     },
-    onDragStart() {
-      // ...
-    },
-    onDrag() {
-      // ...
-    },
+    // onDragStart() {
+    //   // ...
+    // },
+    // onDrag() {
+    //   // ...
+    // },
     onDragOver() {
       this.isDragOver = true;
     },

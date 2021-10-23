@@ -17,9 +17,11 @@
           <div class="p-6">
             <!-- TODO: Composition items -->
             <app-composition-item
-              v-for="song in songs"
+              v-for="(song, index) in songs"
               :key="song.docId"
               :song="song"
+              @updated="onUpdateSong(index, $event)"
+              @deleted="onDeleteSong(index)"
             />
           </div>
         </div>
@@ -51,6 +53,14 @@ export default {
       const song = { ...doc.data(), docId: doc.id };
       this.songs.push(song);
     });
+  },
+  methods: {
+    onUpdateSong(index, values) {
+      this.songs[index].modifiedName = values.modifiedName;
+    },
+    onDeleteSong(index) {
+      this.songs = this.songs.filter((song, anIndex) => anIndex !== index);
+    },
   },
 };
 </script>
