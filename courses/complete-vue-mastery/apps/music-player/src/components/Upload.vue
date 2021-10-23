@@ -60,6 +60,10 @@
 <script>
 import { storage, auth, songsCollection } from '@/plugins/firebase';
 
+export const Events = {
+  Uploaded: 'uploaded',
+};
+
 export default {
   name: 'Upload',
   data() {
@@ -160,6 +164,8 @@ export default {
       this.uploads[uploadIndex].cssVariant = 'bg-green-400';
       this.uploads[uploadIndex].cssIcon = 'fas fa-check';
       this.uploads[uploadIndex].cssText = 'text-green-400';
+      this.$emit(Events.Uploaded);
+      setTimeout(() => { this.uploads.splice(uploadIndex, 1); }, 3000);
     },
   },
 };

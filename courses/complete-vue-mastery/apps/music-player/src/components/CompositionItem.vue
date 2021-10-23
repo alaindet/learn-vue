@@ -192,6 +192,7 @@ export default {
       }
     },
     async onDeleteSong() {
+      // TODO: Confirm delete?
       const storageRef = storage.ref();
       const songRef = storageRef.child(`songs/${this.song.originalName}`);
       await songRef.delete();

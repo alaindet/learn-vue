@@ -2,12 +2,12 @@
   <section class="container mx-auto mt-6">
     <div class="md:grid md:grid-cols-3 md:gap-4">
       <div class="col-span-1">
-        <app-upload />
+        <app-upload
+          @uploaded="onUploadedSong()"
+        />
       </div>
       <div class="col-span-2">
-        <div
-          class="bg-white rounded border border-gray-200 relative flex flex-col"
-        >
+        <div class="bg-white rounded border border-gray-200 relative flex flex-col">
           <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
             <span class="card-title">My Songs</span>
             <i
@@ -15,13 +15,12 @@
             ></i>
           </div>
           <div class="p-6">
-            <!-- TODO: Composition items -->
             <app-composition-item
               v-for="(song, index) in songs"
               :key="song.docId"
               :song="song"
-              @updated="onUpdateSong(index, $event)"
-              @deleted="onDeleteSong(index)"
+              @updated="onUpdatedSong(index, $event)"
+              @deleted="onDeletedSong(index)"
             />
           </div>
         </div>
@@ -47,19 +46,28 @@ export default {
     };
   },
   async created() {
-    const query = songsCollection.where('userId', '==', auth.currentUser.uid);
-    const snapshot = await query.get();
-    snapshot.forEach((doc) => {
-      const song = { ...doc.data(), docId: doc.id };
-      this.songs.push(song);
-    });
+    this.fetchSongs();
   },
   methods: {
-    onUpdateSong(index, values) {
+    onUploadedSong() {
+      this.fetchSongs();
+    },
+    onUpdatedSong(index, values) {
       this.songs[index].modifiedName = values.modifiedName;
     },
-    onDeleteSong(index) {
-      this.songs = this.songs.filter((song, anIndex) => anIndex !== index);
+    onDeletedSong(index) {
+      this.songs.splice(index, 1);
+      // this.songs = this.songs.filter((song, anIndex) => anIndex !== index);
+    },
+    async fetchSongs() {
+      const query = songsCollection.where('userId', '==', auth.currentUser.uid);
+      const snapshot = await query.get();
+      this.songs = [];
+      snapshot.forEach((doc) => {
+        const song = { ...doc.data(), docId: doc.id };
+        this.songs.push(song);
+        // this.songs = [ ...this.songs, song ];
+      });
     },
   },
 };
