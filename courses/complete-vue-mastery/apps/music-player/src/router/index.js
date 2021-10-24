@@ -5,6 +5,7 @@ import { State } from '@/store/enums';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Manage from '@/views/Manage.vue';
+import Song from '@/views/Song.vue';
 // import NotFound from '@/views/NotFound.vue';
 
 const routes = [
@@ -35,6 +36,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/song/:songid',
+    name: 'song',
+    component: Song,
   },
   {
     path: '/redirect-me-please',

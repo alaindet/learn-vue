@@ -59,21 +59,52 @@ export default {
   data() {
     return {
       songs: [],
+      songsPerPage: 10,
+      pendingRequest: false,
+      lastFetchedSongId: null,
     };
   },
   async created() {
-    this.getSongs();
+    this.fetchSongs();
     window.addEventListener('scroll', this.handleScroll);
   },
   beforeUnmount() {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-    async getSongs() {
-      const snapshots = await songsCollection.get();
+    async fetchSongs() {
+      if (this.pendingRequest) {
+        return;
+      }
+
+      this.pendingRequest = true;
+
+      let query = songsCollection
+        .orderBy('modifiedName')
+        .limit(this.songsPerPage);
+
+      const lastSongId = this.songs.length
+        ? this.songs[this.songs.length - 1].docId
+        : null;
+
+      if (this.songs.length) {
+        // Reached the end
+        if (lastSongId === this.lastFetchedSongId) {
+          this.pendingRequest = false;
+          return;
+        }
+        const lastSong = await songsCollection.doc(lastSongId).get();
+        query = query.startAfter(lastSong);
+      }
+
+      const snapshots = await query.get();
+
       snapshots.forEach((doc) => {
         this.songs.push({ ...doc.data(), docId: doc.id });
+        this.lastFetchedSongId = doc.id;
       });
+
+      this.pendingRequest = false;
     },
     handleScroll() {
       const { scrollTop, offsetHeight } = document.documentElement;
@@ -81,7 +112,7 @@ export default {
       const hasReachedBottom = Math.round(scrollTop) + innerHeight === offsetHeight;
 
       if (hasReachedBottom) {
-        console.log('Reached the window bottom');
+        this.fetchSongs();
       }
     },
   },
