@@ -3,6 +3,7 @@
     <div class="md:grid md:grid-cols-3 md:gap-4">
       <div class="col-span-1">
         <app-upload
+          :addSong="addSong"
           @uploaded="onUploadedSong()"
         />
       </div>
@@ -19,6 +20,7 @@
               v-for="(song, index) in songs"
               :key="song.docId"
               :song="song"
+              :updatePendingChanges="updatePendingChangesFlag"
               @updated="onUpdatedSong(index, $event)"
               @deleted="onDeletedSong(index)"
             />
@@ -43,12 +45,27 @@ export default {
   data() {
     return {
       songs: [],
+      arePendingChanges: false,
     };
   },
   async created() {
     this.fetchSongs();
   },
+  beforeRouteLeave(to, from, next) {
+    if (!this.arePendingChanges) {
+      next();
+      return;
+    }
+
+    // eslint-disable-next-line no-alert, no-restricted-globals
+    const confirmed = confirm('You have unsaved changes, are you sure?');
+    next(confirmed);
+  },
   methods: {
+    addSong(songSnapshot) {
+      const song = { ...songSnapshot.data(), docId: songSnapshot.id };
+      this.songs.push(song);
+    },
     onUploadedSong() {
       this.fetchSongs();
     },
@@ -68,6 +85,9 @@ export default {
         this.songs.push(song);
         // this.songs = [ ...this.songs, song ];
       });
+    },
+    updatePendingChangesFlag(value) {
+      this.arePendingChanges = value;
     },
   },
 };

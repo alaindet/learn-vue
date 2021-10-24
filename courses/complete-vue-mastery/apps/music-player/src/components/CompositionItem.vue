@@ -38,6 +38,7 @@
               rounded
             "
             placeholder="Enter Song Title"
+            @input="updatePendingChanges(true)"
           />
           <vee-validate-error-message class="text-red-600" name="title" />
         </div>
@@ -62,6 +63,7 @@
               rounded
             "
             placeholder="Enter Genre"
+            @input="updatePendingChanges(true)"
           />
           <vee-validate-error-message class="text-red-600" name="genre" />
         </div>
@@ -140,6 +142,10 @@ export default {
       type: Object,
       required: true,
     },
+    updatePendingChanges: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
@@ -179,6 +185,7 @@ export default {
         await songsCollection.doc(this.song.docId).update(patchValue);
         this.form.initial.title = patchValue.modifiedName ?? this.$props.song.modifiedName;
         this.form.initial.genre = patchValue.genre ?? this.$props.song.genre;
+        this.$props.updatePendingChanges(false);
         this.$emit(Events.Updated, patchValue);
         this.alert.style = 'bg-green-500';
         this.alert.message = 'Success';

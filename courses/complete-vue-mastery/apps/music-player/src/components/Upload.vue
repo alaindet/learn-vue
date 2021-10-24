@@ -66,6 +66,12 @@ export const Events = {
 
 export default {
   name: 'Upload',
+  props: {
+    addSong: {
+      type: Function,
+      required: true,
+    },
+  },
   data() {
     return {
       isDragOver: false,
@@ -149,7 +155,7 @@ export default {
     },
     async onUploadComplete(uploadIndex, task) {
       const url = await task.snapshot.ref.getDownloadURL();
-      const song = {
+      const songRef = await songsCollection.add({
         userId: auth.currentUser.uid,
         userDisplayName: auth.currentUser.displayName,
         originalName: task.snapshot.ref.name,
@@ -157,9 +163,9 @@ export default {
         genre: '',
         commentsCount: 0,
         url,
-      };
-
-      await songsCollection.add(song);
+      });
+      const songSnapshot = await songRef.get();
+      this.addSong(songSnapshot);
 
       this.uploads[uploadIndex].cssVariant = 'bg-green-400';
       this.uploads[uploadIndex].cssIcon = 'fas fa-check';
