@@ -115,77 +115,16 @@
 
     <!-- Comments -->
     <ul class="container mt-8 mx-auto">
-      <li class="p-6 bg-gray-50 border border-gray-200">
-        <!-- Comment Author -->
+      <li
+        v-for="comment in comments"
+        :key="comment.docId"
+        class="p-6 bg-gray-50 border border-gray-200"
+      >
         <div class="mb-5">
-          <div class="font-bold">Elaine Dreyfuss</div>
-          <time>5 mins ago</time>
+          <div class="font-bold">{{ comment.userName }}</div>
+          <time>{{ comment.createdOn }}</time>
         </div>
-
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium der doloremque laudantium.
-        </p>
-      </li>
-      <li class="p-6 bg-gray-50 border border-gray-200">
-        <!-- Comment Author -->
-        <div class="mb-5">
-          <div class="font-bold">Elaine Dreyfuss</div>
-          <time>5 mins ago</time>
-        </div>
-
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium der doloremque laudantium.
-        </p>
-      </li>
-      <li class="p-6 bg-gray-50 border border-gray-200">
-        <!-- Comment Author -->
-        <div class="mb-5">
-          <div class="font-bold">Elaine Dreyfuss</div>
-          <time>5 mins ago</time>
-        </div>
-
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium der doloremque laudantium.
-        </p>
-      </li>
-      <li class="p-6 bg-gray-50 border border-gray-200">
-        <!-- Comment Author -->
-        <div class="mb-5">
-          <div class="font-bold">Elaine Dreyfuss</div>
-          <time>5 mins ago</time>
-        </div>
-
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium der doloremque laudantium.
-        </p>
-      </li>
-      <li class="p-6 bg-gray-50 border border-gray-200">
-        <!-- Comment Author -->
-        <div class="mb-5">
-          <div class="font-bold">Elaine Dreyfuss</div>
-          <time>5 mins ago</time>
-        </div>
-
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium der doloremque laudantium.
-        </p>
-      </li>
-      <li class="p-6 bg-gray-50 border border-gray-200">
-        <!-- Comment Author -->
-        <div class="mb-5">
-          <div class="font-bold">Elaine Dreyfuss</div>
-          <time>5 mins ago</time>
-        </div>
-
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium der doloremque laudantium.
-        </p>
+        <p>{{ comment.content }}</p>
       </li>
     </ul>
   </div>
@@ -196,6 +135,7 @@
 import { mapState } from 'vuex';
 
 import { State } from '@/store/enums';
+import utils from '@/utils';
 import { songsCollection, commentsCollection, auth } from '@/plugins/firebase';
 
 export default {
@@ -203,6 +143,7 @@ export default {
   data() {
     return {
       song: null,
+      comments: [],
       commentForm: {
         isSubmitting: false,
         schema: {
@@ -218,6 +159,9 @@ export default {
   },
   computed: {
     ...mapState([State.IsUserLoggedIn]),
+    sortedCommentsByLatest() {
+      return [...this.comments].sort(utils.compareDescending('createdOn'));
+    },
   },
   async created() {
     this.fetchSong();
@@ -251,7 +195,7 @@ export default {
           userName: auth.currentUser.displayName,
         };
         await commentsCollection.add(comment);
-
+        this.fetchComments();
         this.alert.style = 'bg-green-500';
         this.alert.message = 'The new comment was added';
         setTimeout(() => { this.alert.show = false; }, 3000);
@@ -265,8 +209,17 @@ export default {
       }
     },
     async fetchComments() {
-      // TODO
-      console.log('Fetching comments...');
+      const songId = this.$route.params.songid;
+
+      const comments = await commentsCollection
+        .where('songId', '==', songId)
+        .get();
+
+      this.comments = [];
+
+      comments.forEach((comment) => {
+        this.comments.push({ ...comment.data(), docId: comment.id });
+      });
     },
   },
 };
