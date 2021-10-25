@@ -21,6 +21,7 @@
             rounded-full
             focus:outline-none
           "
+          @click.prevent="onPlayOrPauseSong(song)"
         >
           <i class="fas fa-play"></i>
         </button>
@@ -135,7 +136,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import { State } from '@/store/enums';
+import { State, Action } from '@/store/enums';
 import utils from '@/utils';
 import { songsCollection, commentsCollection, auth } from '@/plugins/firebase';
 
@@ -233,6 +234,10 @@ export default {
       comments.forEach((comment) => {
         this.comments.push({ ...comment.data(), docId: comment.id });
       });
+    },
+    onPlayOrPauseSong(song) {
+      // TODO: Check if already playing and check play state?
+      this.$store.dispatch(Action.StartNewSong, song);
     },
     initSorting() {
       const { sort } = this.$route.query;
