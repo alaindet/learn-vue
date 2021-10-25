@@ -47,7 +47,7 @@
 
         <!-- Comment Count -->
         <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-          <span class="card-title">Comments (15)</span>
+          <span class="card-title">Comments ({{ song.commentsCount }})</span>
           <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
         </div>
 
@@ -204,6 +204,10 @@ export default {
           userName: auth.currentUser.displayName,
         };
         await commentsCollection.add(comment);
+        this.song.commentsCount += 1;
+        await songsCollection.doc(this.$route.params.songid).update({
+          commentsCount: this.song.commentsCount,
+        });
         this.fetchComments();
         this.alert.style = 'bg-green-500';
         this.alert.message = 'The new comment was added';
