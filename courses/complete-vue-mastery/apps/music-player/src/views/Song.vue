@@ -92,6 +92,7 @@
             <label for="sortComments" class="mr-2">Sort comments: </label>
             <select
               id="sortComments"
+              v-model="commentsSort"
               class="
                 block
                 py-1.5
@@ -116,7 +117,7 @@
     <!-- Comments -->
     <ul class="container mt-8 mx-auto">
       <li
-        v-for="comment in comments"
+        v-for="comment in sortedComments"
         :key="comment.docId"
         class="p-6 bg-gray-50 border border-gray-200"
       >
@@ -144,6 +145,7 @@ export default {
     return {
       song: null,
       comments: [],
+      commentsSort: 'latest',
       commentForm: {
         isSubmitting: false,
         schema: {
@@ -159,13 +161,20 @@ export default {
   },
   computed: {
     ...mapState([State.IsUserLoggedIn]),
-    sortedCommentsByLatest() {
-      return [...this.comments].sort(utils.compareDescending('createdOn'));
+    sortedComments() {
+      switch (this.commentsSort) {
+        case 'oldest':
+          return [...this.comments].sort(utils.compareAscending('createdOn'));
+        case 'latest':
+        default:
+          return [...this.comments].sort(utils.compareDescending('createdOn'));
+      }
     },
   },
   async created() {
     this.fetchSong();
     this.fetchComments();
+    this.initSorting();
   },
   methods: {
     async fetchSong() {
@@ -220,6 +229,19 @@ export default {
       comments.forEach((comment) => {
         this.comments.push({ ...comment.data(), docId: comment.id });
       });
+    },
+    initSorting() {
+      const { sort } = this.$route.query;
+      this.commentsSort = sort ?? 'latest';
+    },
+  },
+  watch: {
+    // Store sorting on the route's query parameter
+    commentsSort(newValue) {
+      if (newValue !== this.$route.query.sort) {
+        const query = { sort: newValue };
+        this.$router.push({ query });
+      }
     },
   },
 };
