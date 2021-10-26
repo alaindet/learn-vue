@@ -5,6 +5,7 @@ export const State = {
   SongInstance: 'songInstance',
   SongDuration: 'songDuration',
   SongSeek: 'songSeek',
+  SongPercentageProgress: 'songPercentageProgress',
 };
 
 export const Mutation = {

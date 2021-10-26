@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import { Howl } from 'howler';
 
 import { auth, usersCollection } from '@/plugins/firebase';
+import utils from '@/utils';
 import {
   State, Mutation, Getter, Action,
 } from './enums';
@@ -14,6 +15,7 @@ export default createStore({
     [State.SongInstance]: null,
     [State.SongDuration]: '00:00',
     [State.SongSeek]: '00:00',
+    [State.SongPercentageProgress]: '0%',
   },
 
   mutations: {
@@ -45,8 +47,13 @@ export default createStore({
     },
 
     [Mutation.UpdateSongProgress]: (state) => {
-      state[State.SongSeek] = state[State.SongInstance].seek();
-      state[State.SongDuration] = state[State.SongInstance].duration();
+      const seek = state[State.SongInstance].seek();
+      const duration = state[State.SongInstance].duration();
+      const fraction = seek / duration;
+
+      state[State.SongSeek] = utils.formatDuration(seek, 'mm:ss', 1);
+      state[State.SongDuration] = utils.formatDuration(duration, 'mm:ss', 1);
+      state[State.SongPercentageProgress] = `${(100 * fraction).toFixed(0)}%`;
     },
   },
 
