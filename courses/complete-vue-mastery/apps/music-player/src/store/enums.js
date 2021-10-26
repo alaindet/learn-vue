@@ -1,8 +1,10 @@
 export const State = {
   ShowAuthModal: 'showAuthModal',
   IsUserLoggedIn: 'isUserLoggedIn',
-  CurrentSong: 'currentSong',
-  Sound: 'sound',
+  SongMetadata: 'songMetadata',
+  SongInstance: 'songInstance',
+  SongDuration: 'songDuration',
+  SongSeek: 'songSeek',
 };
 
 export const Mutation = {
@@ -10,6 +12,12 @@ export const Mutation = {
   LogOut: 'logOut',
   ToggleAuthModal: 'toggleAuthModal',
   StartNewSong: 'startNewSong',
+  PlayOrPauseSong: 'playOrPauseSong',
+  UpdateSongProgress: 'updateSongProgress',
+};
+
+export const Getter = {
+  SongIsPlaying: 'getSongIsPlaying',
 };
 
 export const Action = {
@@ -18,10 +26,13 @@ export const Action = {
   LogIn: 'logIn',
   LogOut: 'logOut',
   StartNewSong: 'startNewSong',
+  PlayOrPauseSong: 'playOrPauseSong',
+  UpdateSongProgress: 'updateSongProgress',
 };
 
 export default {
   State,
-  Action,
   Mutation,
+  Getter,
+  Action,
 };

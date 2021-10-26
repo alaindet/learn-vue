@@ -20,6 +20,9 @@
             text-black
             rounded-full
             focus:outline-none
+            hover:bg-yellow-500
+            hover:text-white
+            transition-colors
           "
           @click.prevent="onPlayOrPauseSong(song)"
         >
