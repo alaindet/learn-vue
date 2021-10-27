@@ -105,6 +105,9 @@ export default createStore({
     },
 
     [Action.StartNewSong]: async ({ commit, state, dispatch }, payload) => {
+      if (state[State.SongInstance] instanceof Howl) {
+        state[State.SongInstance].unload();
+      }
       commit(Mutation.StartNewSong, payload);
       state[State.SongInstance].play();
       state[State.SongInstance].on('play', () => {
