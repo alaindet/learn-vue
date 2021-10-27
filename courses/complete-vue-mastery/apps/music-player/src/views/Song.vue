@@ -1,5 +1,5 @@
 <template>
-  <div v-if="song">
+  <main v-if="song">
 
     <!-- Music Header -->
     <section class="w-full mb-8 py-14 text-center text-white relative">
@@ -8,6 +8,7 @@
         style="background-image: url(/assets/img/song-header.png)"
       ></div>
       <div class="container mx-auto flex items-center">
+
         <!-- Play/Pause Button -->
         <button
           type="button"
@@ -26,7 +27,13 @@
           "
           @click.prevent="onPlayOrPauseSong(song)"
         >
-          <i class="fas fa-play"></i>
+          <i
+            class="fas"
+            :class="{
+              'fa-play': !getSongIsPlaying || getSongUrl !== song.url,
+              'fa-pause': getSongIsPlaying && getSongUrl === song.url,
+            }"
+          ></i>
         </button>
         <div class="z-50 text-left ml-8">
           <!-- Song Info -->
@@ -36,8 +43,9 @@
       </div>
     </section>
 
-    <!-- Form -->
+    <!-- Comment form -->
     <section v-if="isUserLoggedIn" class="container mx-auto mt-6">
+
       <!-- Alert -->
       <div
         v-if="alert.show"
@@ -119,7 +127,7 @@
     </section>
 
     <!-- Comments -->
-    <ul class="container mt-8 mx-auto">
+    <ul class="container mt-8 mx-auto" id="comments">
       <li
         v-for="comment in sortedComments"
         :key="comment.docId"
@@ -132,14 +140,14 @@
         <p>{{ comment.content }}</p>
       </li>
     </ul>
-  </div>
-  <div v-else>TODO: Loading...</div>
+  </main>
+  <main v-else>TODO: Loading...</main>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
-import { State, Action } from '@/store/enums';
+import { State, Action, Getter } from '@/store/enums';
 import utils from '@/utils';
 import { songsCollection, commentsCollection, auth } from '@/plugins/firebase';
 
@@ -164,7 +172,13 @@ export default {
     };
   },
   computed: {
-    ...mapState([State.IsUserLoggedIn]),
+    ...mapState([
+      State.IsUserLoggedIn, // isUserLoggedIn
+    ]),
+    ...mapGetters([
+      Getter.SongIsPlaying, // getSongIsPlaying
+      Getter.SongUrl, // getSongUrl
+    ]),
     sortedComments() {
       switch (this.commentsSort) {
         case 'oldest':
@@ -239,8 +253,7 @@ export default {
       });
     },
     onPlayOrPauseSong(song) {
-      // TODO: Check if already playing and check play state?
-      this.$store.dispatch(Action.StartNewSong, song);
+      this.$store.dispatch(Action.PlayOrPauseSong, song);
     },
     initSorting() {
       const { sort } = this.$route.query;

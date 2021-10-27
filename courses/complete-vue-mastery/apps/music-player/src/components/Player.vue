@@ -14,7 +14,12 @@
 
       <!-- Play/Pause Button -->
       <div class="w-7 leading-3">
-        <button type="button" @click.prevent="onPlayOrPauseSong">
+        <button
+          type="button"
+          :disabled="!getIsSong"
+          :class="{ 'opacity-50 cursor-not-allowed': !getIsSong }"
+          @click.prevent="onPlayOrPauseSong"
+        >
           <i
             class="fa text-gray-500 text-xl"
             :class="{
@@ -73,7 +78,7 @@
           @click.prevent="onMoveSeek"
         >
           <!-- Player Ball -->
-          <!-- Add drag events to player ball -->
+          <!-- TODO: Add drag events to player ball -->
           <span
             class="absolute text-gray-800 text-lg transition-all"
             :style="{
@@ -133,6 +138,7 @@ export default {
     ]),
     ...mapGetters([
       Getter.SongIsPlaying, // getSongIsPlaying
+      Getter.IsSong, // getIsSong
     ]),
   },
   methods: {

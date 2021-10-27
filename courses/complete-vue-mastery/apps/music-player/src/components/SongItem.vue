@@ -23,10 +23,19 @@
     </div>
 
     <div class="text-gray-600 text-lg">
-      <span class="comments">
-        <i class="fa fa-comments text-gray-600"></i>
-        {{ song.commentsCount }}
-      </span>
+      <!--
+      <router-link :to="{
+        name: 'song',
+        params: { songid: song.docId },
+        hash: '#comments'
+      }">
+      -->
+      <router-link :to="`/song/${song.docId}#comments`">
+        <span class="comments">
+          <i class="fa fa-comments text-gray-600"></i>
+          {{ song.commentsCount }}
+        </span>
+      </router-link>
     </div>
   </li>
 </template>

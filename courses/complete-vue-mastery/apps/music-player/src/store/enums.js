@@ -19,6 +19,8 @@ export const Mutation = {
 
 export const Getter = {
   SongIsPlaying: 'getSongIsPlaying',
+  SongUrl: 'getSongUrl',
+  IsSong: 'getIsSong',
 };
 
 export const Action = {

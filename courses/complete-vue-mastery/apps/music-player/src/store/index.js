@@ -58,6 +58,8 @@ export default createStore({
   },
 
   getters: {
+    [Getter.SongUrl]: (state) => state[State.SongMetadata]?.url ?? null,
+    [Getter.IsSong]: (state) => !!state[State.SongMetadata],
     [Getter.SongIsPlaying]: (state) => {
       if (state[State.SongInstance]) {
         return state[State.SongInstance].playing();
@@ -117,7 +119,19 @@ export default createStore({
       });
     },
 
-    [Action.PlayOrPauseSong]: async ({ commit }) => {
+    [Action.PlayOrPauseSong]: async ({ state, commit, dispatch }, payload = null) => {
+      const song = state[State.SongInstance];
+      const songMetadata = state[State.SongMetadata];
+
+      if (!song && !payload) {
+        return;
+      }
+
+      if (!song || (song && payload && songMetadata?.url !== payload?.url)) {
+        dispatch(Action.StartNewSong, payload);
+        return;
+      }
+
       commit(Mutation.PlayOrPauseSong);
     },
 
