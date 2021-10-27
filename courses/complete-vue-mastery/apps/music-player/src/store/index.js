@@ -13,8 +13,8 @@ export default createStore({
     [State.IsUserLoggedIn]: false,
     [State.SongMetadata]: null,
     [State.SongInstance]: null,
-    [State.SongDuration]: '00:00',
-    [State.SongSeek]: '00:00',
+    [State.SongDuration]: '--:--',
+    [State.SongSeek]: '--:--',
     [State.SongPercentageProgress]: '0%',
   },
 
@@ -123,11 +123,26 @@ export default createStore({
 
     [Action.UpdateSongProgress]: ({ commit, state, dispatch }) => {
       commit(Mutation.UpdateSongProgress);
-      if (state[State.SongInstance].playing()) {
-        requestAnimationFrame(() => {
-          dispatch(Action.UpdateSongProgress);
-        });
+      if (!state[State.SongInstance].playing()) {
+        return;
       }
+      requestAnimationFrame(() => dispatch(Action.UpdateSongProgress));
+    },
+
+    [Action.MoveSeek]: ({ commit, state }, payload) => {
+      const song = state[State.SongInstance];
+      if (!song) {
+        return;
+      }
+      const { left, right, clicked } = payload;
+      const fraction = (clicked - left) / (right - left);
+      const seconds = fraction * song.duration();
+      const roundedSeconds = Math.round(seconds);
+      song.seek(roundedSeconds);
+
+      song.once('seek', () => {
+        commit(Mutation.UpdateSongProgress);
+      });
     },
   },
 

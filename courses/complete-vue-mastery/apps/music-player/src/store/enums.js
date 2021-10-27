@@ -29,6 +29,7 @@ export const Action = {
   StartNewSong: 'startNewSong',
   PlayOrPauseSong: 'playOrPauseSong',
   UpdateSongProgress: 'updateSongProgress',
+  MoveSeek: 'moveSeek',
 };
 
 export default {

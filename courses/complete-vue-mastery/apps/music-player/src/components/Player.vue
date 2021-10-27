@@ -14,7 +14,7 @@
 
       <!-- Play/Pause Button -->
       <div class="w-7 leading-3">
-        <button type="button" @click.prevent="playOrPauseSong">
+        <button type="button" @click.prevent="onPlayOrPauseSong">
           <i
             class="fa text-gray-500 text-xl"
             :class="{
@@ -33,11 +33,10 @@
           text-lg
           w-14
           ml-5
+          whitespace-nowrap
         "
       >
-        <span class="player-currenttime">
-          {{ songSeek }}
-        </span>
+        {{ songSeek }}
       </div>
 
       <!-- Scrub -->
@@ -71,8 +70,10 @@
             cursor-pointer
             mt-1
           "
+          @click.prevent="onMoveSeek"
         >
           <!-- Player Ball -->
+          <!-- Add drag events to player ball -->
           <span
             class="absolute text-gray-800 text-lg transition-all"
             :style="{
@@ -107,11 +108,10 @@
           text-gray-400
           text-lg
           ml-8
+          whitespace-nowrap
         "
       >
-        <span class="player-duration">
-          {{ songDuration }}
-        </span>
+        {{ songDuration }}
       </div>
     </div>
   </div>
@@ -136,8 +136,15 @@ export default {
     ]),
   },
   methods: {
-    playOrPauseSong() {
+    onPlayOrPauseSong() {
       this.$store.dispatch(Action.PlayOrPauseSong);
+    },
+    onMoveSeek(event) {
+      const progressRect = event.currentTarget.getBoundingClientRect();
+      const clicked = event.clientX;
+      const { left, right } = progressRect;
+      const payload = { left, right, clicked };
+      this.$store.dispatch(Action.MoveSeek, payload);
     },
   },
 };
