@@ -15,11 +15,12 @@ let app;
 
 auth.onAuthStateChanged(() => {
   if (!app) {
-    app = createApp(App).use(i18n);
+    app = createApp(App);
 
     app.use(store);
     app.use(router);
     app.use(VeeValidatePlugin);
+    app.use(i18n);
     // Global registration of a directive (DOES NOT WORK!)
     // app.directive(Icon);
 

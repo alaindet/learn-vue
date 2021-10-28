@@ -25,7 +25,7 @@
       <div class="flex flex-grow items-center">
 
         <!-- Primary Navigation -->
-        <ul class="flex flex-row mt-1">
+        <ul class="flex flex-grow flex-row mt-1">
           <li>
             <router-link to="/about" class="px-2 text-white">
               About
@@ -48,6 +48,15 @@
               </a>
             </li>
           </template>
+        </ul>
+
+        <!-- Language menu -->
+        <ul class="flex mt-1">
+          <li>
+            <a href="#" class="px-2 text-white" @click.prevent="toggleLocale">
+              {{ $i18n.locale }}
+            </a>
+          </li>
         </ul>
 
       </div>
@@ -75,6 +84,9 @@ export default {
         this.$router.push('/');
         // this.$router.push({ name: 'home' });
       }
+    },
+    toggleLocale() {
+      this.$i18n.locale = (this.$i18n.locale === 'en') ? 'it' : 'en';
     },
   },
 };
