@@ -7,6 +7,7 @@ import store from './store';
 
 import VeeValidatePlugin from './plugins/vee-validate';
 import { auth } from './plugins/firebase';
+import i18n from './plugins/i18n';
 import './assets/tailwind.css';
 import './assets/main.css';
 
@@ -14,7 +15,7 @@ let app;
 
 auth.onAuthStateChanged(() => {
   if (!app) {
-    app = createApp(App);
+    app = createApp(App).use(i18n);
 
     app.use(store);
     app.use(router);

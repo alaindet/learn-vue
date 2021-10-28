@@ -59,7 +59,12 @@
 
         <!-- Comment Count -->
         <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-          <span class="card-title">Comments ({{ song.commentsCount }})</span>
+          <span class="card-title">
+            <!-- $tc enables pluralization -->
+            {{ $tc('song.commentsCount', song.commentsCount, {
+              count: song.commentsCount
+            }) }}
+          </span>
           <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
         </div>
 
