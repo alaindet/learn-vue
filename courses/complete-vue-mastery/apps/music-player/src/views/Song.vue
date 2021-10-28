@@ -39,6 +39,7 @@
           <!-- Song Info -->
           <div class="text-3xl font-bold">{{ song.modifiedName }}</div>
           <div>{{ song.genre }}</div>
+          <div>{{ $n(2.99, 'currency') }}</div>
         </div>
       </div>
     </section>

@@ -183,7 +183,14 @@
           name="tos"
           class="w-4 h-4 float-left -ml-6 mt-1 rounded"
         />
-        <label class="inline-block" for="tos"> Accept terms of service </label>
+        <i18n-t
+          keypath="register.acceptTermsOfService"
+          class="inline-block"
+          tag="label"
+          for="tos"
+        >
+          <a href="#">{{ $t('register.termsOfService') }}</a>
+        </i18n-t>
         <vee-validate-error-message class="text-red-600 block" name="tos" />
       </div>
 

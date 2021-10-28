@@ -54,7 +54,7 @@
         <ul class="flex mt-1">
           <li>
             <a href="#" class="px-2 text-white" @click.prevent="toggleLocale">
-              {{ $i18n.locale }}
+              {{ currentLocale }}
             </a>
           </li>
         </ul>
@@ -74,6 +74,9 @@ export default {
   name: 'Header',
   computed: {
     ...mapState([State.IsUserLoggedIn]),
+    currentLocale() {
+      return (this.$i18n.locale === 'en') ? 'English' : 'Italiano';
+    },
   },
   methods: {
     ...mapMutations([Mutation.ToggleAuthModal]),

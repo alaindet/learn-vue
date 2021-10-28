@@ -1,4 +1,6 @@
 {
   "app.slogan": "Ascolta musica fantastica!",
-  "song.commentsCount": "Nessun commento | 1 Commento | {count} Commenti"
+  "song.commentsCount": "Nessun commento | 1 Commento | {count} Commenti",
+  "register.termsOfService": "Termini del servizio",
+  "register.acceptTermsOfService": "Accetto i {0} di Music Player"
 }
