@@ -114,7 +114,20 @@ export default {
       files.forEach((file) => {
         if (file.type !== this.allowedMimeType) {
           // TODO: add error feedback
-          console.log('mime type not allowed');
+          console.error('mime type not allowed');
+          return;
+        }
+
+        if (!navigator.onLine) {
+          console.error('You are not online');
+          this.uploads.push({
+            task: {},
+            currentProgress: 100,
+            name: file.name,
+            cssVariant: 'bg-red-400',
+            cssIcon: 'fas fa-times',
+            cssText: 'text-red-400',
+          });
           return;
         }
 

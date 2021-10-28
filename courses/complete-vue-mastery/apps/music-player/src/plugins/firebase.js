@@ -20,6 +20,14 @@ const usersCollection = db.collection('users');
 const songsCollection = db.collection('songs');
 const commentsCollection = db.collection('comments');
 
+// Persists a local copy on the browser
+// It provides a network-then-cache strategy
+// Which means Network calls are performed first and cache is only used in case
+// of network failure
+db.enablePersistence().catch((error) => {
+  console.log(`Firebase persistence error ${error.code}`, error);
+});
+
 const storage = firebase.storage();
 
 export {
