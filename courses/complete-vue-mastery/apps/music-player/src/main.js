@@ -10,6 +10,7 @@ import { auth } from './plugins/firebase';
 import i18n from './plugins/i18n';
 import './assets/tailwind.css';
 import './assets/main.css';
+import './registerServiceWorker';
 
 let app;
 
