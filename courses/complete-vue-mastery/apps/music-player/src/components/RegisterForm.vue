@@ -217,7 +217,7 @@
 </template>
 
 <script>
-import { Action, Mutation } from '@/store/enums';
+import { Action, Mutation } from '@/store/auth/enums';
 
 export default {
   name: 'RegisterForm',

@@ -125,7 +125,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import { State, Getter, Action } from '@/store/enums';
+import { State, Getter, Action } from '@/store/player/enums';
 
 export default {
   name: 'Player',

@@ -67,19 +67,23 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 
-import { State, Mutation, Action } from '@/store/enums';
+import { State, Mutation, Action } from '@/store/auth/enums';
 
 // TODO: Use aliases for mapped store features
 export default {
   name: 'Header',
   computed: {
-    ...mapState([State.IsUserLoggedIn]),
+    ...mapState([
+      State.IsUserLoggedIn, // isUserLoggedIn
+    ]),
     currentLocale() {
       return (this.$i18n.locale === 'en') ? 'English' : 'Italiano';
     },
   },
   methods: {
-    ...mapMutations([Mutation.ToggleAuthModal]),
+    ...mapMutations([
+      Mutation.ToggleAuthModal, // toggleAuthModal
+    ]),
     onSignOut() {
       this.$store.dispatch(Action.LogOut);
 

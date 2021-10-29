@@ -153,7 +153,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 
-import { State, Action, Getter } from '@/store/enums';
+import { State, Action, Getter } from '@/store/player/enums';
 import utils from '@/utils';
 import { songsCollection, commentsCollection, auth } from '@/plugins/firebase';
 

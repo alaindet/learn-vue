@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { Action } from '@/store/enums';
+import { Action } from '@/store/auth/enums';
 import AppAuthModal from './components/AuthModal.vue';
 import AppHeader from './components/Header.vue';
 import AppPlayer from './components/Player.vue';

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import store from '@/store';
-import { State } from '@/store/enums';
+import { State } from '@/store/auth/enums';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Manage from '@/views/Manage.vue';
