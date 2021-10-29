@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { Action } from '@/store/auth/enums';
+import { Prefix, Action } from '@/store/modules/auth';
 import AppAuthModal from './components/AuthModal.vue';
 import AppHeader from './components/Header.vue';
 import AppPlayer from './components/Player.vue';
@@ -31,7 +31,7 @@ export default {
     AppPlayer,
   },
   created() {
-    this.$store.dispatch(Action.InitializeLogin);
+    this.$store.dispatch(`${Prefix}/${Action.InitializeLogin}`);
   },
 };
 </script>

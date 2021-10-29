@@ -125,32 +125,44 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import { State, Getter, Action } from '@/store/player/enums';
+import {
+  Prefix, State, Getter, Action,
+} from '@/store/modules/player';
 
 export default {
   name: 'Player',
   computed: {
-    ...mapState([
+    ...mapState(Prefix, [
       State.SongMetadata, // songMetadata
       State.SongDuration, // songDuration
       State.SongSeek, // songSeek,
       State.SongPercentageProgress, // songPercentageProgress
     ]),
-    ...mapGetters([
+    ...mapState(Prefix, {
+      // songMetadata
+      [State.SongMetadata]: (state) => state[State.SongMetadata],
+      // songDuration
+      [State.SongDuration]: (state) => state[State.SongDuration],
+      // songSeek,
+      [State.SongSeek]: (state) => state[State.SongSeek],
+      // songPercentageProgress
+      [State.SongPercentageProgress]: (state) => state[State.SongPercentageProgress],
+    }),
+    ...mapGetters(Prefix, [
       Getter.SongIsPlaying, // getSongIsPlaying
       Getter.IsSong, // getIsSong
     ]),
   },
   methods: {
     onPlayOrPauseSong() {
-      this.$store.dispatch(Action.PlayOrPauseSong);
+      this.$store.dispatch(`${Prefix}/${Action.PlayOrPauseSong}`);
     },
     onMoveSeek(event) {
       const progressRect = event.currentTarget.getBoundingClientRect();
       const clicked = event.clientX;
       const { left, right } = progressRect;
       const payload = { left, right, clicked };
-      this.$store.dispatch(Action.MoveSeek, payload);
+      this.$store.dispatch(`${Prefix}/${Action.MoveSeek}`, payload);
     },
   },
 };

@@ -1,7 +1,27 @@
 import { auth, usersCollection } from '@/plugins/firebase';
-import { State, Mutation, Action } from './enums';
+
+export const Prefix = 'auth';
+
+export const State = {
+  ShowAuthModal: 'showAuthModal',
+  IsUserLoggedIn: 'isUserLoggedIn',
+};
+
+export const Mutation = {
+  LogIn: 'logIn',
+  LogOut: 'logOut',
+  ToggleAuthModal: 'toggleAuthModal',
+};
+
+export const Action = {
+  Register: 'register',
+  InitializeLogin: 'initializeLogin',
+  LogIn: 'logIn',
+  LogOut: 'logOut',
+};
 
 export default {
+  namespaced: true,
   state: {
     [State.ShowAuthModal]: false,
     [State.IsUserLoggedIn]: false,
@@ -58,4 +78,4 @@ export default {
       commit(Mutation.LogOut);
     },
   },
-}
+};

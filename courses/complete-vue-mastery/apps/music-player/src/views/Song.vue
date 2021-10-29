@@ -153,7 +153,10 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 
-import { State, Action, Getter } from '@/store/player/enums';
+import {
+  Prefix, State, Getter, Action,
+} from '@/store/modules/player';
+// import { Prefix as AuthPrefix } from '@/store/modules/auth';
 import utils from '@/utils';
 import { songsCollection, commentsCollection, auth } from '@/plugins/firebase';
 
@@ -178,10 +181,13 @@ export default {
     };
   },
   computed: {
-    ...mapState([
-      State.IsUserLoggedIn, // isUserLoggedIn
-    ]),
-    ...mapGetters([
+    ...mapState({
+      // isUserLoggedIn
+      // [State.IsUserLoggedIn]: (state) => state.auth[State.IsUserLoggedIn],
+      // TODO: Y U NO WORK?!
+      isUserLoggedIn: (state) => state.auth[State.IsUserLoggedIn],
+    }),
+    ...mapGetters(Prefix, [
       Getter.SongIsPlaying, // getSongIsPlaying
       Getter.SongUrl, // getSongUrl
     ]),
@@ -259,7 +265,7 @@ export default {
       });
     },
     onPlayOrPauseSong(song) {
-      this.$store.dispatch(Action.PlayOrPauseSong, song);
+      this.$store.dispatch(`${Prefix}/${Action.PlayOrPauseSong}`, song);
     },
     initSorting() {
       const { sort } = this.$route.query;

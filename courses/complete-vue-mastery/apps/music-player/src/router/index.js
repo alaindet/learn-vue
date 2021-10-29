@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import store from '@/store';
-import { State } from '@/store/auth/enums';
+import { State } from '@/store/modules/auth';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Manage from '@/views/Manage.vue';
@@ -79,7 +79,7 @@ router.beforeEach((to, from, next) => {
   }
 
   // User is authorized
-  if (store.state[State.IsUserLoggedIn]) {
+  if (store.state.auth[State.IsUserLoggedIn]) {
     next();
     return;
   }

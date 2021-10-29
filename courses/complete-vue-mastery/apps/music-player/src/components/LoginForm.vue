@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { Action, Mutation } from '@/store/auth/enums';
+import { Prefix, Action, Mutation } from '@/store/modules/auth';
 
 export default {
   name: 'LoginForm',
@@ -113,7 +113,7 @@ export default {
       this.alert.message = 'Please wait! We are logging you in.';
 
       try {
-        await this.$store.dispatch(Action.LogIn, formValue);
+        await this.$store.dispatch(`${Prefix}/${Action.LogIn}`, formValue);
         this.alert.style = 'bg-green-500';
         this.alert.message = 'Success! You are now logged in.';
         this.form.isSubmitting = false;

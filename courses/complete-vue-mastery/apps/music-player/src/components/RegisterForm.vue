@@ -217,7 +217,7 @@
 </template>
 
 <script>
-import { Action, Mutation } from '@/store/auth/enums';
+import { Prefix, Action, Mutation } from '@/store/modules/auth';
 
 export default {
   name: 'RegisterForm',
@@ -253,11 +253,11 @@ export default {
       this.alert.message = 'Please wait! Your account is being created.';
 
       try {
-        await this.$store.dispatch(Action.Register, formValue);
+        await this.$store.dispatch(`${Prefix}/${Action.Register}`, formValue);
         this.alert.style = 'bg-green-500';
         this.alert.message = 'Success! Your account has been created.';
         this.form.isSubmitting = false;
-        this.$store.commit(Mutation.ToggleAuthModal);
+        this.$store.commit(`${Prefix}/${Mutation.ToggleAuthModal}`);
       } catch (error) {
         console.error(error);
         this.form.isSubmitting = false;

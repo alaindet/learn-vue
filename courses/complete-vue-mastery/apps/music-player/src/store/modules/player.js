@@ -1,9 +1,38 @@
-import { createStore } from 'vuex';
 import { Howl } from 'howler';
 
 import utils from '@/utils';
 
+export const Prefix = 'player';
+
+export const State = {
+  SongMetadata: 'songMetadata',
+  SongInstance: 'songInstance',
+  SongDuration: 'songDuration',
+  SongSeek: 'songSeek',
+  SongPercentageProgress: 'songPercentageProgress',
+};
+
+export const Getter = {
+  SongIsPlaying: 'getSongIsPlaying',
+  SongUrl: 'getSongUrl',
+  IsSong: 'getIsSong',
+};
+
+export const Mutation = {
+  StartNewSong: 'startNewSong',
+  PlayOrPauseSong: 'playOrPauseSong',
+  UpdateSongProgress: 'updateSongProgress',
+};
+
+export const Action = {
+  StartNewSong: 'startNewSong',
+  PlayOrPauseSong: 'playOrPauseSong',
+  UpdateSongProgress: 'updateSongProgress',
+  MoveSeek: 'moveSeek',
+};
+
 export default {
+  namespaced: true,
   state: {
     [State.SongMetadata]: null,
     [State.SongInstance]: null,
@@ -27,6 +56,7 @@ export default {
       state[State.SongInstance] = new Howl({
         src: [payload.url],
         html5: true,
+        volume: 0.2,
       });
     },
     [Mutation.PlayOrPauseSong]: (state) => {

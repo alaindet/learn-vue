@@ -106,7 +106,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 
-import { State, Mutation } from '@/store/auth/enums';
+import { Prefix, State, Mutation } from '@/store/modules/auth';
 import AppLoginForm from './LoginForm.vue';
 import AppRegisterForm from './RegisterForm.vue';
 
@@ -127,12 +127,13 @@ export default {
     };
   },
   computed: {
-    ...mapState([
-      State.ShowAuthModal, // showAuthModal
-    ]),
+    ...mapState(Prefix, {
+      // showAuthModal
+      [State.ShowAuthModal]: (state) => state[State.ShowAuthModal],
+    }),
   },
   methods: {
-    ...mapMutations([
+    ...mapMutations(Prefix, [
       Mutation.ToggleAuthModal, // toggleAuthModal
     ]),
   },
