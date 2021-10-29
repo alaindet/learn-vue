@@ -8,7 +8,7 @@ import store from './store';
 import VeeValidatePlugin from './plugins/vee-validate';
 import { auth } from './plugins/firebase';
 import i18nPlugin from './plugins/i18n';
-import GlobalComponents from './includes/globals';
+import BaseComponents from './includes/base-components';
 import './assets/tailwind.css';
 import './assets/main.css';
 import './registerServiceWorker';
@@ -25,7 +25,7 @@ auth.onAuthStateChanged(() => {
     app.use(i18nPlugin);
 
     // Register global components here
-    app.use(GlobalComponents);
+    app.use(BaseComponents);
 
     // Global registration of a directive (DOES NOT WORK!)
     // app.directive(Icon);
