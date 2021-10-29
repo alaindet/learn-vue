@@ -117,7 +117,7 @@ export default {
         this.alert.style = 'bg-green-500';
         this.alert.message = 'Success! You are now logged in.';
         this.form.isSubmitting = false;
-        this.$store.commit(Mutation.ToggleAuthModal);
+        this.$store.commit(`${Prefix}/${Mutation.ToggleAuthModal}`);
       } catch (error) {
         console.error(error);
         this.form.isSubmitting = false;
