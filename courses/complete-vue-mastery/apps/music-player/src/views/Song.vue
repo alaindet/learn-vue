@@ -154,9 +154,9 @@
 import { mapGetters, mapState } from 'vuex';
 
 import {
-  Prefix, State, Getter, Action,
+  Prefix, Getter, Action,
 } from '@/store/modules/player';
-// import { Prefix as AuthPrefix } from '@/store/modules/auth';
+import { Prefix as AuthPrefix, State as AuthState } from '@/store/modules/auth';
 import utils from '@/utils';
 import { songsCollection, commentsCollection, auth } from '@/plugins/firebase';
 
@@ -181,11 +181,9 @@ export default {
     };
   },
   computed: {
-    ...mapState({
+    ...mapState(AuthPrefix, {
       // isUserLoggedIn
-      // [State.IsUserLoggedIn]: (state) => state.auth[State.IsUserLoggedIn],
-      // TODO: Y U NO WORK?!
-      isUserLoggedIn: (state) => state.auth[State.IsUserLoggedIn],
+      [AuthState.IsUserLoggedIn]: (state) => state[AuthState.IsUserLoggedIn],
     }),
     ...mapGetters(Prefix, [
       Getter.SongIsPlaying, // getSongIsPlaying
