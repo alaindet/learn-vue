@@ -17,7 +17,7 @@
       <router-link :to="'/song/'+song.docId" class="font-bold block text-gray-600">
         {{ song.modifiedName }}
       </router-link>
-      <span class="text-gray-500 text-sm">
+      <span class="song-author text-gray-500 text-sm">
         {{ song.displayName }}
       </span>
     </div>
