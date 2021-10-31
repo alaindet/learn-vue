@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, RouterLinkStub } from '@vue/test-utils';
 
 import SongItem from '@/components/SongItem.vue';
 
@@ -11,6 +11,11 @@ describe('SongItem.vue', () => {
     const wrapper = shallowMount(SongItem, {
       propsData: {
         song,
+      },
+      global: {
+        components: {
+          'router-link': RouterLinkStub,
+        },
       },
     });
 
