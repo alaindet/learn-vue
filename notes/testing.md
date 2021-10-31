@@ -21,4 +21,7 @@ A good test coverage has roughly this ratio
 If the test is not saving manual testing time, don't write it
 
 ## Jest
-Jest defines a number of global utility functions that you can use inside any test file without importing them. Reference [here](https://jestjs.io/docs/api)
+Jest defines a number of global utility functions that you can use inside any test file without importing them. Reference [here](https://jestjs.io/docs/api). Ex.: `it()`, `describe()`, `test()`
+
+### `describe`
+Groups together two or more tests in a **test suite**
