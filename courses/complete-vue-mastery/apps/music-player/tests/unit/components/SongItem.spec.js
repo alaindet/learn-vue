@@ -3,7 +3,7 @@ import { shallowMount, RouterLinkStub } from '@vue/test-utils';
 import SongItem from '@/components/SongItem.vue';
 
 describe('SongItem.vue', () => {
-  test('renders song.displayName', () => {
+  test('render song.displayName', () => {
     const song = {
       displayName: 'my song',
     };

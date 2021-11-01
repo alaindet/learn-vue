@@ -7,7 +7,7 @@ import About from '@/views/About.vue';
 
 // Describe groups 2+ tests together in a test suite
 describe('About.vue', () => {
-  test('renders inner text', () => {
+  test('render inner text', () => {
     const wrapper = shallowMount(About);
 
     expect(wrapper.text()).toContain('about');
