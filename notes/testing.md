@@ -28,3 +28,10 @@ Groups together two or more tests in a **test suite**
 
 ### Vuex
 The store is completely testable without relying on any DOM or any component
+
+### Run a single test
+```
+npm run test:unit router/link
+# Or npm run test:unit -t router/link
+# It refers to file /tests/unit/router/link.spec.js
+```
