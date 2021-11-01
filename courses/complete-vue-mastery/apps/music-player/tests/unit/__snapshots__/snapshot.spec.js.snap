@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshots SongItem.vue renders correctly 1`] = `
+<li
+  class="some-dynamic-class flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
+  id="song-id-abcdefg"
+>
+  <div>
+    <!-- &lt;router-link :to="{ name: 'song', params: { songid: song.docId } }"&gt; -->
+    <router-link-stub
+      class="font-bold block text-gray-600"
+      to="/song/abcdefg"
+    />
+    <span
+      class="song-author text-gray-500 text-sm"
+    >
+      user name
+    </span>
+  </div>
+  <div
+    class="text-gray-600 text-lg"
+  >
+    <!--
+      &lt;router-link :to="{
+        name: 'song',
+        params: { songid: song.docId },
+        hash: '#comments'
+      }"&gt;
+      -->
+    <router-link-stub
+      to="/song/abcdefg#comments"
+    />
+  </div>
+</li>
+`;

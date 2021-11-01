@@ -7,6 +7,7 @@
     "build": "vue-cli-service build",
     "dist:serve": "http-server ./dist -p 8081 -o",
     "test:unit": "vue-cli-service test:unit",
+    "test:unit:update": "vue-cli-service test:unit -u",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
