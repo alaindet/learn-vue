@@ -1,5 +1,7 @@
 <template>
   <li
+    :id="`song-id-${song.docId}`"
+    :class="'some-dynamic-class'"
     class="
       flex
       justify-between
