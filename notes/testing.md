@@ -25,3 +25,6 @@ Jest defines a number of global utility functions that you can use inside any te
 
 ### `describe`
 Groups together two or more tests in a **test suite**
+
+### Vuex
+The store is completely testable without relying on any DOM or any component
