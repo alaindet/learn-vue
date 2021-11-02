@@ -54,3 +54,18 @@ The `setup()` method of a Vue component defines all the reactivity of the compoe
   };
   </script>
   ```
+
+## `ref()` vs `reactive()`
+
+- `ref()` is best used for primitives or when re-assigning objects instead of changing them
+- `ref()` has a `.value` proxied property to access and change its value
+- `reactive()` is best used for compound values (objects, arrays) which should not be re-assigned but are changed frequently
+- `reactive()` does not need to be access via `.value`
+
+References
+- https://www.danvega.dev/blog/2020/02/12/vue3-ref-vs-reactive/
+- https://stackoverflow.com/a/65262638
+
+## `toRefs()`
+
+- `toRefs()` converts a `reactive()` object into separate reactive references, one for each property of the object
