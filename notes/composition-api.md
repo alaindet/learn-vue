@@ -69,3 +69,20 @@ References
 ## `toRefs()`
 
 - `toRefs()` converts a `reactive()` object into separate reactive references, one for each property of the object
+
+## Lifecycle hooks
+
+- Lifecycle hooks are normal functions starting with `on` and executing like their Options API counterparts
+- The `beforeCreate()` and `created()` do not have Composition API counterparts because `setup()` runs after `beforeCreate()` but before `created()`
+- **NOTE** Two hooks have been renamed
+  - `beforeDestroy()` => `onBeforeUnmount()`
+  - `destroyed()` => `onUnmounted()`
+- Some hooks
+  - `onBeforeMount()`
+  - `onMounted()`
+  - `onBeforeUpdate()`
+  - `onUpdated()`
+  - `onBeforeUnmount()`
+  - `onUnmounted()`
+  - `onActivated()`
+  - `onDeactivated()`

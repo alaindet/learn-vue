@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { ref, reactive, toRefs, watch, computed } from 'vue';
+import { ref, reactive, toRefs, watch, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdate } from 'vue';
 
 export default {
   name: 'App',
