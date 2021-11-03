@@ -10,6 +10,8 @@ It's a new way of organizing and reusing code in Vue. Its main features are
 
 The `setup()` method of a Vue component defines all the reactivity of the compoent and then returns an object with the *public properties and methods* available to the template
 
+Since `setup()` runs before the `created` lifecycle hooks, there is no `this` binding available, but `setup()` accepts two optional arguments `props` and `context` where `context` acts like `this` Vue instance
+
 ## Example
 - Non-reactive example: the `counter` will not update as it is not reactive
   ```vue

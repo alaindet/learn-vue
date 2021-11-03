@@ -9,6 +9,7 @@
     <h2>User <code>reactive()</code></h2>
     <button @click="changeUserName('Bob')">Change to Bob</button>
     <p>{{ user.name }}</p>
+    <app-alert :user="user" />
 
     <hr>
 
@@ -48,8 +49,13 @@ import {
   onDeactivated,
 } from 'vue';
 
+import AppAlert from './components/Alert.vue';
+
 export default {
   name: 'App',
+  components: {
+    AppAlert,
+  },
   setup() {
     // Lifecycle hooks
     onBeforeMount(() => { console.log('onBeforeMount') });
