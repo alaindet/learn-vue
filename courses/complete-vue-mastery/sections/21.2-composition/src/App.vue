@@ -32,11 +32,35 @@
 </template>
 
 <script>
-import { ref, reactive, toRefs, watch, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdate } from 'vue';
+import {
+  ref,
+  reactive,
+  toRefs,
+  watch,
+  computed,
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+  onActivated,
+  onDeactivated,
+} from 'vue';
 
 export default {
   name: 'App',
   setup() {
+    // Lifecycle hooks
+    onBeforeMount(() => { console.log('onBeforeMount') });
+    onMounted(() => { console.log('onMounted') });
+    onBeforeUpdate(() => { console.log('onBeforeUpdate') });
+    onUpdated(() => { console.log('onUpdated') });
+    onBeforeUnmount(() => { console.log('onBeforeUnmount') });
+    onUnmounted(() => { console.log('onUnmounted') });
+    onActivated(() => { console.log('onActivated') });
+    onDeactivated(() => { console.log('onDeactivated') });
+
     // Counter (refs)
     const counter = ref(42);
     const incrementCounter = () => counter.value++;
@@ -82,8 +106,7 @@ export default {
 <style>
 .app {
   --color-primary: rgb(24, 91, 214);
-  --color-primary-dark: rgb(17, 67, 160);
-  --color-primary-darkest: rgb(21, 60, 133);
+  --color-primary-light: rgb(51, 115, 235);
   --color-accent: rgb(221, 57, 57);
   --color-grey: rgb(224, 224, 224);
 
@@ -113,21 +136,27 @@ button:hover {
   background-color: rgba(15, 9, 9, 0.1);
 }
 
+button:focus {
+  outline: 1px dashed var(--color-primary-light);
+  outline-offset: 2px;
+}
+
 input {
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-  border: 2px solid rgba(0,0,0,0.2);
+  border: 2px solid var(--color-primary);
   transition: 0.2s all linear;
   font-size: 1rem;
-  border-color: currentColor;
   background-color: transparent;
 }
 
 input:hover {
-  border-color: var(--color-primary-dark);
+  border-color: var(--color-primary-light);
 }
 
 input:focus {
-  border-color: var(--color-primary-darkest);
+  outline: 1px dashed var(--color-primary-light);
+  outline-offset: 2px;
+  border-color: var(--color-primary-light);
 }
 </style>
