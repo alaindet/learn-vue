@@ -9,7 +9,7 @@
     <h2>User <code>reactive()</code></h2>
     <button @click="changeUserName('Bob')">Change to Bob</button>
     <p>{{ user.name }}</p>
-    <app-alert :user="user" />
+    <app-alert :user="user" @userIsBob="onUserIsBob" />
 
     <hr>
 
@@ -29,6 +29,13 @@
     <button @click="incrementTroubles">Increment troubles</button>
     <p>Troubles: {{ troubles }}</p>
     <p>Double troubles: {{ doubleTroubles }}</p>
+
+    <hr>
+
+    <h2>Template references <code>ref()</code></h2>
+    <button type="button" ref="myButtonRef">Button with a ref</button>
+    <p>The click handler is added via a template ref</p>
+    <p>Counter: {{ myButtonCounter }}</p>
   </div>
 </template>
 
@@ -59,7 +66,7 @@ export default {
   setup() {
     // Lifecycle hooks
     onBeforeMount(() => { console.log('onBeforeMount') });
-    onMounted(() => { console.log('onMounted') });
+    onMounted(() => { console.log('FIRST onMounted') });
     onBeforeUpdate(() => { console.log('onBeforeUpdate') });
     onUpdated(() => { console.log('onUpdated') });
     onBeforeUnmount(() => { console.log('onBeforeUnmount') });
@@ -75,7 +82,8 @@ export default {
     // User (reactive)
     const user = reactive({ name: 'Alice' });
     const changeUserName = (name) => user.name = name;
-    const userExport = { user, changeUserName };
+    const onUserIsBob = () => console.log('User is Bob now');
+    const userExport = { user, changeUserName, onUserIsBob };
 
     // Song (toRefs)
     const song = reactive({ title: 'Some song', duration: 123 });
@@ -98,12 +106,24 @@ export default {
     const doubleTroubles = computed(() => troubles.value * 2); // Returns a ref!
     const troublesExport = { troubles, doubleTroubles, incrementTroubles };
 
+    // Template references
+    const myButtonRef = ref(null);
+    const myButtonCounter = ref(0);
+    onMounted(() => {
+      console.log('SECOND onMounted');
+      myButtonRef.value.addEventListener('click', () => {
+        myButtonCounter.value++;
+      });
+    });
+    const templateReferencesExport = { myButtonRef, myButtonCounter };
+
     return {
       ...counterExport,
       ...userExport,
       ...songExport,
       ...phraseExport,
       ...troublesExport,
+      ...templateReferencesExport,
     };
   },
 };
