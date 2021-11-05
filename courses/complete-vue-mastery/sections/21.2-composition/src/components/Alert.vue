@@ -1,11 +1,15 @@
 <template>
   <div>
-    This is {{ isBob ? '' : 'NOT' }} Bob.
+    ALERT: This is {{ isBob ? '' : 'NOT' }} Bob.
   </div>
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onMounted, onUpdated } from 'vue';
+
+export const Event = {
+  UserIsBob: 'userIsBob',
+};
 
 export default {
   name: 'Alert',
@@ -16,6 +20,18 @@ export default {
     },
   },
   setup(props, context) {
+    onMounted(() => {
+      if (props.user.name === 'Bob') {
+        context.emit(Event.UserIsBob, props.user);
+      }
+    });
+
+    onUpdated(() => {
+      if (props.user.name === 'Bob') {
+        context.emit(Event.UserIsBob, props.user);
+      }
+    });
+
     const isBob = computed(() => {
       return props.user.name === 'Bob';
     });

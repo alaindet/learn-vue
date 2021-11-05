@@ -10,7 +10,7 @@
     <h2>User <code>reactive()</code></h2>
     <button @click="changeUserName('Bob')">Change to Bob</button>
     <p>{{ user.name }}</p>
-    <app-alert :user="user" />
+    <app-alert :user="user" @userIsBob="onUserIsBob" />
 
     <hr>
 
@@ -56,7 +56,7 @@ export default {
 
     // Lifecycle hooks
     onBeforeMount(() => { console.log('onBeforeMount') });
-    onMounted(() => { console.log('onMounted') });
+    onMounted(() => { console.log('FIRST onMounted') });
     onBeforeUpdate(() => { console.log('onBeforeUpdate') });
     onUpdated(() => { console.log('onUpdated') });
     onBeforeUnmount(() => { console.log('onBeforeUnmount') });
@@ -67,7 +67,8 @@ export default {
     // User (reactive)
     const user = reactive({ name: 'Alice' });
     const changeUserName = (name) => user.name = name;
-    const userExport = { user, changeUserName };
+    const onUserIsBob = () => console.log('User is Bob now');
+    const userExport = { user, changeUserName, onUserIsBob };
 
     // Song (toRefs)
     const song = reactive({ title: 'Some song', duration: 123 });
