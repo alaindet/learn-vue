@@ -38,6 +38,8 @@ import {
   onUnmounted,
   onActivated,
   onDeactivated,
+  isRef,
+  isReactive,
 } from 'vue';
 
 import { useCounter } from './hooks/counter';
@@ -50,7 +52,7 @@ export default {
     AppAlert,
   },
   setup() {
-    // Imported hooks
+    // Imported custom hooks
     const counterExport = useCounter();
     const phraseExport = usePhrase('Initial phrase');
 
@@ -74,6 +76,14 @@ export default {
     const song = reactive({ title: 'Some song', duration: 123 });
     const changeSongTitle = (title) => song.title = title;
     const songExport = { ...toRefs(song), changeSongTitle };
+
+    // Debugging
+    const accounts = reactive({
+      checking: 1234,
+      savings: 123,
+    });
+    console.log('isRef(accounts)', isRef(accounts));
+    console.log('isReactive(accounts)', isReactive(accounts));
 
     return {
       ...counterExport,
