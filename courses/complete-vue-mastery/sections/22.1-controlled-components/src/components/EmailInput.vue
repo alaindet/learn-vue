@@ -6,13 +6,15 @@
     :value="email"
     @input="onInput($event)"
     :class="{
-      'is-valid': email.length >= 4,
-      'is-invalid': email.length > 0 && email.length < 4,
+      'is-valid': validateEmail(email),
+      'is-invalid': !validateEmail(email),
     }"
   />
 </template>
 
 <script>
+import validateEmail from '../validators/email';
+
 export default {
   name: 'EmailInput',
   props: ['email'],
@@ -20,6 +22,7 @@ export default {
     onInput($event) {
       this.$emit('update:email', $event.target.value);
     },
+    validateEmail,
   },
 };
 </script>
