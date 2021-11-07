@@ -2,7 +2,7 @@
 
 ## Goals
 
-This repository contains the learning material, demo, tests and everything I use to learn *Vue.js*
+This repository contains the learning material, demo, tests and everything I use to learn [Vue.js](https://vuejs.org/)
 
 ## References
 
