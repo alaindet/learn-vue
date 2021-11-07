@@ -5,17 +5,7 @@
       to manage a modal. This shows the brower's native events could be better
       in some cases.
     </p>
-    <div class="d-flex flex-column mt-2 ml-2">
-      <button type="button" class="btn btn-primary" @click="openVue = true">
-        Open Vue modal
-      </button>
-      <button type="button" class="btn btn-primary mt-2" @click="openNative = true">
-        Open "Native" modal
-      </button>
-      <button type="button" class="btn btn-primary mt-2" @click="openWithoutScroll = true">
-        Open modal without scroll
-      </button>
-    </div>
+    <app-actions @clickedAction="onActionClicked($event)" />
 
     <!-- Just noise -->
     <hr>
@@ -103,27 +93,37 @@
       </p>
     </div>
 
-    <app-modal-vue :show="openVue" @hide="openVue = false" />
-    <app-modal-native :show="openNative" @hide="openNative = false" />
-    <app-modal-no-scroll
-      :show="openWithoutScroll"
-      :scrollable="false"
-      @hide="openWithoutScroll = false"
-    />
+    <teleport to="#teleport-modals">
+      <app-modal-vue :show="openVue" @hide="openVue = false" />
+    </teleport>
+
+    <teleport to="#teleport-modals">
+      <app-modal-native :show="openNative" @hide="openNative = false" />
+    </teleport>
+
+    <teleport to="#teleport-modals">
+      <app-modal-no-scroll
+        :show="openWithoutScroll"
+        :scrollable="false"
+        @hide="openWithoutScroll = false"
+      />
+    </teleport>
   </div>
 </template>
 
 <script>
-import AppModalVue from '@/components/ModalVue.vue';
+import AppActions, { Action as AppAction } from '@/components/Actions.vue';
 import AppModalNative from '@/components/ModalNative.vue';
 import AppModalNoScroll from '@/components/ModalNoScroll.vue';
+import AppModalVue from '@/components/ModalVue.vue';
 
 export default {
   name: 'App',
   components: {
-    AppModalVue,
+    AppActions,
     AppModalNative,
     AppModalNoScroll,
+    AppModalVue,
   },
   data() {
     return {
@@ -132,7 +132,23 @@ export default {
       openWithoutScroll: false,
     };
   },
-
+  methods: {
+    onActionClicked(action) {
+      switch (action) {
+        case AppAction.OpenVue:
+          this.openVue = true;
+          break;
+        case AppAction.OpenNative:
+          this.openNative = true;
+          break;
+        case AppAction.OpenWithoutScroll:
+          this.openWithoutScroll = true;
+          break;
+        default:
+          break;
+      }
+    },
+  },
 };
 </script>
 
