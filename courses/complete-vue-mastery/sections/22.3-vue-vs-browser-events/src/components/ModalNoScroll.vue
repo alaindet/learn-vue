@@ -6,13 +6,13 @@
     >
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal with native events</h5>
+          <h5 class="modal-title">Modal that block external scroll</h5>
           <button type="button" class="close" @click="close">
             <span>&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>Press <kbd>Esc</kbd> to dismiss.</p>
+          <p>This modal blocks scroll underneath it. Press <kbd>Esc</kbd> to dismiss.</p>
         </div>
       </div>
     </div>
@@ -21,13 +21,16 @@
 </template>
 
 <script>
-/**
- * Uses the browser's native API
- * @see ModalVue for Vue approach
- */
 export default {
-  name: 'ModalNative',
-  props: ['show'],
+  name: 'ModalNoScroll',
+  props: {
+    show: {
+      required: true,
+    },
+    scrollable: {
+      default: false,
+    },
+  },
   created() {
     document.addEventListener('keydown', this.handleKeydown);
   },
@@ -42,6 +45,18 @@ export default {
     },
     close() {
       this.$emit('hide');
+    },
+  },
+  watch: {
+    show: {
+      immediate: true,
+      handler(newValue) {
+        if (newValue && !this.scrollable) {
+          document.body.style.setProperty('overflow', 'hidden');
+        } else {
+          document.body.style.removeProperty('overflow');
+        }
+      },
     },
   },
 };
