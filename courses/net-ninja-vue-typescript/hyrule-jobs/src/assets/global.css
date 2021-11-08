@@ -1,5 +1,10 @@
 :root {
   --color-background: #ece6d9;
+  --color-white: white;
+  --color-danger: #db3b13;
+  --color-success: #26b66e;
+  --color-grey: #ada9a1;
+  --color-grey-dark: #6d685f;
 }
 
 *,
