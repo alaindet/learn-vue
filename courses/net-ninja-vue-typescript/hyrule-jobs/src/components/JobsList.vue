@@ -63,6 +63,6 @@ export default defineComponent({
 }
 
 .job__description {
-
+  font-size: 0.9em;
 }
 </style>
