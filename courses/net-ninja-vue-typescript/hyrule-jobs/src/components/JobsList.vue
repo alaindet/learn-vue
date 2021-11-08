@@ -1,6 +1,6 @@
 <template>
   <ul class="jobs">
-    <li v-for="job in jobs" :key="job.id" class="job">
+    <li v-for="job in sortedJobs" :key="job.id" class="job">
       <h2 class="job__title">{{ job.title }}</h2>
       <h3 class="job__location">{{ job.location }}</h3>
       <div class="job__salary">
@@ -14,20 +14,42 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 
-import { Job } from '@/types';
+import { Job, JobSortField } from '@/types';
+import { compareDescendingKey } from '@/utils';
 
 export default defineComponent({
+  name: 'JobsList',
   props: {
     jobs: {
       required: true,
       type: Array as PropType<Job[]>,
     },
+    sortingField: {
+      required: true,
+      default: JobSortField.Title,
+      type: String as PropType<JobSortField>,
+    },
   },
-  // setup() {
+  setup(props) {
+    // TODO: Create sortedJobs computed prop
+    //   switch (newValue) {
+    //     case JobSortField.Title:
+    //       sortedJobs.value = [...props.jobs].sort(compareDescendingKey('title'));
+    //       break;
+    //     case JobSortField.Location:
+    //       sortedJobs.value = [...props.jobs].sort(compareDescendingKey('location'));
+    //       break;
+    //     case JobSortField.Salary:
+    //       sortedJobs.value = [...props.jobs].sort(compareDescendingKey('salary'));
+    //       break;
+    //   }
 
-  // },
+    return {
+      sortedJobs,
+    };
+  },
 })
 </script>
 
