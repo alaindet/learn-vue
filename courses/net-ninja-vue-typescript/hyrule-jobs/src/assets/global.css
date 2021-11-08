@@ -1,0 +1,15 @@
+:root {
+  --color-background: #ece6d9;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  background: var(--color-background);
+}
