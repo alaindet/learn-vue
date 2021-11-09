@@ -7,7 +7,10 @@
       @sortingClicked="onSort($event)"
     />
     <hr class="app__divider">
-    <jobs-list :jobs="jobs" :sortingField="sortingField" />
+    <jobs-list
+      :jobs="jobs"
+      :sortingField="sortingField"
+    />
   </div>
 </template>
 

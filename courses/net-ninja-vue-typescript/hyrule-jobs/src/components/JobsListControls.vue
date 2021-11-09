@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 
-import { Job, JobSortField } from '@/types';
+import { JobSortField } from '@/types';
 
 export enum JobsListControlsEvent {
   SortingClicked = 'sortingClicked',
@@ -36,7 +36,6 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const sortingField = ref<JobSortField>(props.sortingField);
     const sortingFields = [
       JobSortField.Title,
       JobSortField.Location,
@@ -45,16 +44,14 @@ export default defineComponent({
 
     const onSort = (sortBy: JobSortField): void => {
 
-      if (sortBy === sortingField.value) {
+      if (sortBy === props.sortingField) {
         return;
       }
 
-      sortingField.value = sortBy;
       context.emit(JobsListControlsEvent.SortingClicked, sortBy);
     };
 
     return {
-      sortingField,
       sortingFields,
       onSort,
     };

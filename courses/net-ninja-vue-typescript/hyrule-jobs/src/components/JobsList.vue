@@ -1,20 +1,22 @@
 <template>
   <ul class="jobs">
-    <li v-for="job in sortedJobs" :key="job.id" class="job">
-      <h2 class="job__title">{{ job.title }}</h2>
-      <h3 class="job__location">{{ job.location }}</h3>
-      <div class="job__salary">
-        {{ job.salary}} rupees
-      </div>
-      <div class="job__description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa quod facilis vitae animi alias porro tempore, laborum eum neque praesentium nesciunt exercitationem necessitatibus! Suscipit delectus dolore iste asperiores necessitatibus error!
-      </div>
-    </li>
+    <transition-group name="jobs-transition-group">
+      <li v-for="job in sortedJobs" :key="job.id" class="job">
+        <h2 class="job__title">{{ job.title }}</h2>
+        <h3 class="job__location">{{ job.location }}</h3>
+        <div class="job__salary">
+          {{ job.salary}} rupees
+        </div>
+        <div class="job__description">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa quod facilis vitae animi alias porro tempore, laborum eum neque praesentium nesciunt exercitationem necessitatibus! Suscipit delectus dolore iste asperiores necessitatibus error!
+        </div>
+      </li>
+    </transition-group>
   </ul>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 
 import { Job, JobSortField } from '@/types';
 import { compareDescendingKey } from '@/utils';
@@ -33,18 +35,18 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // TODO: Create sortedJobs computed prop
-    //   switch (newValue) {
-    //     case JobSortField.Title:
-    //       sortedJobs.value = [...props.jobs].sort(compareDescendingKey('title'));
-    //       break;
-    //     case JobSortField.Location:
-    //       sortedJobs.value = [...props.jobs].sort(compareDescendingKey('location'));
-    //       break;
-    //     case JobSortField.Salary:
-    //       sortedJobs.value = [...props.jobs].sort(compareDescendingKey('salary'));
-    //       break;
-    //   }
+    const sortedJobs = computed(() => {
+      switch (props.sortingField) {
+        case JobSortField.Title:
+          return [...props.jobs].sort(compareDescendingKey('title'));
+        case JobSortField.Location:
+          return [...props.jobs].sort(compareDescendingKey('location'));
+        case JobSortField.Salary:
+          return [...props.jobs].sort(compareDescendingKey('salary'));
+        default:
+          return props.jobs;
+      }
+    });
 
     return {
       sortedJobs,
@@ -65,6 +67,7 @@ export default defineComponent({
   margin: 1rem 0;
   padding: 1.5rem;
   border-radius: 0.5rem;
+  position: relative;
 }
 
 .job__title {
@@ -86,5 +89,21 @@ export default defineComponent({
 
 .job__description {
   font-size: 0.9em;
+}
+
+.jobs-transition-group-enter-active {
+  transform: scale(1.1);
+  transition: 0.5s all ease-out;
+}
+
+/* .jobs-transition-group-leave-active {
+  position: absolute;
+  transform: scale(0);
+  transition: 0.5s all ease-out;
+} */
+
+/* Vue applies *-move to any moving element in a <transition-group> */
+.jobs-transition-group-move {
+  transition: 0.5s all linear;
 }
 </style>
