@@ -1,28 +1,29 @@
 <template>
   <ul class="jobs">
     <transition-group name="jobs-transition-group">
-      <li v-for="job in sortedJobs" :key="job.id" class="job">
-        <h2 class="job__title">{{ job.title }}</h2>
-        <h3 class="job__location">{{ job.location }}</h3>
-        <div class="job__salary">
-          {{ job.salary}} rupees
-        </div>
-        <div class="job__description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa quod facilis vitae animi alias porro tempore, laborum eum neque praesentium nesciunt exercitationem necessitatibus! Suscipit delectus dolore iste asperiores necessitatibus error!
-        </div>
-      </li>
+      <job-item
+        v-for="job in sortedJobs"
+        :key="job.id"
+        :job="job"
+        :isOpen="!!openItems[job.id]"
+        @toggleClicked="onToggleItem(job.id)"
+      />
     </transition-group>
   </ul>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType, reactive } from 'vue';
 
 import { Job, JobSortField } from '@/types';
-import { compareDescendingKey } from '@/utils';
+import { compareAscendingKey, compareDescendingKey } from '@/utils';
+import JobItem from '@/components/JobItem.vue';
 
 export default defineComponent({
   name: 'JobsList',
+  components: {
+    JobItem,
+  },
   props: {
     jobs: {
       required: true,
@@ -35,12 +36,13 @@ export default defineComponent({
     },
   },
   setup(props) {
+
     const sortedJobs = computed(() => {
       switch (props.sortingField) {
         case JobSortField.Title:
-          return [...props.jobs].sort(compareDescendingKey('title'));
+          return [...props.jobs].sort(compareAscendingKey('title'));
         case JobSortField.Location:
-          return [...props.jobs].sort(compareDescendingKey('location'));
+          return [...props.jobs].sort(compareAscendingKey('location'));
         case JobSortField.Salary:
           return [...props.jobs].sort(compareDescendingKey('salary'));
         default:
@@ -48,8 +50,15 @@ export default defineComponent({
       }
     });
 
+    const openItems = reactive<{ [id: string]: boolean }>({});
+    const onToggleItem = (id: string): void => {
+      openItems[id] = openItems[id] ? false : true;
+    };
+
     return {
       sortedJobs,
+      openItems,
+      onToggleItem,
     };
   },
 })
@@ -62,48 +71,13 @@ export default defineComponent({
   list-style: none;
 }
 
-.job {
-  background: var(--color-white);
-  margin: 1rem 0;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  position: relative;
-}
-
-.job__title {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-.job__location {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: var(--color-grey-dark);
-}
-
-.job__salary {
-  margin: 1rem 0;
-  font-weight: bold;
-  color:var(--color-success);
-}
-
-.job__description {
-  font-size: 0.9em;
-}
-
 .jobs-transition-group-enter-active {
   transform: scale(1.1);
-  transition: 0.5s all ease-out;
+  transition: 0.2s all ease-out;
 }
-
-/* .jobs-transition-group-leave-active {
-  position: absolute;
-  transform: scale(0);
-  transition: 0.5s all ease-out;
-} */
 
 /* Vue applies *-move to any moving element in a <transition-group> */
 .jobs-transition-group-move {
-  transition: 0.5s all linear;
+  transition: 0.2s all linear;
 }
 </style>

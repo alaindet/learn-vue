@@ -33,10 +33,6 @@ export default defineComponent({
     const sortingField = ref<JobSortField>(JobSortField.Title);
     const onSort = (sortBy: JobSortField) => sortingField.value = sortBy;
 
-    watch(sortingField, (newVal) => {
-      console.log('sortingField', newVal);
-    });
-
     return {
       jobs,
       sortingField,
@@ -53,8 +49,8 @@ export default defineComponent({
 }
 
 .app__divider {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   height: 2px;
   background: linear-gradient(
     90deg,
