@@ -8,9 +8,13 @@ This repository contains the learning material, demo, tests and everything I use
 
 - Complete Vue Mastery 2021 (w/ Vuex, Composition API, Router)
   - **Course** [Complete Vue Mastery 2021 (w/ Vuex, Composition API, Router)](https://www.udemy.com/course/complete-vue-js-developer-zero-to-mastery-vuex/)
-  - **Teachers:**
+  - **Teachers**
     - [Andrei Neagoie](https://www.udemy.com/user/andrei-neagoie/)
     - [Luis Ramirez Jr](https://www.udemy.com/user/luisramirezjr/)
+
+- Master Laravel with Vue.js Fullstack Development
+  - **Course** [Master Laravel with Vue.js Fullstack Development](https://www.udemy.com/course/master-laravel-6-with-vuejs-fullstack-development/)
+  - **Teacher** [Piotr Jura](https://www.udemy.com/user/piotrjura/)
 
 - Vue 3 with TypeScript Tutorial
   - **Course** [Vue 3 with TypeScript Tutorial](https://www.youtube.com/watch?v=JfI5PISLr9w&list=PL4cUxeGkcC9gCtAuEdXTjNVE5bbMFo5OD)
