@@ -33,18 +33,12 @@ Files created by the `php` and `composer` containers are owned by the `root` use
 ## Usage
 
 ```
-# With direct logs
-docker-compose up server php mysql
-
-# Without direct logs
-docker-compose up -d server php mysql
-
-# Rebuild images, run server which runs dependencies as well
-docker-compose up -d --build server
+docker-compose up -d server php mariadb adminer
 ```
 
-### Run `artisan` utility software
+### Run utilities
 
 ```
 docker-compose run --rm artisan migrate
+docker-compose run --rm composer install
 ```
