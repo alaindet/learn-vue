@@ -8,6 +8,6 @@ RUN apk add shadow && \
 
 USER root
 
-WORKDIR /home/laravel/app
+WORKDIR /var/www/html
 
 ENTRYPOINT [ "composer", "--ignore-platform-reqs" ]

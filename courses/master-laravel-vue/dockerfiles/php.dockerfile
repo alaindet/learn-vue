@@ -12,7 +12,9 @@ RUN apk add shadow && \
 # RUN addgroup -g 1000 laravel && \
 #     adduser -G laravel -g laravel -s /bin/sh -D laravel
 
-USER laravel
+# USER laravel
+
+USER www-data
 
 EXPOSE 9000
 

@@ -4,7 +4,7 @@
 
 ```
 docker-compose build composer && \
-docker-compose run --rm composer create-project --prefer-dist laravel/laravel /home/laravel/app
+docker-compose run --rm composer create-project --prefer-dist laravel/laravel /var/www/html
 ```
 
 ### File permission issues (Linux-only dockerfiles)
@@ -33,7 +33,7 @@ Files created by the `php` and `composer` containers are owned by the `root` use
 ## Usage
 
 ```
-docker-compose up -d server php mariadb adminer
+docker-compose up -d server app mariadb adminer
 ```
 
 ### Run utilities
