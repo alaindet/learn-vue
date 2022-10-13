@@ -1,1 +1,1 @@
-https://vuejs.org/guide/essentials/computed.html
+https://vuejs.org/guide/essentials/list.html

@@ -1,11 +1,15 @@
 <script setup lang="ts">
 // import HelloWorld from './components/HelloWorld.vue'
 // import TheWelcome from './components/TheWelcome.vue'
-import MyCounter from './components/MyCounter.vue';
+// import MyCounter from './components/MyCounter.vue';
+// import PublishedBooks from './components/PublishedBooks.vue';
+// import BoxStyling from './components/BoxStyling.vue';
+// import ConditionalRendering from './components/ConditionalRendering.vue';
+import ListRendering from './components/ListRendering.vue';
 </script>
 
 <template>
-  <MyCounter />
+  <ListRendering />
   <!-- <header>
     <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
