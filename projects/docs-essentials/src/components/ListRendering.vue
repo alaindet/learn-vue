@@ -10,9 +10,13 @@ const items = ref([
 
 <template>
   <ul>
-    <li v-for="item in items">
+    <!-- <li v-for="item in items">
       <input type="checkbox" :checked="item.isDone" />
       <span>{{ item.title }}</span>
+    </li> -->
+    <li v-for="(item, index) in items">
+      <input type="checkbox" :checked="item.isDone" />
+      <span>#{{ index }} {{ item.title }}</span>
     </li>
   </ul>
 </template>
