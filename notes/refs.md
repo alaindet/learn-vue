@@ -24,3 +24,12 @@ In this cycle, refs can only alter the final DOM and are generally discouraged t
   - Using a ref to declare a `reactive` object
   - Using a ref to declare an array or a Map
 - `ref`s can be replaced, destructured and passed to functions without losing reactivity
+
+- Vue captures any mutable change of reactive arrays (both declared via `ref` or `reactive`). Mutable changes include the use of
+  - `push()`
+  - `pop()`
+  - `shift()`
+  - `unshift()`
+  - `splice()`
+  - `sort()`
+  - `reverse()`

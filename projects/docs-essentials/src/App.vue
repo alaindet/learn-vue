@@ -1,53 +1,19 @@
 <script setup lang="ts">
-// import HelloWorld from './components/HelloWorld.vue'
-// import TheWelcome from './components/TheWelcome.vue'
-// import MyCounter from './components/MyCounter.vue';
-// import PublishedBooks from './components/PublishedBooks.vue';
-// import BoxStyling from './components/BoxStyling.vue';
-// import ConditionalRendering from './components/ConditionalRendering.vue';
-import ListRendering from './components/ListRendering.vue';
+import EventHandling from './components/EventHandling.vue';
 </script>
 
 <template>
-  <ListRendering />
-  <!-- <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main> -->
+  <div class="app">
+    <EventHandling />
+  </div>
 </template>
 
 <style scoped>
-/* header {
-  line-height: 1.5;
+.app {
+  margin: 1rem auto;
+  max-width: 500px;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 1rem;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-} */
 </style>
