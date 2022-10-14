@@ -1,1 +1,1 @@
-https://vuejs.org/guide/essentials/forms.html
+https://vuejs.org/guide/essentials/forms.html#checkbox
