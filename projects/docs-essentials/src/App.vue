@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import EventHandling from './components/EventHandling.vue';
+import YesNoQuestion from './components/watchers/yes-no-question.vue';
 </script>
 
 <template>
   <div class="app">
-    <EventHandling />
+    <YesNoQuestion />
   </div>
 </template>
-
+    
 <style scoped>
 .app {
   margin: 1rem auto;
@@ -17,3 +17,4 @@ import EventHandling from './components/EventHandling.vue';
   border-radius: 1rem;
 }
 </style>
+    
