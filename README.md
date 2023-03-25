@@ -15,3 +15,6 @@ This repository contains the learning material, demo, tests and everything I use
 - Vue 3 with TypeScript Tutorial
   - **Course** [Vue 3 with TypeScript Tutorial](https://www.youtube.com/watch?v=JfI5PISLr9w&list=PL4cUxeGkcC9gCtAuEdXTjNVE5bbMFo5OD)
     - **Teacher** [The Net Ninja](https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg)
+
+- [Official documentation for Vue 2](https://v2.vuejs.org/v2/guide/)
+- [Official documentation for Vue 3+](https://vuejs.org/guide/introduction.html)

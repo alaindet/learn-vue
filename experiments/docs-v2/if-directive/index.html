@@ -1,0 +1,37 @@
+<!-- https://github.com/vuejs/v2.vuejs.org/blob/master/src/v2/examples/vue-20-hello-world/index.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>My first Vue app</title>
+  <!-- <script src="https://unpkg.com/vue@2"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <button type="button" @click="toggleMessage">
+      {{ showMessage ? 'Hide' : 'Show' }} message
+    </button>
+    <p v-if="showMessage">
+      {{ message }}
+    </p>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello World!',
+        showMessage: true,
+      },
+      methods: {
+        toggleMessage: function () {
+          this.showMessage = !this.showMessage;
+        },
+      },
+    })
+  </script>
+</body>
+
+</html>

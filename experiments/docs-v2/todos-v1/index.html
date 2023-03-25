@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Todos v1</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    
+    <!-- Alert -->
+    <div v-if="alert" class="alert" v-bind:class="{
+      '--success': alert.type === ALERT_TYPE_SUCCESS,
+      '--error': alert.type === ALERT_TYPE_ERROR
+    }">
+      <button class="alert__dismiss" type="button" v-on:click="onDismissAlert">
+        &times;
+      </button>
+      {{ alert.message }}
+      <div class="alert__progress" :style="{ '--alert-progress-width': alertProgressWidth }"></div>
+    </div>
+
+    <h1>Todos v1</h1>
+
+    <!-- Storage -->
+    <section class="controls">
+      <h2>Local storage</h2>
+      <button type="button" v-on:click="onSaveToStorage">Store</button>
+      <button type="button" v-on:click="onFetchFromStorage">Fetch</button>
+      <button type="button" v-on:click="onClearStorage">Clear</button>
+    </section>
+
+    <!-- Add todo -->
+    <section class="add-todo">
+      <h2>Add new todo</h2>
+      <form class="add-todo__form --inline" v-on:submit="onSubmit">
+        <div class="form-control">
+          <label>
+            <input type="text" v-model="todoTitle" placeholder="Enter todo title...">
+          </label>
+        </div>
+
+        <div class="form-control">
+          <button type="submit">Create</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- List -->
+    <h2>Todo list ({{ doneTodosCount }} / {{ todos.length }})</h2>
+    <p v-if="!todos.length">No todos yet</p>
+    <ul v-else>
+      <li v-for="todo in todos" v-key="todo.id">
+        <input
+          type="checkbox"
+          v-bind:id="todo.id"
+          v-bind:checked="todo.isDone"
+          v-on:change="toggleTodo($event, todo.id)"
+        >
+        #{{ todo.id }}
+        {{ todo.title }}
+        <button type="button" v-on:click="tryDeletingTodo(todo.id)">
+          &times; Remove
+        </button>
+      </li>
+    </ul>
+
+  </div>
+
+  <script>
+    const STORAGE_KEY_TODO = 'vue_todos_v1';
+    const ALERT_TYPE_SUCCESS = 'success';
+    const ALERT_TYPE_ERROR = 'error';
+    const ALERT_AUTO_DISMISS_TIMER = 3000;
+    const ALERT_PROGRESS_BAR_TIMER = 500;
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        alert: null,
+        ALERT_TYPE_SUCCESS: ALERT_TYPE_SUCCESS,
+        ALERT_TYPE_ERROR: ALERT_TYPE_ERROR,
+        todos: [],
+        todoTitle: '',
+      },
+      computed: {
+        doneTodosCount: function() {
+          return this.todos.filter(t => t.isDone).length;
+        },
+        alertProgressWidth: function() {
+          if (!this.alert) {
+            return 0;
+          }
+          const total = ALERT_AUTO_DISMISS_TIMER;
+          const elapsed = this.alert.ticks * ALERT_PROGRESS_BAR_TIMER;
+          const percentage = 1 - (elapsed / total).toFixed(2);
+          return percentage;
+        },
+      },
+      methods: {
+
+        // Pure handlers
+        toggleTodo: function (event, id) {
+          event.target.checked ? this.completeTodo(id) : this.undoTodo(id);
+        },
+        onSubmit: function (event) {
+          event.preventDefault();
+          this.createTodo();
+        },
+        tryDeletingTodo(id) {
+          const { title } = this.todos.find(t => t.id === id);
+          if (confirm(`Do you want to delete todo #${id} ${title}?`)) {
+            this.deleteTodo(id);
+          }
+        },
+
+        // Todos
+        createTodo: function () {
+          const todo = { id: Date.now(), title: this.todoTitle, isDone: false };
+          this.todos = [todo, ...this.todos];
+          this.setSuccessAlert(`Created todo "${todo.title}"`);
+        },
+        deleteTodo: function (id) {
+          this.todos = this.todos.filter(t => t.id !== id);
+          this.setSuccessAlert(`Deleted todo #${id}"`);
+        },
+        completeTodo: function (id) {
+          this.todos = this.todos.map(t => (t.id === id) ? { ...t, isDone: true } : t);
+        },
+        undoTodo: function (id) {
+          this.todos = this.todos.map(t => (t.id === id) ? { ...t, isDone: false } : t);
+        },
+
+        // Storage
+        onSaveToStorage: function() {
+
+          if (!this.todos.length) {
+            this.setErrorAlert('No todos to store');
+            return;
+          }
+
+          localStorage.setItem(STORAGE_KEY_TODO, JSON.stringify(this.todos));
+          this.setSuccessAlert('Saved todos to local storage');
+        },
+        onFetchFromStorage: function() {
+          const stored = localStorage.getItem(STORAGE_KEY_TODO);
+          if (!stored) {
+            this.setErrorAlert('No todos where found on local storage');
+            return;
+          }
+          this.todos = JSON.parse(localStorage.getItem(STORAGE_KEY_TODO));
+          this.setSuccessAlert('Fetched todos from local storage');
+        },
+        onClearStorage: function() {
+          localStorage.clear(STORAGE_KEY_TODO);
+          this.setSuccessAlert('Local storage cleared');
+        },
+
+        // Alert
+        onDismissAlert: function() {
+          this.clearAlert();
+        },
+        setSuccessAlert: function(message) {
+          this.setAlert(ALERT_TYPE_SUCCESS, message);
+        },
+        setErrorAlert: function (message) {
+          this.setAlert(ALERT_TYPE_ERROR, message);
+        },
+        setAlert: function (type, message) {
+          clearInterval(this.alert?.progressBarTimer);
+          clearTimeout(this.alert?.autoDismissTimer);
+          this.alert = {
+            autoDismissTimer: setTimeout(
+              () => this.clearAlert(),
+              ALERT_AUTO_DISMISS_TIMER + ALERT_PROGRESS_BAR_TIMER,
+            ),
+            progressBarTimer: setInterval(
+              () => this.alert.ticks += 1,
+              ALERT_PROGRESS_BAR_TIMER,
+            ),
+            ticks: 0,
+            type,
+            message,
+          };
+        },
+        clearAlert: function() {
+          clearInterval(this.alert?.progressBarTimer);
+          clearTimeout(this.alert?.autoDismissTimer);
+          this.alert = null;
+        },
+      },
+    })
+  </script>
+
+  <style>
+    body {
+      position: relative;
+      font-size: 18px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .alert {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      padding-right: 1.2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 10px -5px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+    .alert.--success {
+      background-color: rgb(162, 226, 162);
+    }
+    .alert.--error {
+      background-color: rgb(209, 84, 84);
+      color: white;
+    }
+    .alert__dismiss {
+      background-color: transparent;
+      padding: 0.2rem;
+      margin: 0;
+      margin-right: 0.5rem;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .alert__dismiss:hover {
+      background-color: rgba(0,0,0,0.2);
+    }
+    .alert__progress {
+      --alert-progress-width: var(--alert-progress-width, 1);
+      --alert-progress-timer: var(--alert-progress-timer, 0.5s);
+
+      height: 4px;
+      background-color: rgba(0,0,0,0.2);
+      position: absolute;
+      inset: 0;
+      top: auto;
+      transform-origin: left;
+      transform: scaleX(var(--alert-progress-width));
+      transition: var(--alert-progress-timer) transform linear;
+    }
+    .add-todo {
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 2px solid #ccc;
+      margin: 1rem 0;
+      padding-bottom: 1.23rem; /* Balances title */
+    }
+    .add-todo__form.--inline {
+      display: flex;
+    }
+  </style>
+</body>
+
+</html>
