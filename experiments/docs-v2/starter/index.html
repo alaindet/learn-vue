@@ -1,0 +1,23 @@
+<!-- https://github.com/vuejs/v2.vuejs.org/blob/master/src/v2/examples/vue-20-hello-world/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <!-- <script src="https://unpkg.com/vue@2"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+<body>
+  <div id="app">
+    {{ message }}
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello World!'
+      }
+    })
+  </script>
+</body>
+</html>
