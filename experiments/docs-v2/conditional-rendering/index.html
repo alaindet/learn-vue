@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Conditional Rendering</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Conditional Rendering</h1>
+
+    <button @click="toggleParaprah">{{ show ? 'Hide' : 'Show' }}</button>
+    <p v-if="show">I told you.</p>
+    <p v-else>Nothing to see here</p>
+
+    <hr>
+
+    <p>Grouping multiple elements in <code>v-if</code> is possible via <code>&lt;template&gt;</code></p>
+    <template v-if="show">
+      <p>An hidden paragraph.</p>
+      <p>Another hidden paragraph.</p>
+    </template>
+
+    <hr>
+
+    <label>
+      Enter a number from 1 to 100...
+      <input
+        type="number"
+        v-model="guessedNumber"
+        placeholder="Enter a number from 1 to 100..."
+      >
+    </label>
+
+    <template v-if="guessedNumber !== null">
+      <p v-if="guessedNumber < 1 || guessedNumber > 100">
+        Enter a number from 1 to 100...
+      </p>
+      <p v-else-if="isClose">You're close</p>
+      <p v-else-if="guessedNumber < correctNumber">Too low</p>
+      <p v-else-if="guessedNumber > correctNumber">Too high</p>
+      <p v-else>YOU WON!</p>
+    </template>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        show: false,
+        guessedNumber: null,
+        threshold: 5,
+        correctNumber: 42,
+      },
+      computed: {
+        isClose: function() {
+          let diff = this.correctNumber - this.guessedNumber;
+          if (diff < 0) {
+            diff *= -1;
+          }
+          if (diff === 0 || diff > this.threshold) {
+            return false;
+          }
+          return true;
+        },
+      },
+      methods: {
+        toggleParaprah: function() {
+          this.show = !this.show;
+        },
+      },
+    });
+  </script>
+</body>
+
+</html>

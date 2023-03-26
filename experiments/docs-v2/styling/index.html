@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Styling</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Styling</h1>
+
+    <ul>
+      <li v-bind:class="{ green: isGreen }">With literal objects</li>
+      <li v-bind:class="{ green: isGreen, bold: isBold, underlined: isUnderlined }">
+        Multiple keys with literal objects
+      </li>
+      <li :class="{ green: isGreen }">Shorthand</li>
+      <li :class="computedClass">Shorthand with computed property</li>
+      <li :class="['green', isBold ? 'bold' : '', 'underlined']">With arrays</li>
+      <li :class="['green', { bold: isBold }, 'underlined']">Arrays and objects</li>
+      <li :style="{ fontFamily: 'Impact', color: 'blue' }">Bound style</li>
+    </ul>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        isGreen: true,
+        isBold: false,
+        isUnderlined: true,
+      },
+      computed: {
+        computedClass: function() {
+          return {
+            green: this.isGreen,
+            bold: this.isBold,
+            undelined: this.isUnderlined,
+          };
+        },
+      },
+    });
+  </script>
+
+  <style>
+    .green {
+      color: rgb(37, 180, 121);
+    }
+    .bold {
+      font-weight: bold;
+    }
+    .underlined {
+      text-decoration: underline;
+    }
+  </style>
+</body>
+</html>
