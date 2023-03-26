@@ -10,9 +10,10 @@
 <body>
 
   <div id="app">
-    <a v-bind:href="url" v-on:click="handleLinkClick" v-bind:[attrname]="attrvalue">The Link</a>
-    <a :href="url" @click="handleLinkClick" :[attrname]="attrvalue">The Shorthand Link</a>
-    <a @[evName]="evHandler"></a>
+    <h1>Directives Shorthand</h1>
+    <p><a v-bind:href="url" v-on:click="handleLinkClick">The Link</a></p>
+    <p><a @click="handleLinkClick" :[attrname]="url">The Shorthand Link</a></p>
+    <p><a @[evname].prevent.stop="evHandler" :[attrname]="url">The custom attributes link</a></p>
   </div>
 
   <script>
@@ -20,9 +21,8 @@
       el: '#app',
       data: {
         url: 'https://example.com',
-        attrname: 'data-foo',
-        attrvalue: 'bar',
-        evName: 'click',
+        attrname: 'href',
+        evname: 'click',
       },
       methods: {
         handleLinkClick: function (event) {

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Computed properties and Watchers</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Computed properties and Watchers</h1>
+
+    <p>Counter: {{ counter }}</p>
+    <p>Square root counter: {{ sqrtCounter }}</p>
+    <button type="button" @click="handleIncrement">+1</button>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        counter: 0,
+      },
+      computed: {
+        sqrtCounter: function() {
+          return Math.sqrt(this.counter);
+        },
+      },
+      methods: {
+        handleIncrement: function() {
+          this.counter += 1;
+        },
+      },
+    })
+  </script>
+</body>
+
+</html>
