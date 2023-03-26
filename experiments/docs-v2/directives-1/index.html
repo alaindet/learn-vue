@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Directives #1</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+<body>
+
+  <div id="app">
+    <h1>Directives #1</h1>
+    <a v-bind:href="url" v-on:click="handleLinkClick" v-bind:[attrname]="attrvalue">
+      The Link
+    </a>
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        url: 'https://example.com',
+        attrname: 'data-foo',
+        attrvalue: 'bar',
+      },
+      methods: {
+        handleLinkClick: function(event) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          alert('Clicked on link!');
+        },
+      },
+    });
+  </script>
+
+</body>
+</html>

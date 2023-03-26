@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lifecycles</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <p>Check the console for lifecycle events</p>
+    <button v-on:click="toggleInspector">{{ inspectorButtonLabel }}</button>
+    <app-lifecycle-inspector v-if="showInspector"></app-lifecycle-inspector>
+  </div>
+
+  <script>
+
+    const LifecycleInspector = {
+      template: `<p>lifecycle-inspector</p>`,
+      beforeCreate: function () { console.log('beforeCreate'); },
+      created: function () { console.log('created'); },
+      beforeMount: function () { console.log('beforeMount'); },
+      mounted: function () { console.log('mounted'); },
+      beforeUpdate: function () { console.log('beforeUpdate'); },
+      updated: function () { console.log('updated'); },
+      beforeDestroy: function () { console.log('beforeDestroy'); },
+      destroyed: function () { console.log('destroyed'); },
+    };
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        showInspector: false,
+      },
+      computed: {
+        inspectorButtonLabel: function() {
+          return this.showInspector
+            ? 'Hide lifecycle inspector'
+            : 'Show lifecycle inspector';
+        },
+      },
+      components: {
+        'app-lifecycle-inspector': LifecycleInspector,
+      },
+      methods: {
+        toggleInspector: function() {
+          this.showInspector = !this.showInspector;
+        },
+      },
+    })
+  </script>
+</body>
+
+</html>

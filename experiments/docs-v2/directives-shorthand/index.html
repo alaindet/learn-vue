@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Directives Shorthand</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+
+<body>
+
+  <div id="app">
+    <a v-bind:href="url" v-on:click="handleLinkClick" v-bind:[attrname]="attrvalue">The Link</a>
+    <a :href="url" @click="handleLinkClick" :[attrname]="attrvalue">The Shorthand Link</a>
+    <a @[evName]="evHandler"></a>
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        url: 'https://example.com',
+        attrname: 'data-foo',
+        attrvalue: 'bar',
+        evName: 'click',
+      },
+      methods: {
+        handleLinkClick: function (event) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          alert('Clicked on link!');
+        },
+        evHandler: function () {
+          alert('evHandler');
+        },
+      },
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Template syntax</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+
+    <h1>Template syntax</h1>
+    <a href="https://v2.vuejs.org/v2/guide/syntax.html">https://v2.vuejs.org/v2/guide/syntax.html</a>
+
+    <h2>Interpolation</h2>
+
+    <h3>Text</h3>
+    <button @click="updateCounter">{{ counter }} + 1</button>
+    <p>This updates regularly: {{ counter }}</p>
+    <p>This renders once: <span v-once>{{ counter }}</span></p>
+    <span v-html="rawHtml"></span>
+
+    <h3>Attributes</h3>
+    <p id="counter-{{ counter }}">This does not set the attribute</p>
+    <p v-bind:id="`counter-${counter}`">This sets the attribute via <code>v-bind</code></p>
+    <p v-bind:disabled="isDisabled">
+      <code>v-bind</code> can be used on <a href="https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML">Boolean attributes</a>; the evaluated expression either adds the attribute or removes it from the DOM
+    </p>
+    <div>
+      <label>
+        <input type="checkbox" v-bind:disabled="isDisabled" v-bind:checked="isChecked">
+        Just a random label
+      </label>
+      <button @click="toggleDisabled">{{ isDisabled ? 'Enable' : 'Disable' }}</button>
+      <button @click="toggleChecked">{{ isChecked ? 'Uncheck' : 'Check' }}</button>
+    </div>
+
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        counter: 0,
+        rawHtml: '<p>This is some <strong>injected</strong> HTML; <em>Beware</em> of XSS!</p>',
+        isDisabled: true,
+        isChecked: true,
+      },
+      methods: {
+        updateCounter: function() {
+          this.counter += 1;
+        },
+        toggleDisabled: function() {
+          this.isDisabled = !this.isDisabled;
+        },
+        toggleChecked: function() {
+          this.isChecked = !this.isChecked;
+        },
+      },
+    })
+  </script>
+</body>
+
+</html>
