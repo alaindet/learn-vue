@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lists</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Lists</h1>
+
+    <h2>Basic</h2>
+    <ul>
+      <li v-for="item in items" :key="item.id">
+        {{ item.text }}
+      </li>
+    </ul>
+
+    <h2>With index</h2>
+    <ul>
+      <li v-for="(item, index) in items" :key="item.id">
+        #{{ index + 1 }} {{ item.text }}
+      </li>
+    </ul>
+
+    <h2>Loop on an object's properties</h2>
+    <ul>
+      <li v-for="(val, key, index) in myObj" :key="key">
+        #{{ index + 1 }} {{ val }}
+      </li>
+    </ul>
+
+    <h2>Range</h2>
+    <ul>
+      <li v-for="n in 10">{{ n }}</li>
+    </ul>
+
+    <h2>Using <code>&lt;template&gt;</code></h2>
+    <ul>
+      <template v-for="item in items">
+        <li>{{ item.text }}</li>
+        <li class="divider" role="presentation"></li>
+      </template>
+    </ul>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        items: [
+          { id: 'foo', text: 'Foo' },
+          { id: 'bar', text: 'Bar' },
+          { id: 'baz', text: 'Baz' },
+        ],
+        myObj: {
+          foo: 'Foo',
+          bar: 'Bar',
+          baz: 'Baz',
+        },
+      },
+    });
+  </script>
+
+  <style>
+    .divider {
+      width: 10rem;
+      background-color: #e0e0e0;
+    }
+  </style>
+</body>
+
+</html>
