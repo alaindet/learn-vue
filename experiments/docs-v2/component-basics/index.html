@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Component Basics</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Component Basics</h1>
+    <my-counter></my-counter>
+  </div>
+
+  <script>
+    const MyCounter = Vue.component('my-counter', {
+      data: function() {
+        return {
+          counter: 0,
+        };
+      },
+      methods: {
+        increment: function() {
+          this.counter += 1;
+        },
+      },
+      template: `
+        <button @click="increment">{{ counter }} + 1</button>
+      `,
+    });
+
+    new Vue({
+      el: '#app',
+      components: {
+        'my-counter': MyCounter,
+      },
+    });
+  </script>
+
+  <style>
+    .log {
+      background-color: #cfe7f0;
+      font-family: monospace;
+      padding: 0.5rem;
+    }
+  </style>
+
+</body>
+</html>
