@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Form Basics</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Form Basics</h1>
+    <label for="the-input">Text input</label>
+    <input type="text" v-model="theInput" id="the-input" placeholder="Enter some text...">
+    <pre class="log">{{ theInput }}</pre>
+
+    <hr>
+    <label for="single-checkbox">
+      <input type="checkbox" v-model="singleCheckbox" id="single-checkbox">
+      Single checkbox
+    </label>
+    <pre class="log">{{ singleCheckbox }}</pre>
+
+    <hr>
+    <label>
+      <input type="checkbox" value="Foo" v-model="multipleCheckboxes"> Foo
+    </label>
+    <label>
+      <input type="checkbox" value="Bar" v-model="multipleCheckboxes"> Bar
+    </label>
+    <label>
+      <input type="checkbox" value="Baz" v-model="multipleCheckboxes"> Baz
+    </label>
+    <pre class="log">{{ multipleCheckboxes }}</pre>
+
+    <hr>
+    <label>
+      <input type="radio" value="Black" v-model="pickedColor">
+      Black
+    </label>
+    <label>
+      <input type="radio" value="White" v-model="pickedColor">
+      White
+    </label>
+    <pre class="log">{{ pickedColor }}</pre>
+
+    <hr>
+    <button type="button" @click="selectedOption = null">Reset selected option</button>
+    <select v-model="selectedOption">
+      <option disabled :value="null">Please select one</option>
+      <option v-for="option in options" :value="option.value">
+        {{ option.label }}
+      </option>
+    </select>
+    <pre class="log">{{ selectedOption }}</pre>
+
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        theInput: 'Initial value',
+        singleCheckbox: true,
+        multipleCheckboxes: ['Bar'],
+        pickedColor: 'White',
+        selectedOption: null,
+        options: [
+          { value: 'foo', label: 'Foo' },
+          { value: 'bar', label: 'Bar' },
+          { value: 'foo', label: 'Baz' },
+        ],
+      },
+    });
+  </script>
+
+  <style>
+    .log {
+      background-color: #cfe7f0;
+      font-family: monospace;
+      padding: 0.5rem;
+    }
+  </style>
+
+</body>
+</html>
