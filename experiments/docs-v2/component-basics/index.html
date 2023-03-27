@@ -10,14 +10,79 @@
 <body>
   <div id="app">
     <h1>Component Basics</h1>
-    <my-counter></my-counter>
+    <p>Vanilla <my-counter></my-counter></p>
+    <p>With initial value <my-counter value="10"></my-counter></p>
+    <hr>
+    <div>
+      Font size: <code>{{ postFontSize }}em</code>
+      <button type="button" @click="decrementPostFontSize">-0.1 rem</button>
+      <button type="button" @click="resetPostFontSize">1.0 rem</button>
+      <button type="button" @click="incrementPostFontSize">+0.1 rem</button>
+    </div>
+    <my-post
+      v-for="post in posts"
+      :key="post.title"
+      :post="post"
+      :fontsize="postFontSize"
+      @readMore="handleReadMore"
+      @voted="handlePostVoted"
+    ></my-post>
+    <hr>
+    <my-input v-model="myInputValue"></my-input>
+    <p>My input value: {{ myInputValue }}</p>
   </div>
 
   <script>
-    const MyCounter = Vue.component('my-counter', {
+
+    // Thanks to https://stackoverflow.com/a/11832950
+    function betterDecimalRound(number) {
+      return Math.round((number + Number.EPSILON) * 100) / 100;
+    }
+
+    // Global component: my-post
+    Vue.component('my-post', {
+      props: [
+        'post',
+        'fontsize',
+      ],
+      computed: {
+        postStyling: function() {
+          return {
+            '--my-post-font-size': `${this['fontsize']}em`,
+          };
+        },
+      },
+      methods: {
+        handleReadMore: function() {
+          this.$emit('readMore');
+        },
+        handleUpvote: function() {
+          this.$emit('voted', 1);
+        },
+        handleDownvote: function() {
+          this.$emit('voted', -1);
+        },
+      },
+      template: `
+        <div class="my-post" :style="postStyling">
+          <strong>{{ post.title }}</strong>
+          <br>
+          <span>{{ post.content }}</span>
+          <button type="button" @click="handleReadMore">Read more</button>
+          <button type="button" @click="handleUpvote">+1</button>
+          <button type="button" @click="handleDownvote">-1</button>
+        </div>
+      `,
+    });
+
+    // Global component: my-counter
+    Vue.component('my-counter', {
+      props: [
+        'value',
+      ],
       data: function() {
         return {
-          counter: 0,
+          counter: this.value ? Number(this.value) : 0,
         };
       },
       methods: {
@@ -30,10 +95,46 @@
       `,
     });
 
+    // Global component: my-input
+    Vue.component('my-input', {
+      props: ['value'],
+      template: `<input type="text" :value="value" @input="$emit('input', $event.target.value)">`,
+    });
+
+    // Root component
     new Vue({
       el: '#app',
-      components: {
-        'my-counter': MyCounter,
+      data: function () {
+        return {
+          postFontSize: 1.0,
+          minPostFontSize: 0.2,
+          maxPostFontSize: 2.5,
+          posts: [
+            { title: 'Foo post', content: 'Foo ipsum dolor sit amet.' },
+            { title: 'Bar post', content: 'Bar ipsum dolor sit amet.' },
+            { title: 'Baz post', content: 'Baz ipsum dolor sit amet.' },
+          ],
+          myInputValue: 'my input value',
+        };
+      },
+      methods: {
+        decrementPostFontSize: function() {
+          const newFontSize = betterDecimalRound(this.postFontSize - 0.1);
+          this.postFontSize = Math.max(newFontSize, this.minPostFontSize);
+        },
+        incrementPostFontSize: function() {
+          const newFontSize = betterDecimalRound(this.postFontSize + 0.1);
+          this.postFontSize = Math.min(newFontSize, this.maxPostFontSize);
+        },
+        resetPostFontSize: function() {
+          this.postFontSize = 1.0;
+        },
+        handleReadMore: function() {
+          console.log('handleReadMore');
+        },
+        handlePostVoted: function(vote) {
+          console.log('handlePostVoted', vote);
+        },
       },
     });
   </script>
@@ -44,7 +145,16 @@
       font-family: monospace;
       padding: 0.5rem;
     }
+
+    /* TODO: Move to component's SFC */
+    .my-post {
+      --my-post-font-size: var(--my-post-font-size, 1rem);
+
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      font-size: var(--my-post-font-size);
+    }
   </style>
 
 </body>
-</html>
+</html
