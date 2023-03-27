@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Events</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
@@ -9,14 +9,50 @@
 
   <div id="app">
     <h1>Events</h1>
-    <p>...</p>
+    <p>Counter: {{ counter }}</p>
+    <button v-on:click="counter += 1">Inline</button>
+    <button v-on:click="increment">Via method</button>
+    <button v-on:click="incrementBy(10)">Inline + method</button>
+    <button v-on:click="explicitIncrementBy($event, 5)">
+      Inline + method + $event
+    </button>
+
+    <button @click.once="alert('This runs just once')">
+      .once
+    </button>
+
+    <label>
+      Listen to arrow up and enter code (13)
+      <input
+        type="text"
+        @keydown.arrow-up="alert('Arrow up on input')"
+        @keydown.13="alert('Pressed Enter')"
+      >
+    </label>
   </div>
 
   <script>
     new Vue({
       el: '#app',
+      data: {
+        counter: 1,
+      },
+      methods: {
+        // Implicit event argument
+        increment: function(clickEvent) {
+          console.log(clickEvent);
+          this.counter++;
+        },
+        incrementBy: function(delta) {
+          this.counter += delta;
+        },
+        explicitIncrementBy: function(event, delta) {
+          console.log('event', event);
+          this.counter += delta;
+        },
+      },
     });
   </script>
-  
+
 </body>
 </html>
