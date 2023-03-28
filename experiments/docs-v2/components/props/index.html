@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Props</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+<body>
+
+  <div id="app">
+    <h1>Props</h1>
+    <my-post
+      id="foo"
+      title="This is a title"
+      :likes="42"
+      weird-author-name="Agatha Charles"
+    >
+      Lorem ipsum dolor sit amet.
+    </my-post>
+  </div>
+
+  <script>
+
+    const MyPost = {
+      props: {
+        id: [String, Number],
+        title: String,
+        likes: {
+          type: Number,
+          required: true,
+        },
+        related: {
+          type: Array,
+          // Complex default value
+          default: function() {
+            const DEFAULT_POST = {
+              id: 'default-post',
+              title: 'Default Post',
+              likes: 0,
+              related: [],
+            };
+            return [DEFAULT_POST];
+          },
+        },
+        weirdAuthorName: {
+          type: String,
+          // Complex validation
+          validator: function (val) {
+            console.log(val);
+            const [_, lastName] = val.split(' ');
+            return lastName.startsWith('B');
+          },
+        },
+      },
+      template: (
+        `<div>
+          <h2>{{ title }}<br><small>#{{ id }}, +{{ likes }}</small></h2>
+          <h3>By {{ weirdAuthorName }}</h3>
+          <div>
+            <slot></slot>
+          </div>
+          <ul>
+            <li v-for="p in related">
+              #{{ p.id }} {{ p.title }}, +{{ p.likes }}
+            </li>
+          </ul>
+        </div>`
+      ),
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'my-post': MyPost,
+      },
+    })
+  </script>
+
+</body>
+</html>
