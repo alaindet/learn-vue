@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Component Basics</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+  <div id="app">
+    <my-badge color="green">Passed</my-badge>
+    <my-badge color="red">Failed</my-badge>
+  </div>
+
+  <script>
+    // Global component: my-badge
+    Vue.component('my-badge', {
+      props: ['color'],
+      computed: {
+        cssClass: function() {
+          return `my-badge --${this.color}`;
+        },
+      },
+      template: `
+        <span :class="cssClass">
+          <slot></slot>
+        </span>
+      `,
+    });
+
+    const app = new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          // ...
+        };
+      },
+      methods: {
+        // ...
+      },
+    });
+  </script>
+
+  <style>
+    .my-badge {
+      border-radius: 100px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .my-badge.--red {
+      background-color: rgb(224, 48, 17);
+      color: white;
+    }
+
+    .my-badge.--green {
+      background-color: rgb(15, 172, 94);
+      color: white;
+    }
+  </style>
+
+</body>
+
+</html
