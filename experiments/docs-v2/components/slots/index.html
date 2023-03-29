@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Slots</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+<body>
+
+  <div id="app">
+    <h1>Slots</h1>
+
+    <!-- Default content in slot -->
+    <my-badge color="red"></my-badge>
+
+    <!-- Provided content in slot -->
+    <my-badge color="green">Passed</my-badge>
+
+    <my-badge :color="badge.color">{{ badge.content}}</my-badge>
+
+    <hr>
+
+    <my-layout>
+
+      <!-- Header slot -->
+      <template v-slot:header>
+        The header
+      </template>
+
+      <!-- Default slot -->
+      <!--
+        Same as
+        <template v-slot:default>
+          Content here...
+        </template>
+      -->
+      <p>Some content...</p>
+      <p>Some other content...</p>
+
+      <template v-slot:footer>
+        The footer
+      </template>
+
+    </my-layout>
+
+  </div>
+
+  <script>
+    const MyLayout = {
+      template: `
+        <div class="layout">
+          <header>
+            <slot name="header"></slot>
+          </header>
+          <main>
+            <slot></slot>
+            <!-- Same as <slot name="default"></slot> -->
+          </main>
+          <footer>
+            <slot name="footer"></slot>
+          </footer>
+        </div>
+      `,
+    };
+
+    const MyBadge = {
+      props: {
+        color: String,
+      },
+      computed: {
+        cssClass: function() {
+          return ['badge', `--${this.color}`];
+        },
+      },
+      template: `
+        <span :class="cssClass">
+          <slot>Default</slot>
+        </span>
+      `,
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'my-badge': MyBadge,
+        'my-layout': MyLayout,
+      },
+      data: function() {
+        return {
+          badge: {
+            content: 'My badge',
+            color: 'green',
+          },
+        };
+      },
+    });
+  </script>
+
+  <style>
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      color: white;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+      font-family: sans-serif;
+    }
+
+    .badge.--red {
+      background-color: rgb(184, 12, 12);
+    }
+
+    .badge.--green {
+      background-color: rgb(12, 184, 23);
+    }
+  </style>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
   <title>Custom events</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 </head>
@@ -9,18 +9,38 @@
 
   <div id="app">
     <h1>Custom events</h1>
-    <button>Dummy button #1</button>
+    <button>Focus trap #1</button>
+
+    <!-- Bind to custom change event -->
     <p>
-      <my-input @change="customInputChange" placeholder="Custom input event..."></my-input>
+      <my-input
+        @change="customInputChange"
+        placeholder="Custom input event..."
+      ></my-input>
     </p>
+
+    <!-- Bind to "native" change event on root element of <my-input> -->
     <p>
-      <my-input @change.native="nativeInputChange" placeholder="Native input event..."></my-input>
+      <my-input
+        @change.native="nativeInputChange"
+        placeholder="Native input event..."
+      ></my-input>
     </p>
-    <button>Dummy button #2</button>
+
+    <!-- Bind to native event on nested element of <my-input-nested> -->
+    <p>
+      <my-input-nested
+        @change.native="nativeNestedInputChange"
+        placeholder="Native nested input event..."
+      ></my-input-nested>
+    </p>
+
+    <button>Focus trap #2</button>
   </div>
 
   <script>
 
+    // Can bind to native events of root <input>
     const MyInput = {
       methods: {
         handleChange: function(event) {
@@ -31,10 +51,36 @@
       template: `<input type="text" @change="handleChange">`,
     };
 
+    // Bind native event to nested <input>
+    const MyInputNested = {
+      inheritAttrs: false,
+      props: {
+        placeholder: String,
+      },
+      methods: {
+        handleChange: function(event) {
+          console.log('MyInput.handleChange', event);
+          this.$emit('change', event);
+        },
+      },
+      template: `
+        <label>
+          <slot></slot>
+          <input
+            type="text"
+            :placeholder="placeholder"
+            @change="handleChange"
+            v-on="$listeners"
+          >
+        </label>
+      `,
+    };
+
     new Vue({
       el: '#app',
       components: {
         'my-input': MyInput,
+        'my-input-nested': MyInputNested,
       },
       data: function () {
         return {
@@ -47,6 +93,9 @@
         },
         nativeInputChange: function(event) {
           console.log('nativeInputChange', event);
+        },
+        nativeNestedInputChange: function(event) {
+          console.log('nativeNestedInputChange', event);
         },
       },
     })
