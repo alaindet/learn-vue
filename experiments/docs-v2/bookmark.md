@@ -1,1 +1,1 @@
-https://v2.vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots
+https://v2.vuejs.org/v2/guide/components-custom-events.html#Binding-Native-Events-to-Components

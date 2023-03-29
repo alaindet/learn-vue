@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Custom events</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+<body>
+
+  <div id="app">
+    <h1>Custom events</h1>
+    <button>Dummy button #1</button>
+    <p>
+      <my-input @change="customInputChange" placeholder="Custom input event..."></my-input>
+    </p>
+    <p>
+      <my-input @change.native="nativeInputChange" placeholder="Native input event..."></my-input>
+    </p>
+    <button>Dummy button #2</button>
+  </div>
+
+  <script>
+
+    const MyInput = {
+      methods: {
+        handleChange: function(event) {
+          console.log('MyInput.handleChange', event);
+          this.$emit('change', event);
+        },
+      },
+      template: `<input type="text" @change="handleChange">`,
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'my-input': MyInput,
+      },
+      data: function () {
+        return {
+
+        };
+      },
+      methods: {
+        customInputChange: function(event) {
+          console.log('customInputChange', event);
+        },
+        nativeInputChange: function(event) {
+          console.log('nativeInputChange', event);
+        },
+      },
+    })
+  </script>
+
+</body>
+</html>
