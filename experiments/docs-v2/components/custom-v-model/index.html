@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Props</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+<body>
+
+  <div id="app">
+    <h1>Custom <code>v-model</code></h1>
+    <my-checkbox v-model="isOkay">Are you okay with this?</my-checkbox>
+    <p>{{ isOkay }}</p>
+  </div>
+
+  <script>
+
+    const MyCheckbox = {
+      model: {
+        prop: 'checked',
+        event: 'change',
+      },
+      props: {
+        checked: Boolean,
+      },
+      template: `
+        <label>
+          <input
+            type="checkbox"
+            :checked="checked"
+            @change="$emit('change', $event.target.checked)"
+          >
+          <slot></slot>
+        </label>
+      `
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'my-checkbox': MyCheckbox,
+      },
+      data: function () {
+        return {
+          isOkay: true,
+        };
+      },
+    })
+  </script>
+
+</body>
+</html>
