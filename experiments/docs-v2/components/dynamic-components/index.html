@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Dynamic components</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+<body>
+
+  <div id="app">
+
+    <p>Current tab: {{ currentTabLabel }}</p>
+
+    <div class="tab-headers">
+      <button type="button" v-for="tab in tabs" @click="handleTabChange(tab.id)">
+        {{ tab.label }}
+      </button>
+    </div>
+
+    <template v-if="!!currentTab">
+      <component :is="'app-tab'" v-bind="{ id: currentTab.id, label: currentTab.label}">
+        <span v-html="currentTab.content"></span>
+      </component>
+    </template>
+
+  </div>
+
+  <script>
+
+    const Tab = {
+      props: {
+        id: String,
+        label: String,
+      },
+      mounted: function() {
+        console.log(`app-tab "${this.id}" mounted`);
+      },
+      unmounted: function() {
+        console.log(`app-tab "${this.id}" unmounted`);
+      },
+      template: `
+        <div class="tab">
+          <slot></slot>
+        </div>
+      `,
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'app-tab': Tab,
+      },
+      data: function () {
+        return {
+          currentTab: null,
+          tabs: [
+            { id: 'foo', label: 'Foo', content: 'Foo content' },
+            { id: 'bar', label: 'Bar', content: 'Bar content' },
+            { id: 'baz', label: 'Baz', content: 'Baz content' },
+          ],
+        };
+      },
+      computed: {
+        currentTabLabel: function() {
+          return this.currentTab?.label ?? 'No tab selected';
+        },
+      },
+      methods: {
+        handleTabChange: function (tabId) {
+          this.currentTab = this.tabs.find(tab => tab.id === tabId);
+        },
+      },
+    })
+  </script>
+
+</body>
+</html>
