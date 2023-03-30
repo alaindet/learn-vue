@@ -9,6 +9,7 @@
 
   <div id="app">
     <h1>Slots</h1>
+    <h2>Default slot</h2>
 
     <!-- Default content in slot -->
     <my-badge color="red"></my-badge>
@@ -19,6 +20,7 @@
     <my-badge :color="badge.color">{{ badge.content}}</my-badge>
 
     <hr>
+    <h2>Named slots</h2>
 
     <my-layout>
 
@@ -43,9 +45,49 @@
 
     </my-layout>
 
+    <!-- Alternative syntax -->
+    <my-layout>
+      <template #header>Alternative syntax</template>
+      <p>My content</p>
+      <!-- <template #default><p>My content</p></template> -->
+      <template #footer>My footer</template>
+    </my-layout>
+
+    <hr>
+    <h2>Scoped slots</h2>
+
+    <my-list :items="items">
+      <!-- <template v-slot:default="props">
+        ({{ props.item.id }}) {{ props.item.label }}
+      </template> -->
+
+      <!-- Alternative with destructuring-->
+      <!-- <template v-slot:default="{ item: { id, label } }">
+        ({{ id }}) {{ label }}
+      </template> -->
+
+      <!-- Alternative #2 -->
+      <template #default="{ item: { id, label } }">
+        ({{ id }}) {{ label }}
+      </template>
+    </my-list>
+
   </div>
 
   <script>
+    const MyList = {
+      props: {
+        items: Array,
+      },
+      template: `
+        <ul>
+          <li v-for="item in items">
+            <slot v-bind:item="item">{{ item.label }}</slot>
+          </li>
+        </ul>
+      `,
+    };
+
     const MyLayout = {
       template: `
         <div class="layout">
@@ -84,9 +126,15 @@
       components: {
         'my-badge': MyBadge,
         'my-layout': MyLayout,
+        'my-list': MyList,
       },
       data: function() {
         return {
+          items: [
+            { id: 'one', label: 'One' },
+            { id: 'two', label: 'Two' },
+            { id: 'three', label: 'Three' },
+          ],
           badge: {
             content: 'My badge',
             color: 'green',
@@ -112,6 +160,13 @@
 
     .badge.--green {
       background-color: rgb(12, 184, 23);
+    }
+
+    .layout {
+      border: 2px solid blueviolet;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
     }
   </style>
 
