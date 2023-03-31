@@ -18,8 +18,16 @@
     </div>
 
     <template v-if="!!currentTab">
-      <component :is="'app-tab'" v-bind="{ id: currentTab.id, label: currentTab.label}">
-        <span v-html="currentTab.content"></span>
+      <component :is="currentTabComponent" v-bind="{
+        id: currentTab.id,
+        label: currentTab.label,
+      }">
+        <template #header>
+          {{ currentTab.label }}
+        </template>
+        <template #default>
+          <span v-html="currentTab.content"></span>
+        </template>
       </component>
     </template>
 
@@ -35,11 +43,15 @@
       mounted: function() {
         console.log(`app-tab "${this.id}" mounted`);
       },
-      unmounted: function() {
-        console.log(`app-tab "${this.id}" unmounted`);
+      destroyed: function() {
+        console.log(`app-tab "${this.id}" destroyed`);
+      },
+      updated: function () {
+        console.log(`app-tab "${this.id}" updated`);
       },
       template: `
         <div class="tab">
+          <h2><slot name="header"></slot></h2>
           <slot></slot>
         </div>
       `,
@@ -48,7 +60,9 @@
     new Vue({
       el: '#app',
       components: {
-        'app-tab': Tab,
+        'app-tab-foo': Tab,
+        'app-tab-bar': Tab,
+        'app-tab-baz': Tab,
       },
       data: function () {
         return {
@@ -61,6 +75,12 @@
         };
       },
       computed: {
+        currentTabComponent: function() {
+          if (this.currentTab === null) {
+            return null;
+          }
+          return `app-tab-${this.currentTab.id}`;
+        },
         currentTabLabel: function() {
           return this.currentTab?.label ?? 'No tab selected';
         },
