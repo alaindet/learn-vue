@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Dynamic components</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+<body>
+
+  <div id="app">
+    <app-async-button name="foo">
+      This is some content
+    </app-async-button>
+  </div>
+
+  <script>
+
+    const MyAsyncComponent = {
+      props: { name: String },
+      template: `<p>[{{ name }}][Done] <slot></slot></p>`,
+    };
+
+    const MyLoadingComponent = {
+      props: { name: String },
+      template: `<p>[{{ name }}][Loading] <slot></slot></p>`,
+    };
+
+    const MyErrorComponent = {
+      props: { name: String },
+      template: `<p>[{{ name }}][Error] <slot></slot></p>`,
+    };
+
+    const MyAsyncButton = () => ({
+      component: new Promise((resolve, _) => {
+        setTimeout(() => resolve(MyAsyncComponent), 1500);
+      }),
+      loading: MyLoadingComponent,
+      error: MyErrorComponent,
+      delay: 0,
+      timeout: 1500,
+    });
+
+    new Vue({
+      el: '#app',
+      components: {
+        'app-async-button': MyAsyncButton,
+      },
+    });
+  </script>
+
+</body>
+</html>

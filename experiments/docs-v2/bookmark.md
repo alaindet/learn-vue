@@ -1,1 +1,1 @@
-https://v2.vuejs.org/v2/guide/components-dynamic-async.html
+https://v2.vuejs.org/v2/guide/components-edge-cases.html
