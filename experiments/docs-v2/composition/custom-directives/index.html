@@ -11,11 +11,105 @@
 
   <div id="app">
     <h1>Custom Directives</h1>
+    <button @click="toggleBorderSize">Toggle border size</button>
+    <p v-with-border="borderSize">This has a border</p>
+    <p v-with-border:red:dashed="borderSize">This has a border</p>
+    <hr>
+    <button @click="toggleHooksDirective">Toogle hooks directive</button>
+    <p v-if="isHooksDirective" v-with-hooks>This triggers all hooks</p>
   </div>
 
   <script>
+    // // TODO
+    // const WithBorderDirective = {
+    //   inserted: function(el, binding) {
+    //     el.style.border = '2px solid black';
+    //   },
+    //   update: function(el, binding) {
+    //     el.style.border = '2px solid black';
+    //   },
+    // };
+
+    // A directive function runs on "bound" and "update" hooks only
+    // <p v-with-border:red:dashed="'4px'">This has a border</p>
+    // <p v-with-border>This has a border</p>
+    const WithBorderDirective = function(el, binding, vnode) {
+      let [size, style, color] = ['1px', 'solid', 'black'];
+
+      setElStyle = () => el.style.border = `${size} ${style} ${color}`;
+
+      if (binding.value) {
+        size = binding.value;
+      }
+
+      if (!binding.arg) {
+        return setElStyle();
+      }
+
+      const bits = binding.arg.split(':');
+
+      if (bits.length > 2) {
+        throw new Error('Invalid arguments');
+      }
+
+      if (bits.length === 1) {
+        [color] = bits;
+        return setElStyle();
+      }
+
+      [color, style] = bits;
+      setElStyle();
+    };
+
+    const WithHooksDirective = {
+      // Once, when bound
+      bind: function (el, binding) {
+        console.log('bind', el, binding);
+      },
+
+      // When inserted into parent node
+      inserted: function (el, binding) {
+        console.log('inserted', el, binding);
+      },
+
+      // When VNode updated
+      update: function (el, binding) {
+        console.log('update', el, binding);
+      },
+
+      // When parent component VNode and children updated
+      componentUpdated: function (el, binding) {
+        console.log('componentUpdated', el, binding);
+      },
+
+      // Once, when unbound
+      unbind: function (el, binding) {
+        console.log('unbind', el, binding);
+      },
+    };
+
     new Vue({
       el: '#app',
+      directives: {
+        'with-border': WithBorderDirective,
+        'with-hooks': WithHooksDirective,
+      },
+      data: function() {
+        return {
+          borderSize: '2px',
+          isHooksDirective: false,
+        };
+      },
+      methods: {
+        toggleHooksDirective: function() {
+          this.isHooksDirective = !this.isHooksDirective;
+        },
+        toggleBorderSize: function() {
+          this.borderSize = (this.borderSize === '2px')
+            ? '4px'
+            : '2px';
+        },
+      },
     })
   </script>
 
