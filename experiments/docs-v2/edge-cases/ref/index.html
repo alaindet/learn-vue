@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Edge cases: accessing children</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <h1>Accessing children</h1>
+
+    <h2><code>ref and $refs</code></h2>
+    <button @click="focusInput">Focus nested input</button>
+    <my-input ref="theInput"></my-input>
+  </div>
+
+  <script>
+
+    const MyInput = {
+      methods: {
+        focus: function () {
+          console.log('MyInput.focus');
+          this.$refs.theInput.focus();
+        },
+      },
+      template: `
+        <input ref="theInput" type="text">
+      `,
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'my-input': MyInput,
+      },
+      methods: {
+        focusInput: function () {
+          this.$refs.theInput.focus();
+        },
+      },
+    })
+  </script>
+
+</body>
+
+</html>
