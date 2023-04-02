@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Mixins</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <h1>Mixins</h1>
+    <p>Mixins are discouraged as of Vue 3+ in favor of composables</p>
+    <app-person first-name="John" last-name="Smith"></app-person>
+  </div>
+
+  <script>
+    const withName = {
+      props: {
+        firstName: String,
+        lastName: String,
+      },
+      computed: {
+        fullName: function () {
+          return `${this.firstName} ${this.lastName}`;
+        },
+      },
+      mounted: function() {
+        console.log('withName.mounted');
+      },
+    };
+
+    const PersonComponent = {
+      mixins: [withName],
+      template: `
+        <p>Hello, I am {{ fullName }}</p>
+      `,
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'app-person': PersonComponent,
+      },
+    })
+  </script>
+
+</body>
+
+</html>
