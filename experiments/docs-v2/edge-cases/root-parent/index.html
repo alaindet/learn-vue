@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Edge cases: accessing parents</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <h1>Accessing parents</h1>
+    
+    <h2><code>$root</code></h2>
+    <button @click="logHiddenData">Log hidden data</button>
+    <my-component></my-component>
+    
+    <hr>
+    
+    <h2><code>$parent</code></h2>
+    <my-list :items="items"></my-list>
+  </div>
+
+  <script>
+
+    const MyListItem = {
+      props: {
+        id: String,
+      },
+      computed: {
+        totalItems: function() {
+          return this.$parent.items.length;
+        },
+      },
+      template: `
+        <li>
+          <slot></slot> (Total: {{ totalItems }})
+        </li>
+      `,
+    };
+
+    const MyList = {
+      props: {
+        items: Array,
+      },
+      components: {
+        'my-list-item': MyListItem,
+      },
+      template: `
+        <ul>
+          <li is="my-list-item" v-for="item in items" :key="item.id" :id="item.id">
+            {{ item.label }}
+          </li>
+        </ul>
+      `,
+    };
+
+    const MyComponent = {
+      mounted: function() {
+        console.log('MyComponent.mounted', this.$root.foo);
+        this.$root.hiddenData = 333;
+      },
+      template: `
+        <p>Just a component</p>
+      `,
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'my-component': MyComponent,
+        'my-list': MyList,
+      },
+      data: function () {
+        return {
+          foo: 111,
+          bar: 222,
+          items: [
+            { id: 'foo', label: 'Foo' },
+            { id: 'bar', label: 'Bar' },
+          ],
+        };
+      },
+      methods: {
+        logHiddenData: function() {
+          console.log(this.hiddenData);
+        },
+      },
+    })
+  </script>
+
+</body>
+
+</html>
