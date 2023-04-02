@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Edge cases: dependency injection</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <h1>Dependency Injection</h1>
+
+    <app-menu @selected="handleSelectedItem">
+      <app-menu-item id="view">
+        <template #shortcut>V</template>View
+      </app-menu-item>
+      <app-menu-item id="edit">
+        <template #shortcut>E</template>Edit
+      </app-menu-item>
+      <app-menu-item id="delete">
+        <template #shortcut>D</template>Delete
+      </app-menu-item>
+    </app-menu>
+  </div>
+
+  <script>
+    const MenuItem = {
+      props: {
+        id: String,
+      },
+      inject: {
+        injectedSelectItem: 'selectItem',
+      },
+      methods: {
+        selectItem: function(itemId) {
+          this.injectedSelectItem(itemId);
+        },
+      },
+      template: `
+        <button type="button" class="menu__item" @click="selectItem(id)">
+          <span class="item__shortcut">
+            <slot name="shortcut"></slot>
+          </span>
+          <slot></slot>
+        </button>
+      `,
+    };
+
+    const Menu = {
+      props: {
+        isOpen: {
+          type: Boolean,
+          default: true,
+        },
+        closeOnSelect: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      computed: {
+        handleLabel: function() {
+          return this.isOpen ? 'Close' : 'Open'; 
+        },
+        cssClassesMenuItems: function() {
+          return { '--open': this.isOpen };
+        },
+      },
+      provide: function() {
+        return {
+          selectItem: (itemId) => this.selectItem(itemId),
+        };
+      },
+      methods: {
+        toggleMenu: function() {
+          this.isOpen = !this.isOpen;
+        },
+        selectItem: function(itemId) {
+          this.$emit('selected', itemId);
+          if (this.closeOnSelect) {
+            this.isOpen = false;
+          }
+        },
+      },
+      template: `
+        <div class="menu">
+          <button type="button" class="menu__handle" @click="toggleMenu">
+            {{ handleLabel }}
+          </button>
+          <div class="menu__items" :class="cssClassesMenuItems" v-show="isOpen">
+            <slot></slot>
+          </div>
+        </div>
+      `,
+    };
+
+    new Vue({
+      el: '#app',
+      components: {
+        'app-menu': Menu,
+        'app-menu-item': MenuItem,
+      },
+      methods: {
+        handleSelectedItem: function (itemId) {
+          console.log('Item selected', itemId);
+        },
+      },
+    })
+  </script>
+
+  <style>
+
+    .menu__handle {
+      display: block;
+    }
+
+    .menu__items {
+      padding: 1rem;
+      margin-top: 0.5rem;
+      border: 1px solid black;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .item__shortcut {
+      font-weight: bold;
+    }
+
+    .item__shortcut::before {
+      content: '(';
+    }
+
+    .item__shortcut::after {
+      content: ')';
+    }
+  </style>
+
+</body>
+
+</html>
